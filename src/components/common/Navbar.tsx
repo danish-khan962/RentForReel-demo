@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname } from "next/navigation";
+// import { usePathname } from "next/navigation";
 
 /*Image & icon imports*/
 import LOGO from "../../../public/rent_for_reel_icon.svg"
@@ -27,10 +27,10 @@ const Navbar = () => {
         { label: "About", href: "/about" },
         { label: "Blog", href: "/blog" },
     ];
-    const pathname = usePathname();
+    // const pathname = usePathname();
 
     // Active state of routes
-    const [activeRoute, setActiveRoute] = useState("");
+    // const [activeRoute, setActiveRoute] = useState("");
 
     return (
         <nav className='relative w-screen flex flex-col justify-center items-center px-4 sm:px-6 md:px-8 lg:px-12 pt-[10px] sm:pt-[14px] md:pt-[18px] lg:pt-[20px] gap-y-12'>

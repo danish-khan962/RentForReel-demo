@@ -3,7 +3,7 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+// import { usePathname } from 'next/navigation';
 
 /* Image and icons import*/
 import FAVICON from "../../../public/favicon.svg";
@@ -65,7 +65,7 @@ const footerData = [
 
 const Footer = () => {
 
-  const pathname = usePathname();
+  // const pathname = usePathname();
 
   // Get latest year
   var year =  new Date().getFullYear(); // Updates the current latest year in footer copyright section
