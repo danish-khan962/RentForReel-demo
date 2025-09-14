@@ -68,7 +68,7 @@ const Footer = () => {
   // const pathname = usePathname();
 
   // Get latest year
-  var year =  new Date().getFullYear(); // Updates the current latest year in footer copyright section
+  const year =  new Date().getFullYear(); // Updates the current latest year in footer copyright section
 
   return (
     <footer className='relative w-screen flex flex-col px-4 sm:px-6 md:px-8 lg:px-12 pt-[30px] sm:pt-[40px] md:pt-[50px] lg:pt-[60px] pb-[25px] sm:pb-[32px] md:pb-[36px] lg:pb-[40px] bg-[#D9D9D9] mt-6'>
