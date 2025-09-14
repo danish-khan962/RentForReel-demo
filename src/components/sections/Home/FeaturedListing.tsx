@@ -45,17 +45,24 @@ const FeaturedListing = () => {
 
 
                 {/* Featured Listing Cards */}
-                <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-4 gap-y-6'>
+                <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-x-4 gap-y-7'>
                     {
                         featuredListingCardsData.map((data, idx) => (
-                            <div className='max-w-[350px] w-full flex flex-col justify-start items-start text-start' key={idx}>
-                                <div className='w-full h-[220px] bg-[#2C2C2C] rounded-4xl'> </div>
-                                <h4 className='font-normal text-[14px] sm:text-[15px] mt-[13.5px]'> {rupeeSymbol}{data.pricePerHour} / hour </h4>
-                                <p className='text-[#000000]/50 mt-[8px] sm:mt-[9.5px] text-[11px] sm:text-[12.5px]'> {data.rating} <span> ({data.reviews}) reviews </span> </p>
-                            </div>
+                            <Link href="/" key={idx} passHref>
+                                <span className='max-w-[350px] w-full flex flex-col justify-start items-start text-start hover:rounded-t-4xl group hover:rounded-b-lg'>
+                                    <div className='w-full h-[220px] bg-[#2C2C2C] rounded-4xl'></div>
+                                    <h4 className='font-normal text-[15px] mt-[13.5px] group-hover:translate-x-3 transition-all ease-in-out duration-300 delay-75'>
+                                        {rupeeSymbol}{data.pricePerHour} / hour
+                                    </h4>
+                                    <p className='text-[#000000]/50 mt-[8px] sm:mt-[9.5px] text-[12.5px] group-hover:translate-x-3 transition-all ease-in-out duration-300 delay-75'>
+                                        {data.rating} <span className='ml-2'>({data.reviews} reviews)</span>
+                                    </p>
+                                </span>
+                            </Link>
                         ))
                     }
                 </div>
+
 
             </div>
         </section>
