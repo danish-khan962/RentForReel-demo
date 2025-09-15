@@ -16,9 +16,14 @@ const ListYourSpace = () => {
         setEstimatedEarnings(Number(e.target.value));
     };
 
+    // Slider background logic
+    const sliderPercentage = ((estimatedEarnings - 1000) / (50000 - 1000)) * 100;
+    const sliderBackground = `linear-gradient(to right, black 0%, black ${sliderPercentage.toFixed(2)}%, #D9D9D9 ${sliderPercentage.toFixed(2)}%, #D9D9D9 100%)`;
+
+
     return (
         <section className='relative w-screen flex justify-center items-center px-4 sm:px-6 md:px-8 lg:px-12 mt-[140px] sm:mt-[160px] md:mt-[180px] lg:mt-[200px]'>
-            <div className='max-w-[1600px] w-full rounded-xl bg-[#EEEEEE] flex flex-col md:flex-row p-8 sm:p-10 md:p-12 lg:p-14 gap-x-0 gap-y-10'>
+            <div className='max-w-[1600px] w-full rounded-xl bg-[#EEEEEE] flex flex-col md:flex-row p-5 sm:p-8 md:p-12 lg:p-14 gap-x-0 gap-y-10'>
 
                 {/* Price Slider container */}
                 <div className='flex flex-col justify-start items-start'>
@@ -31,7 +36,7 @@ const ListYourSpace = () => {
                     </p>
 
                     <div className='flex flex-col mt-[30px] sm:mt-[37px]'>
-                        <h1 className='font-semibold text-[90px] sm:text-[110px] md:text-[120px] lg:text-[132px]'>
+                        <h1 className='font-semibold text-[68px] sm:text-[110px] md:text-[120px] lg:text-[132px]'>
                             {rupeeSymbol}{Number(estimatedEarnings).toLocaleString()}
                         </h1>
 
@@ -44,19 +49,10 @@ const ListYourSpace = () => {
                             value={estimatedEarnings}
                             onChange={handleSliderChange}
                             className="custom-slider w-[350px] sm:w-[460px] mt-6"
-                            style={{
-                                background: `linear-gradient(to right, black 0%, black ${((
-                                    (estimatedEarnings - 1000) /
-                                    (50000 - 1000)
-                                ) * 100).toFixed(2)}%, #D9D9D9 ${((
-                                    (estimatedEarnings - 1000) /
-                                    (50000 - 1000)
-                                ) * 100).toFixed(2)}%, #D9D9D9 100%)`
-                            }}
+                            style={{ background: sliderBackground }}
                         />
 
-
-                        <p className='font-normal text-[20px] sm:text-22px] md:text-[23px] lg:text-[25px] mt-[25px] sm:mt-[28px] md:mt-[32px] lg:mt-[36px]'> <span className='font-semibold'> 5 days </span> at an estimated <span className='font-semibold'> ₹2,000/hour </span> </p>
+                        <p className='font-normal text-base sm:text-[22px] md:text-[23px] lg:text-[25px] mt-[25px] sm:mt-[28px] md:mt-[32px] lg:mt-[36px]'> <span className='font-semibold'> 5 days </span> at an estimated <span className='font-semibold'> ₹2,000/hour </span> </p>
                     </div>
 
                     <Link href={"/"} className='mt-[30px] sm:mt-[35px] md:mt-[42px] lg:mt-[52px]'>
@@ -87,6 +83,11 @@ const ListYourSpace = () => {
                     @media (max-width:500px){
                         .custom-slider{
                             width: 350px;
+                        }
+                    }
+                    @media (max-width:400px){
+                        .custom-slider{
+                            width: 285px;
                         }
                     }
 
