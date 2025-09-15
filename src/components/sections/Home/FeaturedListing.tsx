@@ -33,7 +33,7 @@ const FeaturedListing = () => {
 
                     <div className='flex flex-row gap-3 justify-center items-center'>
                         <p className='text-[#2C2C2C] text-base md:text-[18px] lg:text-[20px]'> Feature your space </p>
-                        <button className='p-2 sm:p-3 rounded-full bg-[#BA181B] cursor-pointer hover:bg-[#2C2C2C] transition-colors ease-in-out duration-200'>
+                        <button className='p-2 sm:p-3 rounded-full bg-[#BA181B] cursor-pointer hover:bg-[#2C2C2C] transition-colors ease-in-out duration-200 active:bg-[#2C2C2C]'>
                             <span className='text-[24px] sm:text-[26px] md:text-[28px] lg:text-[30px] text-white'>
                                 <Link href={"/"}>
                                     <HiMiniArrowLongRight />
@@ -51,10 +51,10 @@ const FeaturedListing = () => {
                             <Link href="/" key={idx} passHref>
                                 <span className='max-w-[350px] w-full flex flex-col justify-start items-start text-start hover:rounded-t-4xl group hover:rounded-b-lg'>
                                     <div className='w-full h-[220px] bg-[#2C2C2C] rounded-4xl'></div>
-                                    <h4 className='font-normal text-[15px] mt-[13.5px] group-hover:translate-x-3 transition-all ease-in-out duration-300 delay-75'>
+                                    <h4 className='font-normal text-[15px] mt-[13.5px] group-hover:translate-x-3 group-active:translate-3 transition-all ease-in-out duration-300 delay-75'>
                                         {rupeeSymbol}{data.pricePerHour} / hour
                                     </h4>
-                                    <p className='text-[#000000]/50 mt-[8px] sm:mt-[9.5px] text-[12.5px] group-hover:translate-x-3 transition-all ease-in-out duration-300 delay-75'>
+                                    <p className='text-[#000000]/50 mt-[8px] sm:mt-[9.5px] text-[12.5px] group-hover:translate-x-3 group-active:translate-3 transition-all ease-in-out duration-300 delay-75'>
                                         {data.rating} <span className='ml-2'>({data.reviews} reviews)</span>
                                     </p>
                                 </span>

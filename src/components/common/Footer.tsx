@@ -105,7 +105,7 @@ const Footer = () => {
 
               <ul className='mt-[14px]'>
                 {navigationData.navigations.map((link, idx) => (
-                  <li className='text-[14px] md:text-[15px] font-light text-[#000000] hover:underline' key={idx}><Link href={link.href}> {link.label} </Link></li>
+                  <li className='text-[14px] md:text-[15px] font-light text-[#000000] hover:underline active:underline' key={idx}><Link href={link.href}> {link.label} </Link></li>
                 ))}
               </ul>
             </div>
@@ -142,9 +142,9 @@ const Footer = () => {
               </div>
 
               <div className='flex flex-row gap-x-3.5'>
-                <li className='text-[22px] cursor-pointer hover:scale-125 transition-all ease-in-out duration-200 hover:rotate-[-10deg]'><Link href={"/"}> <PiInstagramLogoFill /> </Link></li>
-                <li className='text-[22px] cursor-pointer hover:scale-125 transition-all ease-in-out duration-200'><Link href={"/"}> <PiFacebookLogoFill /> </Link></li>
-                <li className='text-[22px] cursor-pointer hover:scale-105 transition-all ease-in-out duration-200 hover:rotate-[10deg]'><Link href={"/"}> <PiXLogo /> </Link></li>
+                <li className='text-[22px] cursor-pointer hover:scale-125 transition-all ease-in-out duration-200 hover:rotate-[-10deg] active:scale-125 active:rotate-[-10deg]'><Link href={"/"}> <PiInstagramLogoFill /> </Link></li>
+                <li className='text-[22px] cursor-pointer hover:scale-125 transition-all ease-in-out duration-200 active:scale-125'><Link href={"/"}> <PiFacebookLogoFill /> </Link></li>
+                <li className='text-[22px] cursor-pointer hover:scale-105 transition-all ease-in-out duration-200 hover:rotate-[10deg] active:scale-125 active:rotate-[10deg]'><Link href={"/"}> <PiXLogo /> </Link></li>
               </div>
             </div>
           </div>

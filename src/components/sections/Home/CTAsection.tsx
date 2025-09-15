@@ -31,11 +31,11 @@ const CTAsection = () => {
       {/* CTA Buttons */}
       <div className='flex flex-row flex-wrap w-full justify-center items-center gap-x-6 gap-y-3 mt-[60px] sm:mt-[70px] md:mt-[80px] lg:mt-[90px]'>
         <Link href={"/"}>
-          <button className='w-[250px] sm:w-[300px] md:w-[350px] lg:w-[404px] h-[60px] sm:h-[70px] md:h-[85px] lg:h-[103px] bg-[#D9D9D9] rounded-full border border-[#929292] cursor-pointer font-medium text-[18px] sm:text-[20px] md:text-[21px] lg:text-[24px] text-[#2C2C2C] hover:bg-[#D9D9D9]/80 transition-colors ease-in-out duration-200'> Find your Space </button>
+          <button className='w-[250px] sm:w-[300px] md:w-[350px] lg:w-[404px] h-[60px] sm:h-[70px] md:h-[85px] lg:h-[103px] bg-[#D9D9D9] rounded-full border border-[#929292] cursor-pointer font-medium text-[18px] sm:text-[20px] md:text-[21px] lg:text-[24px] text-[#2C2C2C] hover:bg-[#2C2C2C] hover:text-[#FFFFFF] transition-colors ease-in-out duration-200 active:bg-[#2C2C2C] active:text-[#FFFFFF]'> Find your Space </button>
         </Link>
 
         <Link href={"/"}>
-          <button className='w-[250px] sm:w-[300px] md:w-[350px] lg:w-[404px] h-[60px] sm:h-[70px] md:h-[85px] lg:h-[103px] bg-[#D9D9D9] rounded-full border border-[#929292] cursor-pointer font-medium text-[18px] sm:text-[20px] md:text-[21px] lg:text-[24px] text-[#2C2C2C] hover:bg-[#D9D9D9]/80 transition-colors ease-in-out duration-200'> List your Space </button>
+          <button className='w-[250px] sm:w-[300px] md:w-[350px] lg:w-[404px] h-[60px] sm:h-[70px] md:h-[85px] lg:h-[103px] bg-[#D9D9D9] rounded-full border border-[#929292] cursor-pointer font-medium text-[18px] sm:text-[20px] md:text-[21px] lg:text-[24px] text-[#2C2C2C] hover:bg-[#2C2C2C] hover:text-[#FFFFFF] transition-colors ease-in-out duration-200 active:bg-[#2C2C2C] active:text-[#FFFFFF]'> List your Space </button>
         </Link>
       </div>
 
