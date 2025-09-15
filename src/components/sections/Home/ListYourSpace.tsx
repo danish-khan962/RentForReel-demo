@@ -12,8 +12,8 @@ const ListYourSpace = () => {
     const [estimatedEarnings, setEstimatedEarnings] = useState(9600);
 
     // Slider change handler
-    const handleSliderChange = (e: any) => {
-        setEstimatedEarnings(e.target.value);
+    const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setEstimatedEarnings(Number(e.target.value));
     };
 
     return (
