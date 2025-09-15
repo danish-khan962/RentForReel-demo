@@ -12,7 +12,7 @@ const ListYourSpace = () => {
     const [estimatedEarnings, setEstimatedEarnings] = useState(9600);
 
     // Slider change handler
-    const handleSliderChange = (e) => {
+    const handleSliderChange = (e: any) => {
         setEstimatedEarnings(e.target.value);
     };
 
