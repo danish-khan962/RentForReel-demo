@@ -24,7 +24,7 @@ const FeaturedListing = () => {
     const rupeeSymbol = "₹";
 
     return (
-        <section className='relative w-screen px-4 sm:px-6 md:px-8 lg:px-12 flex justify-center items-center mt-[70px] sm:mt-[75px] md:mt-[80px] lg:mt-[100px]'>
+        <section className='max-w-[1500px] w-full mx-auto relative px-4 sm:px-6 md:px-8 flex justify-center items-center mt-[70px] sm:mt-[75px] md:mt-[80px] lg:mt-[100px]'>
             <div className='max-w-[1600px] w-full rounded-xl bg-[#EEEEEE] flex flex-col gap-y-[40px] sm:gap-y-[44px] md:gap-y-[48px] lg:gap-y-[52px] p-8 sm:p-10 md:p-12 lg:p-14'>
 
                 {/* Heading and CTA button */}
@@ -33,7 +33,7 @@ const FeaturedListing = () => {
 
                     <div className='flex flex-row gap-3 justify-center items-center'>
                         <p className='text-[#2C2C2C] text-base md:text-[18px] lg:text-[20px]'> Feature your space </p>
-                        <button className='p-2 sm:p-3 rounded-full bg-[#BA181B] cursor-pointer hover:bg-[#2C2C2C] transition-colors ease-in-out duration-200 active:bg-[#2C2C2C]'>
+                        <button className='p-2 sm:p-3 rounded-full bg-[#BA181B] cursor-pointer  transition-colors hover:rotate-[-15deg] ease-in-out duration-200 active:bg-[#2C2C2C]'>
                             <span className='text-[24px] sm:text-[26px] md:text-[28px] lg:text-[30px] text-white'>
                                 <Link href={"/"}>
                                     <HiMiniArrowLongRight />

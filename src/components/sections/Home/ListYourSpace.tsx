@@ -22,8 +22,8 @@ const ListYourSpace = () => {
 
 
     return (
-        <section className='relative w-screen flex justify-center items-center px-4 sm:px-6 md:px-8 lg:px-12 mt-[140px] sm:mt-[160px] md:mt-[180px] lg:mt-[200px]'>
-            <div className='max-w-[1600px] w-full rounded-xl bg-[#EEEEEE] flex flex-col md:flex-row p-5 sm:p-8 md:p-12 lg:p-14 gap-x-0 gap-y-10'>
+        <section className='max-w-[1500px] w-full mx-auto relative flex justify-center items-center px-4 sm:px-6 md:px-8 mt-[140px] sm:mt-[160px] md:mt-[180px] lg:mt-[200px]'>
+            <div className='max-w-[1600px] w-full rounded-xl bg-[#EEEEEE] flex flex-col xl:flex-row p-5 sm:p-8 md:p-12 lg:p-14 gap-x-0 gap-y-10'>
 
                 {/* Price Slider container */}
                 <div className='flex flex-col justify-start items-start'>
@@ -36,7 +36,7 @@ const ListYourSpace = () => {
                     </p>
 
                     <div className='flex flex-col mt-[30px] sm:mt-[37px]'>
-                        <h1 className='font-semibold text-[68px] sm:text-[110px] md:text-[120px] lg:text-[132px]'>
+                        <h1 className='font-semibold text-[68px] sm:text-[94px] md:text-[112px] lg:text-[122px]'>
                             {rupeeSymbol}{Number(estimatedEarnings).toLocaleString()}
                         </h1>
 
@@ -56,12 +56,12 @@ const ListYourSpace = () => {
                     </div>
 
                     <Link href={"/"} className='mt-[30px] sm:mt-[35px] md:mt-[42px] lg:mt-[52px]'>
-                        <button className='w-[300px] sm:w-[350px] md:w-[450px] lg:w-[520px] h-[60px] sm:h-[70px] md:h-[85px] lg:h-[103px] bg-[#D9D9D9] rounded-full border border-[#929292] cursor-pointer font-medium text-base sm:text-[18px] md:text-[20px] lg:text-[24px] text-[#2C2C2C] hover:bg-[#2C2C2C] hover:text-[#FFFFFF] transition-colors ease-in-out duration-200 active:bg-[#2C2C2C] active:text-[#FFFFFF]'> List Your Space Now. </button>
+                        <button className='w-[288px] h-[55px] sm:w-[450px] sm:h-[70px] lg:w-[520px] lg:h-[75px] bg-[#D9D9D9] rounded-full border border-[#929292] cursor-pointer font-medium text-base sm:text-[18px] md:text-[20px] lg:text-[24px] text-[#2C2C2C] hover:bg-[#2C2C2C] hover:text-[#FFFFFF] transition-colors ease-in-out duration-200 active:bg-[#2C2C2C] active:text-[#FFFFFF]'> List Your Space Now. </button>
                     </Link>
                 </div>
 
                 {/* Map placeholder */}
-                <div className='w-[350px] sm:w-[600px] md:w-[725px] lg:w-[800px] h-[280px] sm:h-[510px] md:h-[650px] lg:h-[734px] bg-teal-600 rounded-4xl'>
+                <div className='w-[350px] sm:w-[600px] md:w-[725px] lg:w-[960px] h-[280px] sm:h-[510px] md:h-[650px] lg:h-[734px] bg-teal-600 rounded-4xl'>
                     {/* Map integration placeholder */}
                 </div>
 

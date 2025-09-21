@@ -1,5 +1,7 @@
 import CapsuleSearchFilter from "@/components/sections/Home/CapsuleSearchFilter";
+import CreatorsSpotlightWall from "@/components/sections/Home/CreatorsSpotlightWall";
 import CTAsection from "@/components/sections/Home/CTAsection";
+import FAQ from "@/components/sections/Home/FAQ";
 import FeaturedListing from "@/components/sections/Home/FeaturedListing";
 import ListYourSpace from "@/components/sections/Home/ListYourSpace";
 
@@ -21,6 +23,14 @@ export default function Home() {
 
       {/* List your page section - with price slider and Live map */}
       <ListYourSpace />
+
+
+      {/* Creator's Spotlight section - Video Playing Cards */}
+      <CreatorsSpotlightWall />
+
+
+      {/* FAQ or Accordions */}
+      <FAQ />
 
     </>
   );
