@@ -1,3 +1,4 @@
+import Banner from "@/components/sections/Home/Banner";
 import CapsuleSearchFilter from "@/components/sections/Home/CapsuleSearchFilter";
 import CreatorsSpotlightWall from "@/components/sections/Home/CreatorsSpotlightWall";
 import CTAsection from "@/components/sections/Home/CTAsection";
@@ -31,6 +32,9 @@ export default function Home() {
 
       {/* FAQ or Accordions */}
       <FAQ />
+
+      {/* Banner section with CTA button */}
+      <Banner />
 
     </>
   );

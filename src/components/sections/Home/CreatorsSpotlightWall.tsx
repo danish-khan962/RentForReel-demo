@@ -14,16 +14,16 @@ const CreatorsSpotlightWall = () => {
 
         {/* Video Playing Cards grid */}
         <div className='w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 mt-[50px] sm:mt-[60px] md:mt-[75px] lg:mt-[85px]'>
-          <div className='max-w-[450px] w-full h-[325px] rounded-3xl bg-red-500/40'></div>
-          <div className='max-w-[450px] w-full h-[325px] rounded-3xl bg-red-500/40'></div>
-          <div className='max-w-[450px] w-full h-[325px] rounded-3xl bg-red-500/40'></div>
-          <div className='max-w-[450px] w-full h-[325px] rounded-3xl bg-red-500/40'></div>
-          <div className='max-w-[450px] w-full h-[325px] rounded-3xl bg-red-500/40'></div>
-          <div className='max-w-[450px] w-full h-[325px] rounded-3xl bg-red-500/40'></div>
-          <div className='max-w-[450px] w-full h-[325px] rounded-3xl bg-red-500/40'></div>
-          <div className='max-w-[450px] w-full h-[325px] rounded-3xl bg-red-500/40'></div>
-          <div className='max-w-[450px] w-full h-[325px] rounded-3xl bg-red-500/40'></div>
-          <div className='max-w-[450px] w-full h-[325px] rounded-3xl bg-red-500/40'></div>
+          <div className='max-w-[450px] w-full h-[325px] rounded-3xl bg-pink-700/40'></div>
+          <div className='max-w-[450px] w-full h-[325px] rounded-3xl bg-pink-700/40'></div>
+          <div className='max-w-[450px] w-full h-[325px] rounded-3xl bg-pink-700/40'></div>
+          <div className='max-w-[450px] w-full h-[325px] rounded-3xl bg-pink-700/40'></div>
+          <div className='max-w-[450px] w-full h-[325px] rounded-3xl bg-pink-700/40'></div>
+          <div className='max-w-[450px] w-full h-[325px] rounded-3xl bg-pink-700/40'></div>
+          <div className='max-w-[450px] w-full h-[325px] rounded-3xl bg-pink-700/40'></div>
+          <div className='max-w-[450px] w-full h-[325px] rounded-3xl bg-pink-700/40'></div>
+          <div className='max-w-[450px] w-full h-[325px] rounded-3xl bg-pink-700/40'></div>
+          <div className='max-w-[450px] w-full h-[325px] rounded-3xl bg-pink-700/40'></div>
         </div>
 
     </section>
