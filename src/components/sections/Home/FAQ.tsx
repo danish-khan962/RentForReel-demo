@@ -41,9 +41,9 @@ const accordionData = [
 
 
 const FAQ = () => {
-  const [activeIndex, setActiveIndex] = useState(null);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
-  const handleAccordionState = (index) => {
+  const handleAccordionState = (index: number) => {
     setActiveIndex(prevIndex => (prevIndex === index ? null : index));
   };
 
