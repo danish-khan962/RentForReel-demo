@@ -24,7 +24,7 @@ const MapView = () => {
         />
         <Marker position={position}>
           <Popup>
-            You're here! 📍<br />
+            You&apos;re here! 📍<br />
             Mumbai Center.
           </Popup>
         </Marker>
