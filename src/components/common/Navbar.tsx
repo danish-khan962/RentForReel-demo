@@ -3,7 +3,6 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-// import { usePathname } from "next/navigation";
 
 /*Image & icon imports*/
 import LOGO from "../../../public/rent_for_reel_icon.svg"
@@ -12,82 +11,97 @@ import { LiaBarsSolid } from "react-icons/lia";
 import { TfiClose } from "react-icons/tfi";
 
 const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const handleMenuToggle = () => setIsOpen(!isOpen);
 
-    // State for Navigation Open and close
-    const [isOpen, setIsOpen] = useState(false);
-    const handleMenuToggle = () => {
-        setIsOpen(!isOpen);
-    }
+  const routes = [
+    { label: "Home", href: "/" },
+    { label: "Find your space", href: "/find-your-space" },
+    { label: "List your space", href: "/list-your-space" },
+    { label: "About", href: "/about" },
+    { label: "Blog", href: "/blog" },
+  ];
 
-    // Navigation Routes and Links
-    const routes = [
-        { label: "Home", href: "/" },
-        { label: "Find your space", href: "/find-your-space" },
-        { label: "List your space", href: "/list-your-space" },
-        { label: "About", href: "/about" },
-        { label: "Blog", href: "/blog" },
-    ];
-    // const pathname = usePathname();
+  return (
+    <nav className='max-w-[1500px] w-full mx-auto relative flex flex-col justify-center items-center px-4 sm:px-6 md:px-8 pt-[10px] sm:pt-[14px] md:pt-[18px] lg:pt-[20px] gap-y-12'>
 
-    // Active state of routes
-    // const [activeRoute, setActiveRoute] = useState("");
+      {/* Top Nav */}
+      <nav className='relative w-full flex flex-row justify-between items-center'>
+        <Link href={"/"}>
+          <Image
+            src={FAVICON}
+            alt='favicon'
+            width={1000}
+            height={1000}
+            className='w-[28px] h-[30px] sm:w-[30px] sm:h-[32px] lg:w-[34px] lg:h-[36px]'
+          />
+        </Link>
 
-    return (
-        <nav className='max-w-[1500px] w-full mx-auto relative flex flex-col justify-center items-center px-4 sm:px-6 md:px-8 pt-[10px] sm:pt-[14px] md:pt-[18px] lg:pt-[20px] gap-y-12'>
+        <Link href={"/"}>
+          <Image
+            src={LOGO}
+            alt="rent for reel"
+            height={1000}
+            width={1000}
+            className='h-auto w-[130px] sm:w-[140px] md:w-[150px] lg:w-[160px]'
+          />
+        </Link>
 
-            {/* Top Nav with logo and Menu */}
-            <nav className='relative w-full flex flex-row justify-between items-center'>
+        <div className='flex flex-row gap-3'>
+          <button className='hidden md:inline-block py-2 px-4 rounded-full bg-[#D9D9D9] text-[#2C2C2C] text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px] cursor-pointer font-medium hover:bg-[#2C2C2C] hover:text-[#D9D9D9] transition-all ease-in-out duration-200'>
+            Get Advice
+          </button>
 
-                <Link href={"/"}>
-                    <Image
-                        src={FAVICON}
-                        alt='favicon'
-                        width={1000}
-                        height={1000}
-                        className='w-[28px] h-[30px] sm:w-[30px] sm:h-[32px] lg:w-[34px] lg:h-[36px]'
-                    />
-                </Link>
+          {/* Mobile Menu Toggle Button */}
+          <button className='inline-block md:hidden bg-[#D9D9D9CC] p-3 rounded-full cursor-pointer hover:outline hover:outline-[#2C2C2C]' onClick={handleMenuToggle}>
+            {isOpen ? (
+              <TfiClose className='text-[18px] sm:text-[20px] md:text-[22px]' />
+            ) : (
+              <LiaBarsSolid className='text-[18px] sm:text-[20px] md:text-[22px]' />
+            )}
+          </button>
+        </div>
+      </nav>
 
-                <Link href={"/"}>
-                    <Image
-                        src={LOGO}
-                        alt="rent for reel"
-                        height={1000}
-                        width={1000}
-                        className='h-auto w-[130px] sm:w-[140px] md:w-[150px] lg:w-[160px]'
-                    />
-                </Link>
+      {/* Desktop Navigation */}
+      <nav className='hidden md:flex flex-row justify-between items-center max-w-[1250px] w-full inset-shadow-sm shadow-md shadow-gray-400 rounded-full px-2 sm:px-2.5 py-[0.25rem]'>
+        {routes.map(({ label, href }, index) => (
+          <Link href={href} key={index}>
+            <button
+              className='py-5 px-6 sm:px-8 lg:px-12 rounded-full cursor-pointer text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px] hover:shadow-[1px_1px_16px_gray] font-medium text-[#2C2C2C]'
+            >
+              {label}
+            </button>
+          </Link>
+        ))}
+      </nav>
 
-                <div className='flex flex-row gap-3'>
-                    <button className='hidden md:inline-block py-2 px-4 rounded-full bg-[#D9D9D9] text-[#2C2C2C] text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px] cursor-pointer font-medium hover:bg-[#2C2C2C] hover:text-[#D9D9D9] transition-all ease-in-out duration-200'>
-                        Get Advice
-                    </button>
+      {/*  Mobile Slider Menu */}
+      <div className={`fixed inset-0 z-50 bg-white text-[#2C2C2C] px-6 py-12 transition-all duration-300 ease-in-out md:hidden ${isOpen ? 'translate-x-0' : 'translate-x-full'} transform`}>
+        {/* Close Icon */}
+        <div className="absolute top-6 right-6">
+          <TfiClose className="w-6 h-6 cursor-pointer" onClick={handleMenuToggle} />
+        </div>
 
-                    <button className='inline-block md:hidden bg-[#D9D9D9CC] p-3 rounded-full cursor-pointer hover:outline hover:outline-[#2C2C2C]' onClick={handleMenuToggle}>
-                        {isOpen ? (<TfiClose className='text-[18px] sm:text-[20px] md:text-[22px]' />) : (<LiaBarsSolid className='text-[18px] sm:text-[20px] md:text-[22px]' />)}
-                    </button>
-                </div>
-            </nav>
+        {/* Navigation Links */}
+        <div className="flex flex-col items-center justify-center gap-6 h-full">
+          {routes.map(({ label, href }) => (
+            <Link href={href} key={label} onClick={handleMenuToggle}>
+              <span className='py-3 px-8 sm:px-8 lg:px-12 rounded-full cursor-pointer text-[17px] hover:shadow-[1px_1px_16px_gray] font-medium text-[#2C2C2C]'>
+                {label}
+            </span>
+            </Link>
+          ))}
 
-            {/* Bottom Navbar with Navigation Links */}
-            <nav className='hidden md:flex flex-row justify-between items-center max-w-[1250px] w-full inset-shadow-sm
-            shadow-md shadow-gray-400 rounded-full px-2 sm:px-2.5 py-[0.25rem]'>
+          <hr className="w-full border-gray-300 my-4" />
 
-                {/* Iterating over all the routes */}
-                {routes.map(({ label, href }, index) => (
-                    <Link href={href} key={index}>
-                        <button
-                            className={`py-5 px-6 sm:px-8 lg:px-12 rounded-full cursor-pointer text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px] hover:shadow-[1px_1px_16px_gray] font-medium text-[#2C2C2C]`}
-                        >
-                            {label}
-                        </button>
-                    </Link>
-                ))}
-
-            </nav>
-
-        </nav>
-    )
+          <button className='w-full max-w-[220px] py-3 px-8 rounded-full bg-[#D9D9D9] text-[#2C2C2C] text-sm font-medium hover:bg-[#2C2C2C] hover:text-white transition-all duration-200 cursor-pointer'>
+            Get Advice
+          </button>
+        </div>
+      </div>
+    </nav>
+  )
 }
 
 export default Navbar
