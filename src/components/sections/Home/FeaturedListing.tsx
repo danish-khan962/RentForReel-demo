@@ -50,11 +50,11 @@ const FeaturedListing = () => {
                         featuredListingCardsData.map((data, idx) => (
                             <Link href="/" key={idx} passHref>
                                 <span className='max-w-[350px] w-full flex flex-col justify-start items-start text-start hover:rounded-t-4xl group hover:rounded-b-lg'>
-                                    <div className='w-full h-[220px] bg-[#2C2C2C] rounded-4xl'></div>
-                                    <h4 className='font-normal text-[15px] mt-[13.5px] group-hover:translate-x-3 group-active:translate-3 transition-all ease-in-out duration-300 delay-75'>
+                                    <div className='w-full h-[160px] sm:h-[180px] md:h-[200px] lg:h-[220px] bg-[#2C2C2C] rounded-4xl'></div>
+                                    <h4 className='font-normal text-[15px] mt-[13.5px]'>
                                         {rupeeSymbol}{data.pricePerHour} / hour
                                     </h4>
-                                    <p className='text-[#000000]/50 mt-[8px] sm:mt-[9.5px] text-[12.5px] group-hover:translate-x-3 group-active:translate-3 transition-all ease-in-out duration-300 delay-75'>
+                                    <p className='text-[#000000]/50 mt-[8px] sm:mt-[9.5px] text-[12.5px]'>
                                         {data.rating} <span className='ml-2'>({data.reviews} reviews)</span>
                                     </p>
                                 </span>

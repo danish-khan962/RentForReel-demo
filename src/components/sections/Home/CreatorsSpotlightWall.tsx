@@ -1,5 +1,24 @@
 import React from 'react'
+import Image from 'next/image'
 
+
+// Importing temporary images 
+import bg_1 from "../../../../public/temp/temp_bg_1.jpg"
+import bg_2 from "../../../../public/temp/temp_bg_2.jpg"
+
+
+const imagesBackground = [
+  bg_1,
+  bg_2,
+  bg_1,
+  bg_2,
+  bg_1,
+  bg_2,
+  bg_1,
+  bg_2,
+  bg_1,
+  bg_2,
+]
 
 const CreatorsSpotlightWall = () => {
   return (
@@ -14,16 +33,19 @@ const CreatorsSpotlightWall = () => {
 
         {/* Video Playing Cards grid */}
         <div className='w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 mt-[50px] sm:mt-[60px] md:mt-[75px] lg:mt-[85px]'>
-          <div className='max-w-[450px] w-full h-[325px] rounded-3xl bg-pink-700/40'></div>
-          <div className='max-w-[450px] w-full h-[325px] rounded-3xl bg-pink-700/40'></div>
-          <div className='max-w-[450px] w-full h-[325px] rounded-3xl bg-pink-700/40'></div>
-          <div className='max-w-[450px] w-full h-[325px] rounded-3xl bg-pink-700/40'></div>
-          <div className='max-w-[450px] w-full h-[325px] rounded-3xl bg-pink-700/40'></div>
-          <div className='max-w-[450px] w-full h-[325px] rounded-3xl bg-pink-700/40'></div>
-          <div className='max-w-[450px] w-full h-[325px] rounded-3xl bg-pink-700/40'></div>
-          <div className='max-w-[450px] w-full h-[325px] rounded-3xl bg-pink-700/40'></div>
-          <div className='max-w-[450px] w-full h-[325px] rounded-3xl bg-pink-700/40'></div>
-          <div className='max-w-[450px] w-full h-[325px] rounded-3xl bg-pink-700/40'></div>
+          {
+           imagesBackground.map((bg, idx) => (
+             <div className='max-w-[350px] w-full' key={idx}>
+                <Image
+                src={bg}
+                alt='background'
+                height={1000}
+                width={1000}
+                className='w-full h-[420px] rounded-4xl'
+                />
+            </div>
+           ))
+          }
         </div>
 
     </section>

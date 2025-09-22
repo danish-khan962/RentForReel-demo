@@ -81,7 +81,7 @@ const FAQ = () => {
 
               {/* Smooth toggle answer */}
               <div
-                className={`overflow-hidden transition-all duration-500 ease-in-out ${isOpen ? 'max-h-[700px] mt-8' : 'max-h-0'}`}
+                className={`overflow-hidden transition-all duration-500 ease-in-out ${isOpen ? 'max-h-[700px] mt-8 pb-3' : 'max-h-0'}`}
               >
                 <p className='text-base md:text-[18px] text-[#2C2C2C]'>
                   {item.answer}
