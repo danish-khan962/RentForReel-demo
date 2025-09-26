@@ -207,7 +207,7 @@ const Page = () => {
 
             {/*  Map section */}
             <div className='w-full flex flex-col gap-[25px] sm:gap-[30px] md:gap-[38px] lg:gap-[49px] mt-[80px] sm:mt-[85px] md:mt-[100px] lg:mt-[115px]'>
-                <p className='text-[#2C2C2C] font-semibold text-[22px] sm:text-[24px] md:text-[26px] lg:text-[28px]'> Where you'll be </p>
+                <p className='text-[#2C2C2C] font-semibold text-[22px] sm:text-[24px] md:text-[26px] lg:text-[28px]'> Where you&apos;ll be </p>
                 <div className='w-full h-[350px] sm:h-[420px] md:h-[540px] lg:h-[620px]'>
                     <LocationMap />
                 </div>
