@@ -32,11 +32,11 @@ const QuickForm = () => {
                 <p className='font-extrabold text-[#BA181B] text-[38px] sm:text-[60px] md:text-[70px] lg:text-[85px] leading-[45px] sm:leading-[68px] md:leading-[76px] lg:leading-[94px]'>
                     Your Space. <br />
                     Your Purpose. <br />
-                    We'll Find It.
+                    We&apos;ll Find It.
                 </p>
 
                 <p className='mt-[25px] md:mt-[30px] text-[#BA181B] font-medium text-base sm:text-[17px] md:text-[18px] lg:text-[20px] max-w-[580px] w-full'>
-                    Whether it’s for a reel, a photo shoot, a workshop, or just a cozy meetup—we’ll match you with spaces that fit your vibe.
+                    Whether it&apos;s for a reel, a photo shoot, a workshop, or just a cozy meetup—we&apos;ll match you with spaces that fit your vibe.
                 </p>
 
                 <div className='max-w-[580px] w-full flex flex-row items-center gap-x-[10px] sm:gap-x-[15px] md:gap-x-[21px] lg:gap-x-[27px] mt-[70px] sm:mt-[80px] md:mt-[100px] lg:mt-[115px]'>
@@ -75,7 +75,7 @@ const QuickForm = () => {
                     Find My Perfect Space
                 </button>
 
-                <p className='text-[#2C2C2C] font-medium mt-[22px] sm:mt-[30px] text-[14px] sm:text-base'> We'll get within 12 hrs </p>
+                <p className='text-[#2C2C2C] font-medium mt-[22px] sm:mt-[30px] text-[14px] sm:text-base'> We&apos;ll get within 12 hrs </p>
             </form>
 
         </div>

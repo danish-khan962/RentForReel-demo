@@ -32,7 +32,7 @@ const amenities = [
 //Rupee symbol
 const rupee = "₹";
 
-const page = () => {
+const Page = () => {
 
     // Form fields state
     const [name, setName] = useState("");
@@ -108,7 +108,7 @@ const page = () => {
                     <div className='w-full flex flex-col mt-[70px] sm:mt-[75px] md:mt-[85px] lg:mt-[100px] text-start py-[35px] md:py-[50px] border-t border-b border-[#2C2C2CAB]'>
                         <h2 className='text-[#2C2C2C] font-semibold text-[25px] sm:text-[28px] md:text-[30px] lg:text-[33px]'> About this Space </h2>
                         <p className='max-w-[717px] w-full text-[#2C2C2C] font-light text-[15px] sm:text-base md:text-[17.5px] lg:text-[19px] mt-[22px] leading-tight'>
-                            Cozy Boho Studio is a creative hub designed for artists, creators, and brands who want a unique backdrop for their content. Whether you’re planning a photoshoot, a music reel, or a small event, this space offers the perfect blend of comfort and aesthetics. Its earthy interiors, wall art, and flexible seating make it a favorite for creators in Pune.
+                            Cozy Boho Studio is a creative hub designed for artists, creators, and brands who want a unique backdrop for their content. Whether you&apos;re planning a photoshoot, a music reel, or a small event, this space offers the perfect blend of comfort and aesthetics. Its earthy interiors, wall art, and flexible seating make it a favorite for creators in Pune.
                         </p>
                     </div>
 
@@ -246,4 +246,4 @@ const page = () => {
     );
 };
 
-export default page;
+export default Page;

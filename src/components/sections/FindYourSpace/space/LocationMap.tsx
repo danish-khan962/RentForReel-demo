@@ -14,7 +14,12 @@ import L, { LatLngExpression, Map as LeafletMap } from "leaflet";
 
 import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
 
-//  Custom marker icon
+// Define type for result
+interface SearchResult {
+  label: string;
+}
+
+// Custom marker icon
 const customIcon = L.icon({
   iconUrl: "/FindYourSpace/space/home_map_marker.png",
   iconSize: [70, 70],
@@ -22,15 +27,15 @@ const customIcon = L.icon({
   popupAnchor: [0, -70],
 });
 
-//  Search control as a React component
+// Search control as a React component
 const SearchControl = () => {
   const map = useMap();
 
   useEffect(() => {
     const provider = new OpenStreetMapProvider();
 
-    // Create the search control
-    const searchControl = new (GeoSearchControl as any)({
+    // Use GeoSearchControl as a function
+    const searchControl = GeoSearchControl({
       provider,
       style: "circle",
       showMarker: true,
@@ -38,7 +43,8 @@ const SearchControl = () => {
       marker: {
         icon: customIcon,
       },
-      popupFormat: ({ result }: any) => `<strong>${result.label}</strong>`,
+      popupFormat: ({ result }: { result: SearchResult }) =>
+        `<strong>${result.label}</strong>`,
       autoClose: true,
       retainZoomLevel: false,
       animateZoom: true,
@@ -68,17 +74,12 @@ const LocationMap = () => {
         zoomControl={false}
         className="w-full h-full z-10"
       >
-        {/* Base tiles */}
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-
-        {/* Controls */}
         <ZoomControl position="topright" />
         <SearchControl />
-
-        {/* Marker */}
         <Marker position={position} icon={customIcon}>
           <Popup>Custom Marker Location</Popup>
         </Marker>
