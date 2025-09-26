@@ -3,6 +3,10 @@
 
 @import "tailwindcss";
 
+@import "leaflet/dist/leaflet.css";
+@import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
+@import "leaflet-geosearch/dist/geosearch.css";
+
 @layer utilities {
   .shadow-inner-top {
     box-shadow: inset 0 9px 8px -4px rgba(0, 0, 0, 0.25);
@@ -24,5 +28,8 @@ html, body{
   overflow-x: hidden;
   list-style-type: none;
   text-decoration: none;
+  li::marker{
+    color: #BA181B;
+  }
 }
 

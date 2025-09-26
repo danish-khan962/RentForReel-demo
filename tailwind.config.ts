@@ -5,16 +5,11 @@ module.exports = {
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
-   safelist: [
-    'capsule-shadow',
-    'capsule-hover',
-  ],
   theme: {
     extend: {
-      fontFamily: {
-        'host-grotesk': ['"Host Grotesk"', 'sans-serif'],
-        'noto-serif': ['"Noto Serif"', 'serif'],
-      },
+      screens:{
+        llg: '1180px',
+      }
     },
   },
   plugins: [],
