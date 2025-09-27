@@ -11,12 +11,28 @@ import { useQuery } from '@tanstack/react-query'
 import myQueries from '@/api/queries'
 import QuickForm from '@/components/sections/FindYourSpace/space/QuickForm'
 
-// ✅ Define Space interface
 interface Space {
   id: string
-  name: string
-  location: string
-  // Add other fields used in SpaceCard
+  nameOfSpace: string
+  city: string
+  state: string
+  area: string
+  capacity: string
+  availability: string
+  highlights: string[]
+  aboutSpace: string
+  selectedAmenities: string[]
+  priceHour: number
+  priceDay: number
+  images: string[]
+  authId: string
+  contactNumber?: string
+  whatsappNumber?: string
+  user?: {
+    profileImg?: string
+    fullName?: string
+    bio?: string
+  }
 }
 
 const Page = () => {
