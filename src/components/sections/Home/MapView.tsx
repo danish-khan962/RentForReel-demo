@@ -49,15 +49,18 @@ const MapView = () => {
       <MapContainer
         center={position}
         zoom={13}
-        scrollWheelZoom={false} // disabled by default
+        scrollWheelZoom={false}
+        zoomControl={false}
         className="w-full h-full z-10"
-        whenCreated={(mapInstance) => {
-          mapRef.current = mapInstance;
-          // Disable all zoom types initially
-          mapInstance.scrollWheelZoom.disable();
-          mapInstance.touchZoom.disable();
-          mapInstance.doubleClickZoom.disable();
-          mapInstance.boxZoom.disable();
+        ref={(mapInstance) => {
+          if (mapInstance && !mapRef.current) {
+            mapRef.current = mapInstance;
+
+            mapInstance.scrollWheelZoom.disable();
+            mapInstance.touchZoom.disable();
+            mapInstance.doubleClickZoom.disable();
+            mapInstance.boxZoom.disable();
+          }
         }}
       >
         <TileLayer
