@@ -16,6 +16,30 @@ const LocationMap = dynamic(() => import('../../../components/sections/FindYourS
     ssr: false,
 });
 
+interface Space {
+  id: string;
+  nameOfSpace: string;
+  city: string;
+  state: string;
+  area: string;
+  capacity: string;
+  availability: string;
+  highlights: string[];
+  aboutSpace: string;
+  selectedAmenities: string[];
+  priceHour: number;
+  priceDay: number;
+  images: string[];
+  authId: string;
+  contactNumber?: string;
+  whatsappNumber?: string;
+  user?: {
+    profileImg?: string;
+    fullName?: string;
+    bio?: string;
+  };
+}
+
 //Rupee symbol
 const rupee = "₹";
 
@@ -45,7 +69,7 @@ const Page = () => {
 
     // Filter out the current space from the related list
     const allRelatedSpaces = relatedSpacesData?.data?.listings || [];
-    const relatedSpaces = allRelatedSpaces.filter((space: any) => space.id !== spaceId);
+    const relatedSpaces = allRelatedSpaces.filter((space: Space) => space.id !== spaceId);
     
     // --- State and Form Logic ---
     const [name, setName] = useState("");
@@ -388,7 +412,7 @@ const Page = () => {
                     {isLoadingRelated ? (
                         <p className="col-span-full text-gray-500">Loading cozy spaces...</p>
                     ) : (
-                        relatedSpaces.slice(0, 4).map((space: any) => ( // Use slice(0, 4) directly
+                        relatedSpaces.slice(0, 4).map((space: Space) => ( // Use slice(0, 4) directly
                             <SpaceCard key={space.id} space={space} />
                         ))
                     )}
@@ -402,7 +426,7 @@ const Page = () => {
                     {isLoadingRelated ? (
                         <p className="col-span-full text-gray-500">Loading popular places...</p>
                     ) : (
-                        relatedSpaces.slice(4, 8).map((space: any) => ( // Use slice(4, 8) directly
+                        relatedSpaces.slice(4, 8).map((space: Space) => ( // Use slice(4, 8) directly
                             <SpaceCard key={space.id} space={space} />
                         ))
                     )}

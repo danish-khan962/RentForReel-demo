@@ -11,6 +11,14 @@ import { useQuery } from '@tanstack/react-query'
 import myQueries from '@/api/queries'
 import QuickForm from '@/components/sections/FindYourSpace/space/QuickForm'
 
+// ✅ Define Space interface
+interface Space {
+  id: string
+  name: string
+  location: string
+  // Add other fields used in SpaceCard
+}
+
 const Page = () => {
   const searchParams = useSearchParams()
 
@@ -40,7 +48,7 @@ const Page = () => {
     queryFn: () => myQueries.getSpaces(filters),
   })
 
-  const listings = data?.data?.listings || []
+  const listings: Space[] = data?.data?.listings || []
 
   return (
     <>
@@ -75,7 +83,7 @@ const Page = () => {
             ) : listings.length === 0 ? (
               <p className="col-span-full text-center text-gray-500">No spaces found for selected filters.</p>
             ) : (
-              listings.map((space: any) => (
+              listings.map((space: Space) => (
                 <SpaceCard key={space.id} space={space} />
               ))
             )}
@@ -93,7 +101,7 @@ const Page = () => {
         <div className='w-full flex flex-col mt-[112px]'>
           <p className='font-semibold text-[25px]'>Most popular spaces in Nagpur</p>
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-[42px] gap-5'>
-            {listings.slice(0, 4).map((space: any) => (
+            {listings.slice(0, 4).map((space: Space) => (
               <SpaceCard key={space.id} space={space} />
             ))}
           </div>
@@ -103,7 +111,7 @@ const Page = () => {
         <div className='w-full flex flex-col mt-[76px]'>
           <p className='font-semibold text-[25px]'>Exclusive spaces in Mumbai</p>
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-[42px] gap-5'>
-            {listings.slice(4, 8).map((space: any) => (
+            {listings.slice(4, 8).map((space: Space) => (
               <SpaceCard key={space.id} space={space} />
             ))}
           </div>
