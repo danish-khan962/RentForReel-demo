@@ -45,7 +45,7 @@ const parsePrice = (priceStr: string | null) => {
 
 const Page = () => {
   const searchParams = useSearchParams()
-  const [filters, setFilters] = useState<Record<string, any> | null>(null)
+  const [filters, setFilters] = useState<Record<string, Space> | null>(null)
 
   // Use useEffect to extract query params on client only
   useEffect(() => {
