@@ -1,7 +1,7 @@
 'use client'
 
 import CapsuleSearchFilter from '@/components/sections/Home/CapsuleSearchFilter'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import SpaceCard from '@/components/sections/FindYourSpace/SpaceCard'
 import Link from 'next/link'
@@ -35,33 +35,40 @@ interface Space {
   }
 }
 
+const parsePrice = (priceStr: string | null) => {
+  if (!priceStr) return {}
+  if (priceStr === '₹0 - ₹500') return { priceMinHour: 0, priceMaxHour: 500 }
+  if (priceStr === '₹500 - ₹1000') return { priceMinHour: 500, priceMaxHour: 1000 }
+  if (priceStr === '₹1000+') return { priceMinHour: 1000 }
+  return {}
+}
+
 const Page = () => {
   const searchParams = useSearchParams()
+  const [filters, setFilters] = useState<Record<string, any> | null>(null)
 
-  // Parse the "price" query param into { priceMinHour, priceMaxHour }
-  const parsePrice = (priceStr: string | null) => {
-    if (!priceStr) return {}
+  // Use useEffect to extract query params on client only
+  useEffect(() => {
+    const rawPrice = searchParams.get('price')
+    const priceFilter = parsePrice(rawPrice)
 
-    if (priceStr === '₹0 - ₹500') return { priceMinHour: 0, priceMaxHour: 500 }
-    if (priceStr === '₹500 - ₹1000') return { priceMinHour: 500, priceMaxHour: 1000 }
-    if (priceStr === '₹1000+') return { priceMinHour: 1000 }
+    const newFilters = {
+      city: searchParams.get('city') || undefined,
+      state: searchParams.get('state') || undefined,
+      popularity: searchParams.get('popularity') || undefined,
+      ...priceFilter,
+    }
 
-    return {}
-  }
-
-  const rawPrice = searchParams.get('price')
-  const priceFilter = parsePrice(rawPrice)
-
-  const filters = {
-    city: searchParams.get('city') || undefined,
-    state: searchParams.get('state') || undefined,
-    popularity: searchParams.get('popularity') || undefined,
-    ...priceFilter, // priceMinHour and priceMaxHour
-  }
+    setFilters(newFilters)
+  }, [searchParams])
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['spaces', filters],
-    queryFn: () => myQueries.getSpaces(filters),
+    queryFn: () => {
+      if (!filters) return Promise.resolve({ data: { listings: [] } }) // return empty while filters load
+      return myQueries.getSpaces(filters)
+    },
+    enabled: !!filters, // only run query once filters are ready
   })
 
   const listings: Space[] = data?.data?.listings || []
@@ -76,12 +83,12 @@ const Page = () => {
         <div className='flex flex-col'>
           <div className='flex flex-row justify-between items-center'>
             <p className='font-semibold text-[25px]'>
-              {filters.city || "All Cities"}, {filters.state || "All States"}
+              {filters?.city || 'All Cities'}, {filters?.state || 'All States'}
             </p>
             <div className='flex flex-row justify-center items-center gap-x-[15px] bg-[#D9D9D9] py-1.5 px-5 rounded-full cursor-pointer hover:bg-[#D9D9D9]'>
               <p className='text-[18px] font-normal'>Sort</p>
               <Image
-                src={"/FindYourSpace/filter.png"}
+                src={'/FindYourSpace/filter.png'}
                 alt='filter'
                 height={25}
                 width={25}
@@ -92,12 +99,14 @@ const Page = () => {
 
           {/* Cards grid */}
           <div className='mt-[42px] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5'>
-            {isLoading ? (
+            {isLoading || !filters ? (
               <p>Loading spaces...</p>
             ) : isError ? (
               <p>Failed to load spaces.</p>
             ) : listings.length === 0 ? (
-              <p className="col-span-full text-center text-gray-500">No spaces found for selected filters.</p>
+              <p className='col-span-full text-center text-gray-500'>
+                No spaces found for selected filters.
+              </p>
             ) : (
               listings.map((space: Space) => (
                 <SpaceCard key={space.id} space={space} />
@@ -135,7 +144,7 @@ const Page = () => {
 
         {/* Explore more */}
         <div className='w-full flex justify-center items-center mt-[130px]'>
-          <Link href={"#"}>
+          <Link href={'#'}>
             <button className='text-[20px] text-[#BA181B] font-bold w-[420px] h-[70px] rounded-full border border-[#BA181B] cursor-pointer hover:bg-[#BA181B] hover:text-white transition-all'>
               Explore More
             </button>
