@@ -31,9 +31,9 @@ const imageSources = [
 
 const CreatorsSpotlightWall = () => {
   return (
-    <section className='max-w-[1500px] w-full mx-auto relative px-4 sm:px-6 md:px-8 flex flex-col justify-start items-start mt-[110px] sm:mt-[150px] md:mt-[170px] lg:mt-[190px]'>
+    <section className='max-w-[1440px] w-full mx-auto relative px-4 sm:px-6 md:px-8 flex flex-col justify-start items-start mt-[110px] sm:mt-[150px] md:mt-[170px] lg:mt-[190px]'>
 
-      <h2 className="text-[28px] sm:text-[40px] md:text-[45px] lg:text-[50px] font-semibold capitalize">
+      <h2 className="text-[22px] sm:text-[30px] md:text-[38px] lg:text-[45px] font-semibold capitalize">
         Creator&apos;s Spotlight Wall
       </h2>
 

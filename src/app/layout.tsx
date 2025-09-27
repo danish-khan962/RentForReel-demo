@@ -3,13 +3,14 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/common/Navbar";
 import Footer from "@/components/common/Footer";
+import Provider from "./provider";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"]
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
-
 
 export const metadata: Metadata = {
   title: "Rent for reel - Test",
@@ -24,9 +25,29 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} antialiased`}>
-        <Navbar />
-        {children}
-        <Footer />
+        <Provider>
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+        </Provider>
+
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            success: {
+              style: {
+                background: "#d1fae5",
+                color: "#065f46",
+              },
+            },
+            error: {
+              style: {
+                background: "#fee2e2",
+                color: "#991b1b",
+              },
+            },
+          }}
+        />
       </body>
     </html>
   );

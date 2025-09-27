@@ -1,0 +1,38 @@
+import axiosInstance from "./axiosInstance";
+
+const myQueries = {
+  // Get spaces with filters
+  getSpaces: async (filters: {
+    city?: string;
+    state?: string;
+    popularity?: string;
+    priceMinHour?: number;
+    priceMaxHour?: number;
+  }) => {
+    const response = await axiosInstance.get(`/listing/all`, {
+      params: filters,
+    });
+    return response.data;
+  },
+
+  // Get a single space by ID
+  getSpaceById: async (id: string) => {
+    const response = await axiosInstance.get(`/listing/${id}`);
+    return response.data;
+  },
+
+  // Send enquiry form data
+  sendEnquiry: async (payload: {
+    name: string;
+    email: string;
+    phone: string;
+    spaceId: string;
+    authId: string;
+  }) => {
+    // FIX: Appending the spaceId to the endpoint path
+    const response = await axiosInstance.post(`/enquiry/${payload.spaceId}`, payload);
+    return response.data;
+  },
+};
+
+export default myQueries;

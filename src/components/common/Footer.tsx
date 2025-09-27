@@ -73,7 +73,7 @@ const Footer = () => {
   return (
    <footer className='relative w-screen bg-[#D9D9D9]'>
 
-       <footer className='max-w-[1500px] w-full mx-auto flex flex-col px-4 sm:px-6 md:px-8 pt-[40px] sm:pt-[45px] md:pt-[50px] lg:pt-[60px] pb-[25px] sm:pb-[32px] md:pb-[36px] lg:pb-[40px]'>
+       <footer className='max-w-[1440px] w-full mx-auto flex flex-col px-4 sm:px-6 md:px-8 pt-[40px] sm:pt-[45px] md:pt-[50px] lg:pt-[60px] pb-[25px] sm:pb-[32px] md:pb-[36px] lg:pb-[40px]'>
 
       {/* Favicon and Rent for reel - logo */}
       <div className='flex flex-row justify-start items-center gap-4'>

@@ -7,7 +7,7 @@ import backgroundImage from "../../../../public/banner_velvet_bg.png"
 
 const Banner = () => {
   return (
-    <section className='max-w-[1500px] w-full mx-auto px-4 sm:px-6 md:px-6 flex justify-center items-center mt-[100px] sm:mt-[120px] md:mt-[140px] lg:mt-[160px] mb-[150px] sm:mb-[170px] md:mb-[200px] lg:mb-[230px]'>
+    <section className='max-w-[1440px] w-full mx-auto px-4 sm:px-6 md:px-6 flex justify-center items-center mt-[100px] sm:mt-[120px] md:mt-[140px] lg:mt-[160px] mb-[150px] sm:mb-[170px] md:mb-[200px] lg:mb-[230px]'>
 
       <div className='flex flex-col max-w-[1440px] w-full text-[#FFFFFF] rounded-4xl py-[55px] justify-center items-center text-center'
         style={{

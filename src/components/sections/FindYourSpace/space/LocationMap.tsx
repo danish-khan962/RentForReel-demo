@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -11,15 +11,12 @@ import {
 } from "react-leaflet";
 import "leaflet-defaulticon-compatibility";
 import L, { LatLngExpression, Map as LeafletMap } from "leaflet";
-
 import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
 
-// Define type for result
 interface SearchResult {
   label: string;
 }
 
-// Custom marker icon
 const customIcon = L.icon({
   iconUrl: "/FindYourSpace/space/home_map_marker.png",
   iconSize: [70, 70],
@@ -27,14 +24,13 @@ const customIcon = L.icon({
   popupAnchor: [0, -70],
 });
 
-// Search control as a React component
+// SearchControl component
 const SearchControl = () => {
   const map = useMap();
 
   useEffect(() => {
     const provider = new OpenStreetMapProvider();
 
-    // Use GeoSearchControl as a function
     const searchControl = GeoSearchControl({
       provider,
       style: "circle",
@@ -52,10 +48,10 @@ const SearchControl = () => {
       keepResult: true,
     });
 
-    (map as LeafletMap).addControl(searchControl);
+    map.addControl(searchControl);
 
     return () => {
-      (map as LeafletMap).removeControl(searchControl);
+      map.removeControl(searchControl);
     };
   }, [map]);
 
@@ -64,15 +60,57 @@ const SearchControl = () => {
 
 const LocationMap = () => {
   const position: LatLngExpression = [28.544788, 77.18987];
+  const mapRef = useRef<LeafletMap | null>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.shiftKey && mapRef.current) {
+        mapRef.current.scrollWheelZoom.enable();
+        mapRef.current.touchZoom.enable();
+        mapRef.current.doubleClickZoom.enable();
+        mapRef.current.boxZoom.enable();
+      }
+    };
+
+    const handleKeyUp = () => {
+      if (mapRef.current) {
+        mapRef.current.scrollWheelZoom.disable();
+        mapRef.current.touchZoom.disable();
+        mapRef.current.doubleClickZoom.disable();
+        mapRef.current.boxZoom.disable();
+      }
+    };
+
+    if (typeof window !== "undefined") {
+      const screenWidth = window.innerWidth;
+      if (screenWidth >= 640) { // sm: is 640px in Tailwind
+        document.addEventListener("keydown", handleKeyDown);
+        document.addEventListener("keyup", handleKeyUp);
+      }
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("keyup", handleKeyUp);
+    };
+  }, []);
 
   return (
     <div className="w-full h-full rounded-xl overflow-hidden border border-[#000000]">
       <MapContainer
         center={position}
         zoom={13}
-        scrollWheelZoom={true}
+        scrollWheelZoom={false}
         zoomControl={false}
         className="w-full h-full z-10"
+        whenCreated={(mapInstance) => {
+          mapRef.current = mapInstance;
+          // Disable all zoom by default
+          mapInstance.scrollWheelZoom.disable();
+          mapInstance.touchZoom.disable();
+          mapInstance.doubleClickZoom.disable();
+          mapInstance.boxZoom.disable();
+        }}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors'

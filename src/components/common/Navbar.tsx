@@ -23,7 +23,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className='max-w-[1500px] w-full mx-auto relative flex flex-col justify-center items-center px-4 sm:px-6 md:px-8 pt-[10px] sm:pt-[14px] md:pt-[18px] lg:pt-[20px] gap-y-12'>
+    <nav className='max-w-[1440px] w-full mx-auto relative flex flex-col justify-center items-center px-4 sm:px-6 md:px-8 pt-[10px] sm:pt-[14px] md:pt-[18px] lg:pt-[20px] gap-y-12'>
 
       {/* Top Nav */}
       <nav className='relative w-full flex flex-row justify-between items-center'>

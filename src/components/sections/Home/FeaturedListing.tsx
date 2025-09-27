@@ -24,8 +24,8 @@ const FeaturedListing = () => {
     const rupeeSymbol = "₹";
 
     return (
-        <section className='max-w-[1500px] w-full mx-auto relative px-4 sm:px-6 md:px-8 flex justify-center items-center mt-[70px] sm:mt-[75px] md:mt-[80px] lg:mt-[100px]'>
-            <div className='max-w-[1600px] w-full rounded-xl bg-[#EEEEEE] flex flex-col gap-y-[40px] sm:gap-y-[44px] md:gap-y-[48px] lg:gap-y-[52px] p-4 sm:p-10 md:p-12 lg:p-14'>
+        <section className='max-w-[1440px] w-full mx-auto relative px-4 sm:px-6 md:px-8 flex justify-center items-center mt-[70px] sm:mt-[75px] md:mt-[80px] lg:mt-[100px]'>
+            <div className='max-w-[1500px] w-full rounded-xl bg-[#EEEEEE] flex flex-col gap-y-[40px] sm:gap-y-[44px] md:gap-y-[48px] lg:gap-y-[52px] p-4 sm:p-10 md:p-12 lg:p-14'>
 
                 {/* Heading and CTA button */}
                 <div className='flex flex-col sm:flex-row gap-2.5 justify-start items-start sm:justify-between sm:items-center'>
