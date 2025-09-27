@@ -103,15 +103,19 @@ const LocationMap = () => {
         scrollWheelZoom={false}
         zoomControl={false}
         className="w-full h-full z-10"
-        whenCreated={(mapInstance) => {
-          mapRef.current = mapInstance;
-          // Disable all zoom by default
-          mapInstance.scrollWheelZoom.disable();
-          mapInstance.touchZoom.disable();
-          mapInstance.doubleClickZoom.disable();
-          mapInstance.boxZoom.disable();
+        ref={(mapInstance) => {
+          if (mapInstance && !mapRef.current) {
+            mapRef.current = mapInstance;
+
+            mapInstance.scrollWheelZoom.disable();
+            mapInstance.touchZoom.disable();
+            mapInstance.doubleClickZoom.disable();
+            mapInstance.boxZoom.disable();
+          }
         }}
       >
+
+
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
