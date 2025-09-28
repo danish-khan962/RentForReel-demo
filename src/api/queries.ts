@@ -9,7 +9,7 @@ const myQueries = {
         priceMinHour?: number;
         priceMaxHour?: number;
     }) => {
-        const response = await axiosInstance.get(`/listing/all`, {
+        const response = await axiosInstance.get(`/listing/all?limit=16`, {
             params: filters,
         });
         return response.data;
