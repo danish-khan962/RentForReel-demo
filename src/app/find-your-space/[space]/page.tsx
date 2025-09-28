@@ -12,34 +12,34 @@ import myQueries from '@/api/queries';
 import { useQuery } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import PageSkeleton from './PageSkeleton';
-import QuickFormSkeleton from '@/components/sections/FindYourSpace/space/QuickFormSkeleton';
+import ImageGalleryModal from '@/components/sections/FindYourSpace/space/ImageGalleryModal';
 
 const LocationMap = dynamic(() => import('../../../components/sections/FindYourSpace/space/LocationMap'), {
     ssr: false,
 });
 
 interface Space {
-  id: string;
-  nameOfSpace: string;
-  city: string;
-  state: string;
-  area: string;
-  capacity: string;
-  availability: string;
-  highlights: string[];
-  aboutSpace: string;
-  selectedAmenities: string[];
-  priceHour: number;
-  priceDay: number;
-  images: string[];
-  authId: string;
-  contactNumber?: string;
-  whatsappNumber?: string;
-  user?: {
-    profileImg?: string;
-    fullName?: string;
-    bio?: string;
-  };
+    id: string;
+    nameOfSpace: string;
+    city: string;
+    state: string;
+    area: string;
+    capacity: string;
+    availability: string;
+    highlights: string[];
+    aboutSpace: string;
+    selectedAmenities: string[];
+    priceHour: number;
+    priceDay: number;
+    images: string[];
+    authId: string;
+    contactNumber?: string;
+    whatsappNumber?: string;
+    user?: {
+        profileImg?: string;
+        fullName?: string;
+        bio?: string;
+    };
 }
 
 //Rupee symbol
@@ -72,13 +72,13 @@ const Page = () => {
     // Filter out the current space from the related list
     const allRelatedSpaces = relatedSpacesData?.data?.listings || [];
     const relatedSpaces = allRelatedSpaces.filter((space: Space) => space.id !== spaceId);
-    
+
     // --- State and Form Logic ---
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
-    
+
     const handleFormSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -93,7 +93,7 @@ const Page = () => {
             toast.error("Please enter a valid email address.");
             return;
         }
-        
+
         // Use a regular expression to validate a 10-digit phone number
         const phoneRegex = /^\d{10}$/;
         if (phone && !phoneRegex.test(phone)) {
@@ -141,6 +141,10 @@ const Page = () => {
     const [activeTab, setActiveTab] = useState<"Hours" | "Days">("Hours");
 
     const getBentoGridClasses = (imageCount: number) => {
+        if (imageCount === 4 || imageCount === 5) {
+            return 'grid grid-cols-3 md:grid-cols-3 grid-rows-4 md:grid-rows-4 gap-2 md:gap-2';
+        }
+
         switch (imageCount) {
             case 1:
                 return 'grid-cols-1';
@@ -148,23 +152,72 @@ const Page = () => {
                 return 'grid-cols-2';
             case 3:
                 return 'grid-cols-3 grid-rows-2';
-            case 4:
-                return 'grid-cols-4 grid-rows-2'
-            case 5:
-                return 'grid-cols-4 grid-cols-2'
+            default:
+                return 'grid-cols-2 md:grid-cols-3';
         }
     };
 
+
     const getBentoItemClasses = (index: number, totalImages: number) => {
-        if (totalImages === 1) return '';
-        if (totalImages === 2) return '';
+        if (totalImages === 5) {
+            switch (index) {
+                case 0:
+                    return 'col-start-1 row-start-1 row-span-4';
+                case 1:
+                    return 'col-start-2 row-start-1 row-span-2';
+                case 2:
+                    return 'col-start-2 row-start-3 row-span-2';
+                case 3:
+                    return 'col-start-3 row-start-1 row-span-2';
+                case 4:
+                    return 'col-start-3 row-start-3 row-span-2';
+                default:
+                    return '';
+            }
+        }
+
+        if (totalImages === 4) {
+            switch (index) {
+                case 0:
+                    return 'col-start-1 row-start-1 row-span-4';
+                case 1:
+                    return 'col-start-2 row-start-1 row-span-2';
+                case 2:
+                    return 'col-start-2 row-start-3 row-span-2';
+                case 3:
+                    return 'col-start-3 row-start-1 row-span-4';
+                default:
+                    return '';
+            }
+        }
+
+        // For other image counts
         if (totalImages === 3 && index === 0) return 'col-span-2 row-span-2';
         if (totalImages === 4 && index === 0) return 'col-span-2 row-span-2';
         if (totalImages >= 5 && index === 0) return 'col-span-2 row-span-2';
+
         return '';
     };
 
-    // --- Loading State Handling for Main Content ---
+    // IMAGE GALLERY
+    const [isGalleryOpen, setIsGalleryOpen] = useState(false);
+    const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+
+    const handleImageClick = (index: number) => {
+        setSelectedImageIndex(index);
+        setIsGalleryOpen(true);
+    };
+
+    const handleCloseGallery = () => {
+        setIsGalleryOpen(false);
+    };
+
+    const handleViewAllClick = () => {
+        setSelectedImageIndex(0); 
+        setIsGalleryOpen(true);
+    };
+
+
     if (isLoading) {
         return (
             <PageSkeleton />
@@ -180,6 +233,7 @@ const Page = () => {
         );
     }
     // --- End Loading State Handling ---
+
 
     return (
         <section className='max-w-[1440px] w-full mx-auto px-4 sm:px-6 md:px-8 mt-[80px] sm:mt-[90px] md:mt-[100px] lg:mt-[110px]'>
@@ -200,10 +254,11 @@ const Page = () => {
             <div className='w-full h-[250px] sm:h-[300px] md:h-[350px] lg:h-[400px] mt-[35px] sm:mt-[37px] md:mt-[40px]'>
                 {spaceData.images && spaceData.images.length > 0 && (
                     <div className={`w-full h-full grid gap-2 ${getBentoGridClasses(spaceData.images.length)}`}>
-                        {spaceData.images.slice(0, 4).map((image: string, index: number) => (
+                        {spaceData.images.slice(0, 5).map((image: string, index: number) => (
                             <div
                                 key={index}
-                                className={`relative overflow-hidden rounded-xl sm:rounded-2xl md:rounded-3xl ${getBentoItemClasses(index, spaceData.images.length)}`}
+                                onClick={() => handleImageClick(index)}
+                                className={`relative overflow-hidden rounded-xl sm:rounded-2xl md:rounded-3xl cursor-pointer ${getBentoItemClasses(index, spaceData.images.length)}`}
                             >
                                 <Image
                                     src={image}
@@ -212,10 +267,16 @@ const Page = () => {
                                     className="object-cover hover:scale-105 transition-transform duration-300"
                                 />
 
-                                {/* View All Button - shown on 4th image if more than 4 images exist */}
-                                {index === 3 && spaceData.images.length > 4 && (
-                                    <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                                        <button className="bg-white text-black px-4 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors duration-200">
+                                {/* View All Button */}
+                                {index === (spaceData.images.length === 5 ? 4 : spaceData.images.length - 1) && (
+                                    <div className="absolute bottom-3 right-2">
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation(); 
+                                                handleViewAllClick(); 
+                                            }}
+                                            className="bg-white/75 text-black px-3 py-1.5 text-sm rounded-md font-medium hover:bg-white transition duration-200 shadow-md cursor-pointer backdrop-blur-sm"
+                                        >
                                             View All ({spaceData.images.length})
                                         </button>
                                     </div>
@@ -440,6 +501,14 @@ const Page = () => {
             <div className='mt-[90px] sm:mt-[100px] md:mt-[110px] lg:mt-[120px] mb-[70px] sm:mb-[80px] md:mb-[90px] lg:mb-[100px]'>
                 <QuickForm />
             </div>
+
+            {isGalleryOpen && (
+                <ImageGalleryModal
+                    images={spaceData.images}
+                    initialSlide={selectedImageIndex}
+                    onClose={handleCloseGallery}
+                />
+            )}
 
         </section>
     );
