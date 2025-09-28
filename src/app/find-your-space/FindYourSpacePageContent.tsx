@@ -10,6 +10,7 @@ import { useSearchParams } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
 import myQueries from '@/api/queries'
 import QuickForm from '@/components/sections/FindYourSpace/space/QuickForm'
+import SpaceCardSkeleton from '@/components/sections/FindYourSpace/SpaceCardSkeleton'
 
 interface Space {
   id: string
@@ -46,8 +47,9 @@ const parsePrice = (priceStr: string | null) => {
 const FindYourSpacePageContent = () => {
   const searchParams = useSearchParams()
   const [filters, setFilters] = useState<Record<string, string | number | undefined> | null>(null)
+  // 1. Add state for the current page
+  const [currentPage, setCurrentPage] = useState(1);
 
-  // Use useEffect to extract query params on client only
   useEffect(() => {
     const rawPrice = searchParams.get('price')
     const priceFilter = parsePrice(rawPrice)
@@ -57,95 +59,143 @@ const FindYourSpacePageContent = () => {
       state: searchParams.get('state') || undefined,
       popularity: searchParams.get('popularity') || undefined,
       ...priceFilter,
+      // 2. Add 'page' to the filters
+      page: currentPage, 
     }
 
     setFilters(newFilters)
-  }, [searchParams])
+  }, [searchParams, currentPage]) // 3. Re-run effect when currentPage changes
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['spaces', filters],
     queryFn: () => {
-      if (!filters) return Promise.resolve({ data: { listings: [] } }) // return empty while filters load
+      if (!filters) return Promise.resolve({ data: { listings: [] } })
       return myQueries.getSpaces(filters)
     },
-    enabled: !!filters, // only run query once filters are ready
+    enabled: !!filters,
   })
 
-  const listings: Space[] = data?.data?.listings || []
+  // 4. Extract listings and meta data from the response
+  const listings: Space[] = data?.data?.listings || [];
+  const meta = data?.data?.meta || {};
+  const totalPages = meta.totalPages || 1;
+  const page = meta.page || 1;
+
+  const keyword = searchParams.get('keyword')?.toLowerCase() || '';
+
+  const filteredListings = listings.filter((space: Space) => {
+    if (!keyword) return true;
+
+    const searchableFields = [
+      space.nameOfSpace,
+      space.city,
+      space.state,
+      space.area,
+      space.aboutSpace,
+      ...(space.highlights || []),
+      ...(space.selectedAmenities || []),
+    ];
+
+    return searchableFields.some(field => {
+      if (typeof field === 'string') {
+        return field.toLowerCase().includes(keyword);
+      }
+      return false;
+    });
+  });
+
+  const loading = isLoading || !filters;
+
+  // 5. Create a function to handle page changes
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <>
       <CapsuleSearchFilter />
 
       <div className='max-w-[1440px] w-full mx-auto px-4 sm:px-6 md:px-8 mt-[60px] mb-[120px]'>
-
-        {/* Filter section and sort */}
         <div className='flex flex-col'>
           <div className='flex flex-row justify-between items-center'>
             <p className='font-semibold text-[25px]'>
-              {filters?.city || 'All Cities'}, {filters?.state || 'All States'}
+              {filters?.city || 'Explore All Spaces'}, {filters?.state || null}
             </p>
             <div className='flex flex-row justify-center items-center gap-x-[15px] bg-[#D9D9D9] py-1.5 px-5 rounded-full cursor-pointer hover:bg-[#D9D9D9]'>
-              <p className='text-[18px] font-normal'>Sort</p>
+              <p className='text-[14px] sm:text-base lg:text-[18px] font-normal'>Sort</p>
               <Image
                 src={'/FindYourSpace/filter.png'}
                 alt='filter'
                 height={25}
                 width={25}
-                className='h-[25px] w-[25px]'
+                className='h-[18px] w-[18px] sm:h-[20px] sm:w-[20px] md:w-[22px] md:h-[20px] lg:w-[25px] lg:h-[25px]'
               />
             </div>
           </div>
 
-          {/* Cards grid */}
           <div className='mt-[42px] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5'>
-            {isLoading || !filters ? (
-              <p>Loading spaces...</p>
+            {loading ? (
+              <>
+                {[...Array(12)].map((_, idx) => (
+                  <SpaceCardSkeleton key={idx} />
+                ))}
+              </>
             ) : isError ? (
               <p>Failed to load spaces.</p>
-            ) : listings.length === 0 ? (
+            ) : filteredListings.length === 0 ? (
               <p className='col-span-full text-center text-gray-500'>
                 No spaces found for selected filters.
               </p>
             ) : (
-              listings.map((space: Space) => (
+              filteredListings.map((space: Space) => (
                 <SpaceCard key={space.id} space={space} />
               ))
             )}
           </div>
         </div>
 
-        <PaginationBar />
+        {/* 6. Conditionally render the PaginationBar and pass props */}
+        {totalPages > 1 && (
+          <PaginationBar
+            totalPages={totalPages}
+            currentPage={page}
+            onPageChange={handlePageChange}
+          />
+        )}
 
-        {/* Yellow box */}
         <div className='w-full mt-[120px]'>
           <QuickForm />
         </div>
 
-        {/* Most popular in Nagpur */}
         <div className='w-full flex flex-col mt-[112px]'>
           <p className='font-semibold text-[25px]'>Most popular spaces in Nagpur</p>
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-[42px] gap-5'>
-            {listings.slice(0, 4).map((space: Space) => (
-              <SpaceCard key={space.id} space={space} />
-            ))}
+            {loading ? (
+              [...Array(4)].map((_, idx) => <SpaceCardSkeleton key={`nagpur-skeleton-${idx}`} />)
+            ) : (
+              listings.slice(0, 4).map((space: Space) => (
+                <SpaceCard key={space.id} space={space} />
+              ))
+            )}
           </div>
         </div>
 
-        {/* Exclusive in Mumbai */}
         <div className='w-full flex flex-col mt-[76px]'>
           <p className='font-semibold text-[25px]'>Exclusive spaces in Mumbai</p>
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-[42px] gap-5'>
-            {listings.slice(4, 8).map((space: Space) => (
-              <SpaceCard key={space.id} space={space} />
-            ))}
+            {loading ? (
+              [...Array(4)].map((_, idx) => <SpaceCardSkeleton key={`nagpur-skeleton-${idx}`} />)
+            ) : (
+              listings.slice(4, 8).map((space: Space) => (
+                <SpaceCard key={space.id} space={space} />
+              ))
+            )}
           </div>
         </div>
 
-        {/* Explore more */}
         <div className='w-full flex justify-center items-center mt-[130px]'>
           <Link href={'#'}>
-            <button className='text-[20px] text-[#BA181B] font-bold w-[420px] h-[70px] rounded-full border border-[#BA181B] cursor-pointer hover:bg-[#BA181B] hover:text-white transition-all'>
+            <button className='text-base sm:text-[17.5px] md:text-[18px] text-[#BA181B] font-bold w-[350px] h-[62px] md:w-[380px] md:h-[65px] rounded-full border border-[#BA181B] cursor-pointer hover:bg-[#BA181B] hover:text-white transition-all'>
               Explore More
             </button>
           </Link>

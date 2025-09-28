@@ -3,47 +3,51 @@
 import React, { useState } from 'react';
 import { BsSearch } from "react-icons/bs";
 import { useRouter } from 'next/navigation';
+import { FaChevronRight } from 'react-icons/fa6';
 
 const filterOptions = {
   state: {
     subtitle: "Choose your state or UT",
     options: [
-      "Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh","Goa",
-      "Gujarat","Haryana","Himachal Pradesh","Jharkhand","Karnataka","Kerala",
-      "Madhya Pradesh","Maharashtra","Manipur","Meghalaya","Mizoram","Nagaland",
-      "Odisha","Punjab","Rajasthan","Sikkim","Tamil Nadu","Telangana","Tripura",
-      "Uttar Pradesh","Uttarakhand","West Bengal","Delhi","Jammu and Kashmir",
-      "Ladakh","Puducherry","Chandigarh","Andaman and Nicobar Islands",
-      "Dadra and Nagar Haveli and Daman and Diu","Lakshadweep"
+      "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa",
+      "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala",
+      "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland",
+      "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura",
+      "Uttar Pradesh", "Uttarakhand", "West Bengal", "Delhi", "Jammu and Kashmir",
+      "Ladakh", "Puducherry", "Chandigarh", "Andaman and Nicobar Islands",
+      "Dadra and Nagar Haveli and Daman and Diu", "Lakshadweep"
     ]
   },
   city: {
     subtitle: "Select your city",
     options: [
-      "Mumbai","Delhi","Bangalore","Hyderabad","Ahmedabad","Chennai","Kolkata",
-      "Pune","Jaipur","Surat","Lucknow","Kanpur","Nagpur","Indore","Thane",
-      "Bhopal","Visakhapatnam","Patna","Vadodara","Ghaziabad","Ludhiana","Agra",
-      "Nashik","Faridabad","Meerut","Rajkot","Kalyan-Dombivli","Vasai-Virar",
-      "Varanasi","Srinagar"
+      "Mumbai", "Delhi", "Bangalore", "Hyderabad", "Ahmedabad", "Chennai", "Kolkata",
+      "Pune", "Jaipur", "Surat", "Lucknow", "Kanpur", "Nagpur", "Indore", "Thane",
+      "Bhopal", "Visakhapatnam", "Patna", "Vadodara", "Ghaziabad", "Ludhiana", "Agra",
+      "Nashik", "Faridabad", "Meerut", "Rajkot", "Kalyan-Dombivli", "Vasai-Virar",
+      "Varanasi", "Srinagar"
     ]
   },
   price: {
     subtitle: "Select price range",
     options: [
-      "₹0 - ₹500",
-      "₹500 - ₹1000",
-      "₹1000 - ₹2000",
-      "₹2000 - ₹5000",
-      "₹5000+"
+      "₹0 - ₹500", "₹500 - ₹1000", "₹1000 - ₹2000", "₹2000 - ₹5000", "₹5000+"
     ]
   },
-  popularity: {
-    subtitle: "Popularity Status",
+  locality: {
+    subtitle: "Select locality",
     options: [
-      "Trending Spaces",
-      "Top Rated",
-      "New & Fresh",
-      "Exclusive Premium",
+      "Andheri West", "Bandra", "Powai", "Dadar", "Colaba", "Malad", // Mumbai
+      "Connaught Place", "Hauz Khas", "Saket", "Karol Bagh", "Dwarka", "Lajpat Nagar", // Delhi
+      "Koramangala", "Indiranagar", "Whitefield", "HSR Layout", "Jayanagar", "MG Road", // Bangalore
+      "Banjara Hills", "Hitech City", "Jubilee Hills", "Gachibowli", // Hyderabad
+      "T Nagar", "Anna Nagar", "Adyar", "Velachery", // Chennai
+      "Koregaon Park", "Viman Nagar", "Hinjewadi", "Baner", // Pune
+      "Salt Lake", "Park Street", "New Town", "Gariahat", // Kolkata
+      "Navrangpura", "Prahlad Nagar", "Satellite", "CG Road", // Ahmedabad
+      "DLF Phase 1", "DLF Cyber City", "MG Road", "Sohna Road", // Gurugram
+      "Sector 18", "Sector 62", "Sector 135", // Noida
+      "C Scheme", "Vaishali Nagar", "Malviya Nagar", // Jaipur
     ]
   }
 };
@@ -52,7 +56,7 @@ const filterData = [
   { heading: "State / UT", key: "state", placeholder: "Select your state" },
   { heading: "City", key: "city", placeholder: "Select your city" },
   { heading: "Price", key: "price", placeholder: "Your suitable price" },
-  { heading: "Popularity", key: "popularity", placeholder: "Popularity status" },
+  { heading: "Locality", key: "locality", placeholder: "Select locality" },
 ];
 
 const CapsuleSearchFilter = () => {
@@ -70,7 +74,8 @@ const CapsuleSearchFilter = () => {
 
     if (selected.state) query.set("state", selected.state);
     if (selected.city) query.set("city", selected.city);
-    if (selected.popularity) query.set("popularity", selected.popularity);
+    if (selected.locality) query.set("locality", selected.locality);
+    if (selected.keyword) query.set("keyword", selected.keyword);
 
     if (selected.price) {
       switch (selected.price) {
@@ -98,12 +103,13 @@ const CapsuleSearchFilter = () => {
 
     router.push(`/find-your-space?${query.toString()}`);
   };
+  
 
   return (
     <div className="flex max-w-[1400px] w-full mx-auto relative px-2 sm:px-4 md:px-6 lg:px-8 justify-center items-center mt-4 sm:mt-6 lg:mt-[30px]">
       <div className="max-w-[1180px] w-full bg-white rounded-2xl sm:rounded-3xl lg:rounded-full border-t border-gray-300 shadow-md">
-        
-        {/* Mobile and Tablet Layout - Stacked */}
+
+        {/* Mobile Layout */}
         <div className="flex lg:hidden flex-col p-3 sm:p-4 gap-3">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
             {filterData.map((item, idx) => {
@@ -124,9 +130,7 @@ const CapsuleSearchFilter = () => {
                       }
                     `}
                   >
-                    <p className="text-xs sm:text-sm font-semibold text-start">
-                      {item.heading}
-                    </p>
+                    <p className="text-xs sm:text-sm font-semibold text-start">{item.heading}</p>
                     <p className={`text-xs sm:text-sm font-light text-start mt-0.5
                       ${isSelected ? 'text-white/80' : 'text-[#00000054]'}`}>
                       {selectedValue || item.placeholder}
@@ -153,8 +157,27 @@ const CapsuleSearchFilter = () => {
               );
             })}
           </div>
-          
-          {/* Mobile Search Button */}
+
+          {/* Keyword Input (Mobile) */}
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Search Space...."
+              value={selected.keyword || ""}
+              onChange={(e) => setSelected(prev => ({ ...prev, keyword: e.target.value }))}
+              className="w-full px-4 py-3 pr-10 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#BA181B]"
+            />
+            <button
+              type="button"
+              className="absolute inset-y-0 right-3 flex items-center text-[#BA181B] hover:text-black"
+              onClick={handleSearch}
+            >
+              <FaChevronRight />
+            </button>
+          </div>
+
+
+          {/* Search Button (Mobile) */}
           <button
             type="button"
             onClick={handleSearch}
@@ -165,7 +188,7 @@ const CapsuleSearchFilter = () => {
           </button>
         </div>
 
-        {/* Desktop Layout - Original Horizontal */}
+        {/* Desktop Layout */}
         <div className="hidden lg:flex justify-between items-center py-2.5 px-4 gap-x-5">
           <div className="flex flex-row gap-2 flex-wrap">
             {filterData.map((item, idx) => {
@@ -186,9 +209,7 @@ const CapsuleSearchFilter = () => {
                       }
                     `}
                   >
-                    <p className="text-[11px] md:text-[13px] font-semibold text-start">
-                      {item.heading}
-                    </p>
+                    <p className="text-[11px] md:text-[13px] font-semibold text-start">{item.heading}</p>
                     <p className={`text-[11px] md:text-[13px] font-light text-start
                       ${isSelected ? 'text-white/80' : 'text-[#00000054]'}`}>
                       {selectedValue || item.placeholder}
@@ -216,13 +237,34 @@ const CapsuleSearchFilter = () => {
             })}
           </div>
 
-          <button
-            type="button"
-            onClick={handleSearch}
-            className="bg-[#BA181B] p-4 rounded-full hover:bg-[#2C2C2C] transition-all duration-200 active:bg-[#2C2C2C] cursor-pointer"
-          >
-            <BsSearch className="text-white text-[16px]" />
-          </button>
+          <div className='flex flex-row gap-3'>
+            <div className="relative flex flex-row items-center">
+              <input
+                type="text"
+                placeholder="Search Space...."
+                value={selected.keyword || ""}
+                onChange={(e) => setSelected(prev => ({ ...prev, keyword: e.target.value }))}
+                className="px-4 py-2.5 pr-10 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#BA181B]"
+              />
+              <button
+                type="button"
+                className="absolute inset-y-0 right-2 flex items-center text-[#BA181B] hover:text-black"
+                onClick={handleSearch}
+              >
+                <FaChevronRight />
+              </button>
+            </div>
+
+
+            {/* Search Button (Desktop) */}
+            <button
+              type="button"
+              onClick={handleSearch}
+              className="bg-[#BA181B] p-4 rounded-full hover:bg-[#2C2C2C] transition-all duration-200 active:bg-[#2C2C2C] cursor-pointer"
+            >
+              <BsSearch className="text-white text-[16px]" />
+            </button>
+          </div>
         </div>
       </div>
     </div>

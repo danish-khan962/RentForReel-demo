@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import QuickForm from '../sections/FindYourSpace/space/QuickForm'
 
 /*Image & icon imports*/
 import LOGO from "../../../public/rent_for_reel_icon.svg"
@@ -12,7 +13,10 @@ import { TfiClose } from "react-icons/tfi";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showAdvice, setShowAdvice] = useState(false);
+
   const handleMenuToggle = () => setIsOpen(!isOpen);
+  const handleAdviceToggle = () => setShowAdvice(!showAdvice);
 
   const routes = [
     { label: "Home", href: "/" },
@@ -48,7 +52,10 @@ const Navbar = () => {
         </Link>
 
         <div className='flex flex-row gap-3'>
-          <button className='hidden md:inline-block py-2 px-4 rounded-full bg-[#D9D9D9] text-[#2C2C2C] text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px] cursor-pointer font-medium hover:bg-[#2C2C2C] hover:text-[#D9D9D9] transition-all ease-in-out duration-200'>
+          <button
+            onClick={handleAdviceToggle}
+            className='hidden md:inline-block py-2 px-4 rounded-full bg-[#D9D9D9] text-[#2C2C2C] text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px] cursor-pointer font-medium hover:bg-[#2C2C2C] hover:text-[#D9D9D9] transition-all ease-in-out duration-200'
+          >
             Get Advice
           </button>
 
@@ -89,17 +96,46 @@ const Navbar = () => {
             <Link href={href} key={label} onClick={handleMenuToggle}>
               <span className='py-3 px-8 sm:px-8 lg:px-12 rounded-full cursor-pointer text-[17px] hover:shadow-[1px_1px_16px_gray] font-medium text-[#2C2C2C]'>
                 {label}
-            </span>
+              </span>
             </Link>
           ))}
 
           <hr className="w-full border-gray-300 my-4" />
 
-          <button className='w-full max-w-[220px] py-3 px-8 rounded-full bg-[#D9D9D9] text-[#2C2C2C] text-sm font-medium hover:bg-[#2C2C2C] hover:text-white transition-all duration-200 cursor-pointer'>
+          <button
+            onClick={() => {
+              handleMenuToggle();
+              handleAdviceToggle();
+            }}
+            className='w-full max-w-[220px] py-3 px-8 rounded-full bg-[#D9D9D9] text-[#2C2C2C] text-sm font-medium hover:bg-[#2C2C2C] hover:text-white transition-all duration-200 cursor-pointer'
+          >
             Get Advice
           </button>
         </div>
       </div>
+
+      {/* Fullscreen Advice Overlay */}
+      {showAdvice && (
+  <div className="fixed inset-0 z-[100] bg-white overflow-y-auto">
+    {/* Close Button */}
+    <button
+      onClick={handleAdviceToggle}
+      className="fixed top-6 right-6 z-[101] text-[#2C2C2C] hover:text-gray-600"
+      aria-label="Close Advice Overlay"
+    >
+      <TfiClose className="w-6 h-6 cursor-pointer" />
+    </button>
+
+    {/* Form Container */}
+    <div className="flex flex-col items-center px-4 sm:px-6 md:px-8 pt-20 pb-10 lg:h-screen lg:justify-center">
+      <div className="w-full">
+        <QuickForm />
+      </div>
+    </div>
+  </div>
+)}
+
+
     </nav>
   )
 }

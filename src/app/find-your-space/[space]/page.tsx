@@ -11,6 +11,8 @@ import { useParams } from 'next/navigation';
 import myQueries from '@/api/queries';
 import { useQuery } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
+import PageSkeleton from './PageSkeleton';
+import QuickFormSkeleton from '@/components/sections/FindYourSpace/space/QuickFormSkeleton';
 
 const LocationMap = dynamic(() => import('../../../components/sections/FindYourSpace/space/LocationMap'), {
     ssr: false,
@@ -146,8 +148,10 @@ const Page = () => {
                 return 'grid-cols-2';
             case 3:
                 return 'grid-cols-3 grid-rows-2';
-            default:
-                return 'grid-cols-4 grid-rows-2';
+            case 4:
+                return 'grid-cols-4 grid-rows-2'
+            case 5:
+                return 'grid-cols-4 grid-cols-2'
         }
     };
 
@@ -155,16 +159,15 @@ const Page = () => {
         if (totalImages === 1) return '';
         if (totalImages === 2) return '';
         if (totalImages === 3 && index === 0) return 'col-span-2 row-span-2';
-        if (totalImages >= 4 && index === 0) return 'col-span-2 row-span-2';
+        if (totalImages === 4 && index === 0) return 'col-span-2 row-span-2';
+        if (totalImages >= 5 && index === 0) return 'col-span-2 row-span-2';
         return '';
     };
 
     // --- Loading State Handling for Main Content ---
     if (isLoading) {
         return (
-            <section className='max-w-[1440px] w-full mx-auto px-4 sm:px-6 md:px-8 mt-[80px] h-screen flex justify-center items-center'>
-                <p className='text-xl text-[#BA181B] font-semibold'>Loading Space Details...</p>
-            </section>
+            <PageSkeleton />
         );
     }
 
@@ -187,9 +190,9 @@ const Page = () => {
                     <h1 className='text-[#000000] font-semibold text-[28px] sm:text-[32px] md:text-[36px] lg:text-[40px]'> {spaceData.nameOfSpace} </h1>
                     <p className='font-light text-[14px] sm:text-base md:text-[18px] lg:text-[20px]'> {spaceData.city}, {spaceData.state} </p>
                 </div>
-                <div className='flex flex-row gap-1 sm:gap-1.5 md:gap-2 lg:gap-2.5'>
-                    <div className='h-[15px] w-[15px] sm:h-[18px] sm:w-[18px] md:w-[24px] md:h-[24px] lg:w-[28px] lg:h-[28px] rounded-full bg-[#D9D9D9]'></div>
-                    <div className='h-[15px] w-[15px] sm:h-[18px] sm:w-[18px] md:w-[24px] md:h-[24px] lg:w-[28px]  lg:h-[28px] rounded-full bg-[#D9D9D9]'></div>
+                <div className='flex flex-row gap-1 sm:gap-1.5 md:gap-2 items-center'>
+                    <div className='h-[15px] w-[15px] sm:h-[18px] sm:w-[18px] md:w-[24px] md:h-[24px] lg:w-[25px] lg:h-[25px] rounded-full bg-[#D9D9D9]'></div>
+                    <div className='h-[15px] w-[15px] sm:h-[18px] sm:w-[18px] md:w-[24px] md:h-[24px] lg:w-[25px]  lg:h-[25px] rounded-full bg-[#D9D9D9]'></div>
                 </div>
             </div>
 
@@ -351,7 +354,7 @@ const Page = () => {
 
                         <button
                             type="submit"
-                            className='w-full bg-[#BA181B] rounded-full mt-[50px] font-medium text-base sm:text-[17px] md:text-[18px] lg:text-[20px] text-[#FFFFFF] py-2.5 sm:py-3 md:py-3.5 lg:py-4 cursor-pointer hover:bg-[#2C2C2C] transition-all ease-in-out duration-200'
+                            className='w-full bg-[#BA181B] rounded-full mt-[50px] font-medium text-[14px] sm:text-[15px] md:text-[17.5px] lg:text-[18px] text-[#FFFFFF] py-2 md:py-2.5 lg:py-3 cursor-pointer hover:bg-[#2C2C2C] transition-all ease-in-out duration-200'
                             disabled={isSubmitting}
                         >
                             {isSubmitting ? "Submitting..." : "Enquire Now"}
@@ -360,7 +363,7 @@ const Page = () => {
 
                     {/* Lister profile card */}
                     <div className='max-w-[520px] w-full bg-[#FFFFFF] shadow-xl rounded-3xl p-6 sm:p-8 md:p-10 inset-shadow-2xs'>
-                        <div className='flex flex-row justify-center md:justify-start gap-[20px] items-center '>
+                        <div className='flex flex-row justify-start gap-[20px] items-center '>
                             <Image
                                 src={spaceData.user?.profileImg || "/FindYourSpace/space/user_fallback_image.jpg"}
                                 alt='lister profile'
@@ -375,7 +378,7 @@ const Page = () => {
                                 <p className='text-[#2C2C2C80] font-semibold text-base sm:text-[17px] md:text-[18px] lg:text-[20px] mt-[15px] leading-tight'> {spaceData.user?.bio || 'Lister of space'} </p>
                             </div>
                         </div>
-                        <div className='w-full flex flex-row justify-center md:justify-start gap-2 items-center mt-[30px] sm:mt-[34px] md:mt-[38px]'>
+                        <div className='w-full flex flex-row justify-start gap-2 items-center mt-[30px] sm:mt-[34px] md:mt-[38px]'>
                             <Link href={`tel:${spaceData.contactNumber || '7894657831'}`}>
                                 <button className='w-full py-2 px-10 sm:px-14 lg:px-20 flex flex-row justify-center items-center gap-2 bg-[#BA181B] rounded-full cursor-pointer hover:bg-[#2C2C2C] transition-all ease-in-out duration-200'>
                                     <GiPhone className='text-[25px] sm:text-[28px] md:text-[30px] lg:text-[33px] text-[#F8F9FA]' />

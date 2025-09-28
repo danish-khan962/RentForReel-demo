@@ -48,7 +48,6 @@ const ListYourSpace = () => {
                             onChange={handleSliderChange}
                             className="custom-slider w-[350px] sm:w-[460px] mt-6"
                             style={{ background: sliderBackground }}
-                            disabled
                         />
 
                         <p className='font-normal text-base sm:text-[18px] md:text-[20px] lg:text-[22px] mt-[25px] sm:mt-[28px] md:mt-[32px] lg:mt-[36px]'>

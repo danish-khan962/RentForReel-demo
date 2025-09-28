@@ -56,21 +56,17 @@ const SpaceCard: React.FC<SpaceCardProps> = ({ space }) => {
       </Link>
 
       <div className='flex flex-row justify-between px-3 pt-3 pb-4'>
-        <div className='flex flex-col'>
-          <p className='capitalize text-[12px] sm:text-[14px] md:text-[14.5px] lg:text-base font-semibold'>
+        <div className='flex flex-col items-baseline'>
+          <p className='capitalize text-[14px] sm:text-[15.5px] md:text-base lg:text-[17.5px] font-semibold'>
             {space.nameOfSpace}
           </p>
-          <p className='capitalize font-normal text-[12px] sm:text-[13.5px] mt-[7px]'>
+          <p className='capitalize font-normal text-[12px] sm:text-[13.5px] mt-[15px]'>
             {space.city}, {space.state}
           </p>
 
-          {/* Rating */}
-          {/* <p>
-
-          </p> */}
         </div>
 
-        <div className='flex flex-col'>
+        <div className='flex flex-col justify-end items-end'>
           <p className='font-semibold text-[15px] sm:text-base'>
             ₹{space.priceHour}/hour
           </p>

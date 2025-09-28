@@ -1,3 +1,5 @@
+"use client"
+
 import React from 'react'
 import { HiMiniArrowLongRight } from "react-icons/hi2";
 import Link from 'next/link';
@@ -28,8 +30,14 @@ const FeaturedListing = () => {
             <div className='max-w-[1500px] w-full rounded-xl bg-[#EEEEEE] flex flex-col gap-y-[40px] sm:gap-y-[44px] md:gap-y-[48px] lg:gap-y-[52px] p-4 sm:p-10 md:p-12 lg:p-14'>
 
                 {/* Heading and CTA button */}
-                <div className='flex flex-col sm:flex-row gap-2.5 justify-start items-start sm:justify-between sm:items-center'>
-                    <p className='font-semibold text-[18px] sm:text-[20px] md:text-[23px] lg:text-[25px] capitalize'> Featured Listing </p>
+                <div className='flex flex-col sm:flex-row gap-x-2.5 gap-y-4.5 justify-start items-start sm:justify-between sm:items-center'>
+                    <div className='flex flex-col md:flex-row gap-x-6 gap-y-3'>
+                        <p className='font-semibold text-[18px] sm:text-[20px] md:text-[23px] lg:text-[25px] capitalize'> Featured Listing </p>
+                        {/* Filter Select */}
+                        {/* <div className='flex flex-row flex-wrap gap-2'>
+                            <p className='bg-[#BA181B] font-semibold text-[#FFFFFF] py-0.5 px-4 rounded-full text-[12px] md:text-[14px] flex justify-center items-center'> Mumbai </p>
+                        </div> */}
+                    </div>
 
                     <div className='flex flex-row gap-3 justify-center items-center'>
                         <p className='text-[#2C2C2C] text-base md:text-[18px] lg:text-[20px]'> Feature your space </p>
