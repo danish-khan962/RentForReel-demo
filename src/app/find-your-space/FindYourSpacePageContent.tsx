@@ -11,6 +11,7 @@ import { useQuery } from '@tanstack/react-query'
 import myQueries from '@/api/queries'
 import QuickForm from '@/components/sections/FindYourSpace/space/QuickForm'
 import SpaceCardSkeleton from '@/components/sections/FindYourSpace/SpaceCardSkeleton'
+import SortingFilter from '@/components/sections/FindYourSpace/SortingFilter'
 
 interface Space {
   id: string
@@ -47,7 +48,6 @@ const parsePrice = (priceStr: string | null) => {
 const FindYourSpacePageContent = () => {
   const searchParams = useSearchParams()
   const [filters, setFilters] = useState<Record<string, string | number | undefined> | null>(null)
-  // 1. Add state for the current page
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
@@ -59,12 +59,11 @@ const FindYourSpacePageContent = () => {
       state: searchParams.get('state') || undefined,
       popularity: searchParams.get('popularity') || undefined,
       ...priceFilter,
-      // 2. Add 'page' to the filters
-      page: currentPage, 
+      page: currentPage,
     }
 
     setFilters(newFilters)
-  }, [searchParams, currentPage]) // 3. Re-run effect when currentPage changes
+  }, [searchParams, currentPage])
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['spaces', filters],
@@ -75,13 +74,12 @@ const FindYourSpacePageContent = () => {
     enabled: !!filters,
   })
 
-  // 4. Extract listings and meta data from the response
   const listings: Space[] = data?.data?.listings || [];
   const meta = data?.data?.meta || {};
   const totalPages = meta.totalPages || 1;
   const page = meta.page || 1;
 
-  const keyword = searchParams.get('keyword')?.toLowerCase() || '';
+  const keyword = searchParams.get('q')?.toLowerCase() || '';
 
   const filteredListings = listings.filter((space: Space) => {
     if (!keyword) return true;
@@ -104,12 +102,39 @@ const FindYourSpacePageContent = () => {
     });
   });
 
+  //SORTING FILTER
+  const [isSortOpen, setIsSortOpen] = useState(false);
+
+  useEffect(() => {
+    const html = document.documentElement;
+    const body = document.body;
+
+    if (isSortOpen) {
+      html.style.overflow = 'hidden';
+      body.style.overflow = 'hidden';
+    } else {
+      html.style.overflow = '';
+      body.style.overflow = '';
+    }
+
+    return () => {
+      html.style.overflow = '';
+      body.style.overflow = '';
+    };
+  }, [isSortOpen]);
+
+
+
   const loading = isLoading || !filters;
 
-  // 5. Create a function to handle page changes
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
+
+  const displayTitle = searchParams.get('q')
+    ? `Search results for "${searchParams.get('q')}"`
+    : `${filters?.city || 'Explore All Spaces'}${filters?.state ? `, ${filters?.state}` : ''}`;
+
 
   return (
     <>
@@ -119,9 +144,12 @@ const FindYourSpacePageContent = () => {
         <div className='flex flex-col'>
           <div className='flex flex-row justify-between items-center'>
             <p className='font-semibold text-[25px]'>
-              {filters?.city || 'Explore All Spaces'}, {filters?.state || null}
+              {displayTitle}
             </p>
-            <div className='flex flex-row justify-center items-center gap-x-[15px] bg-[#D9D9D9] py-1.5 px-5 rounded-full cursor-pointer hover:bg-[#D9D9D9]'>
+            <div
+              onClick={() => setIsSortOpen(true)}
+              className='flex flex-row justify-center items-center gap-x-[15px] bg-[#D9D9D9] py-1.5 px-5 rounded-full cursor-pointer hover:bg-[#D9D9D9]'
+            >
               <p className='text-[14px] sm:text-base lg:text-[18px] font-normal'>Sort</p>
               <Image
                 src={'/FindYourSpace/filter.png'}
@@ -154,7 +182,6 @@ const FindYourSpacePageContent = () => {
           </div>
         </div>
 
-        {/* 6. Conditionally render the PaginationBar and pass props */}
         {totalPages > 1 && (
           <PaginationBar
             totalPages={totalPages}
@@ -201,6 +228,10 @@ const FindYourSpacePageContent = () => {
           </Link>
         </div>
       </div>
+
+      {isSortOpen && (
+        <SortingFilter onClose={() => setIsSortOpen(false)} />
+      )}
     </>
   )
 }

@@ -15,7 +15,6 @@ interface Space {
   state: string
   images: string[]
   priceHour: number
-  // You can extend this interface with other properties if needed
 }
 
 interface SpaceCardProps {
@@ -24,7 +23,6 @@ interface SpaceCardProps {
 
 const SpaceCard: React.FC<SpaceCardProps> = ({ space }) => {
   if (!space) {
-    // Render nothing or a fallback UI if space is not provided
     return null
   }
 

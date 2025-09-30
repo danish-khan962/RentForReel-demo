@@ -160,9 +160,9 @@ const QuickForm = () => {
                         <div className='w-full relative flex flex-col dropdown-input budget-dropdown-container'>
                             <input
                                 type="text"
-                                placeholder='Budget*'
+                                placeholder='Budget'
                                 value={budget}
-                                onClick={(e: React.MouseEvent) => { // Explicitly typed event
+                                onClick={(e: React.MouseEvent) => { 
                                     e.stopPropagation();
                                     setBudgetActive(!budgetActive); 
                                     setPurposeActive(false);
@@ -198,10 +198,9 @@ const QuickForm = () => {
                         <div className='w-full relative flex flex-col dropdown-input purpose-dropdown-container'>
                             <input
                                 type="text"
-                                placeholder='Purpose*'
+                                placeholder='Purpose'
                                 value={purpose}
-                                onClick={(e: React.MouseEvent) => { // Explicitly typed event
-                                    e.stopPropagation();
+                                onClick={(e: React.MouseEvent) => { 
                                     setPurposeActive(!purposeActive); 
                                     setBudgetActive(false);
                                 }}

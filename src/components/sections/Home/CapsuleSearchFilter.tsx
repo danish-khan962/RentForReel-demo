@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BsSearch } from "react-icons/bs";
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { FaChevronRight } from 'react-icons/fa6';
 
 const filterOptions = {
@@ -63,6 +63,36 @@ const CapsuleSearchFilter = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [selected, setSelected] = useState<{ [key: string]: string }>({});
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const newSelected: { [key: string]: string } = {};
+    filterData.forEach(item => {
+      const value = searchParams.get(item.key);
+      if (value) {
+        newSelected[item.key] = value;
+      }
+    });
+    const priceMin = searchParams.get("priceMinHour");
+    const priceMax = searchParams.get("priceMaxHour");
+    if (priceMin === "0" && priceMax === "500") {
+      newSelected["price"] = "₹0 - ₹500";
+    } else if (priceMin === "500" && priceMax === "1000") {
+      newSelected["price"] = "₹500 - ₹1000";
+    } else if (priceMin === "1000" && priceMax === "2000") {
+      newSelected["price"] = "₹1000 - ₹2000";
+    } else if (priceMin === "2000" && priceMax === "5000") {
+      newSelected["price"] = "₹2000 - ₹5000";
+    } else if (priceMin === "5000") {
+      newSelected["price"] = "₹5000+";
+    }
+    const keyword = searchParams.get('q');
+    if (keyword) {
+      newSelected["keyword"] = keyword;
+    }
+    setSelected(newSelected);
+  }, [searchParams]);
 
   const handleSelect = (key: string, value: string) => {
     setSelected(prev => ({ ...prev, [key]: value }));
@@ -75,7 +105,9 @@ const CapsuleSearchFilter = () => {
     if (selected.state) query.set("state", selected.state);
     if (selected.city) query.set("city", selected.city);
     if (selected.locality) query.set("locality", selected.locality);
-    if (selected.keyword) query.set("keyword", selected.keyword);
+    if (selected.keyword) {
+      query.set("q", selected.keyword);
+    }
 
     if (selected.price) {
       switch (selected.price) {
@@ -98,12 +130,15 @@ const CapsuleSearchFilter = () => {
         case "₹5000+":
           query.set("priceMinHour", "5000");
           break;
+        default:
+          break;
       }
     }
 
     router.push(`/find-your-space?${query.toString()}`);
   };
-  
+
+  // const isFindYourSpacePage = pathname === '/find-your-space';
 
   return (
     <div className="flex max-w-[1400px] w-full mx-auto relative px-2 sm:px-4 md:px-6 lg:px-8 justify-center items-center mt-4 sm:mt-6 lg:mt-[30px]">
@@ -131,8 +166,9 @@ const CapsuleSearchFilter = () => {
                     `}
                   >
                     <p className="text-xs sm:text-sm font-semibold text-start">{item.heading}</p>
-                    <p className={`text-xs sm:text-sm font-light text-start mt-0.5
-                      ${isSelected ? 'text-white/80' : 'text-[#00000054]'}`}>
+                    <p className={`text-xs sm:text-sm font-light text-start mt-0.5 truncate
+                        ${isSelected ? 'text-white' : 'text-[#00000054]'}
+                    `}>
                       {selectedValue || item.placeholder}
                     </p>
                   </div>
@@ -176,7 +212,6 @@ const CapsuleSearchFilter = () => {
             </button>
           </div>
 
-
           {/* Search Button (Mobile) */}
           <button
             type="button"
@@ -200,7 +235,7 @@ const CapsuleSearchFilter = () => {
                 <div key={idx} className="relative">
                   <div
                     onClick={() => setActiveIndex(prev => (prev === idx ? null : idx))}
-                    className={`flex flex-col py-3.5 pl-7 pr-12 rounded-full cursor-pointer transition-all duration-200
+                    className={`flex flex-col py-3.5 pl-7 pr-12 rounded-full cursor-pointer transition-all duration-200 min-w-[150px]
                       ${isSelected
                         ? 'bg-[#BA181B] text-white'
                         : isActive
@@ -211,7 +246,8 @@ const CapsuleSearchFilter = () => {
                   >
                     <p className="text-[11px] md:text-[13px] font-semibold text-start">{item.heading}</p>
                     <p className={`text-[11px] md:text-[13px] font-light text-start
-                      ${isSelected ? 'text-white/80' : 'text-[#00000054]'}`}>
+                      ${isSelected ? 'text-white' : 'text-[#00000054]'}`}
+                    >
                       {selectedValue || item.placeholder}
                     </p>
                   </div>
@@ -251,10 +287,11 @@ const CapsuleSearchFilter = () => {
                 className="absolute inset-y-0 right-2 flex items-center text-[#BA181B] hover:text-black"
                 onClick={handleSearch}
               >
-                <FaChevronRight />
+                <div className='bg-gray-100 p-2 rounded-md cursor-pointer'>
+                  <FaChevronRight />
+                </div>
               </button>
             </div>
-
 
             {/* Search Button (Desktop) */}
             <button

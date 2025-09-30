@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import QuickForm from '../sections/FindYourSpace/space/QuickForm'
+import { usePathname } from 'next/navigation'
 
 /*Image & icon imports*/
 import LOGO from "../../../public/rent_for_reel_icon.svg"
@@ -14,6 +15,8 @@ import { TfiClose } from "react-icons/tfi";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showAdvice, setShowAdvice] = useState(false);
+
+  const pathname = usePathname();
 
   const handleMenuToggle = () => setIsOpen(!isOpen);
   const handleAdviceToggle = () => setShowAdvice(!showAdvice);
@@ -72,15 +75,20 @@ const Navbar = () => {
 
       {/* Desktop Navigation */}
       <nav className='hidden md:flex flex-row justify-between items-center max-w-[1250px] w-full inset-shadow-sm shadow-md shadow-gray-400 rounded-full px-2 sm:px-2.5 py-[0.25rem]'>
-        {routes.map(({ label, href }, index) => (
-          <Link href={href} key={index}>
-            <button
-              className='py-5 px-6 sm:px-8 lg:px-12 rounded-full cursor-pointer text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px] hover:shadow-[1px_1px_16px_gray] font-medium text-[#2C2C2C]'
-            >
-              {label}
-            </button>
-          </Link>
-        ))}
+        {routes.map(({ label, href }, index) => {
+          const isActive = pathname === href;
+          return (
+            <Link href={href} key={index}>
+              <button
+                className={`py-5 px-6 sm:px-8 lg:px-12 rounded-full cursor-pointer text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px] font-medium text-[#2C2C2C] ${
+                  isActive ? 'shadow-[1px_1px_16px_gray]' : 'hover:shadow-[1px_1px_16px_gray]'
+                }`}
+              >
+                {label}
+              </button>
+            </Link>
+          );
+        })}
       </nav>
 
       {/*  Mobile Slider Menu */}
@@ -92,13 +100,20 @@ const Navbar = () => {
 
         {/* Navigation Links */}
         <div className="flex flex-col items-center justify-center gap-6 h-full">
-          {routes.map(({ label, href }) => (
-            <Link href={href} key={label} onClick={handleMenuToggle}>
-              <span className='py-3 px-8 sm:px-8 lg:px-12 rounded-full cursor-pointer text-[17px] hover:shadow-[1px_1px_16px_gray] font-medium text-[#2C2C2C]'>
-                {label}
-              </span>
-            </Link>
-          ))}
+          {routes.map(({ label, href }) => {
+            const isActive = pathname === href;
+            return (
+              <Link href={href} key={label} onClick={handleMenuToggle}>
+                <span
+                  className={`py-3 px-8 sm:px-8 lg:px-12 rounded-full cursor-pointer text-[17px] font-medium text-[#2C2C2C] ${
+                    isActive ? 'shadow-[1px_1px_16px_gray]' : 'hover:shadow-[1px_1px_16px_gray]'
+                  }`}
+                >
+                  {label}
+                </span>
+              </Link>
+            );
+          })}
 
           <hr className="w-full border-gray-300 my-4" />
 
@@ -116,26 +131,24 @@ const Navbar = () => {
 
       {/* Fullscreen Advice Overlay */}
       {showAdvice && (
-  <div className="fixed inset-0 z-[100] bg-white overflow-y-auto">
-    {/* Close Button */}
-    <button
-      onClick={handleAdviceToggle}
-      className="fixed top-6 right-6 z-[101] text-[#2C2C2C] hover:text-gray-600"
-      aria-label="Close Advice Overlay"
-    >
-      <TfiClose className="w-6 h-6 cursor-pointer" />
-    </button>
+        <div className="fixed inset-0 z-[100] bg-white overflow-y-auto">
+          {/* Close Button */}
+          <button
+            onClick={handleAdviceToggle}
+            className="fixed top-6 right-6 z-[101] text-[#2C2C2C] hover:text-gray-600"
+            aria-label="Close Advice Overlay"
+          >
+            <TfiClose className="w-6 h-6 cursor-pointer" />
+          </button>
 
-    {/* Form Container */}
-    <div className="flex flex-col items-center px-4 sm:px-6 md:px-8 pt-20 pb-10 lg:h-screen lg:justify-center">
-      <div className="w-full">
-        <QuickForm />
-      </div>
-    </div>
-  </div>
-)}
-
-
+          {/* Form Container */}
+          <div className="flex flex-col items-center px-4 sm:px-6 md:px-8 pt-20 pb-10 lg:h-screen lg:justify-center">
+            <div className="w-full">
+              <QuickForm />
+            </div>
+          </div>
+        </div>
+      )}
     </nav>
   )
 }
