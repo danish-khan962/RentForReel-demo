@@ -6,6 +6,11 @@ import 'swiper/css';
 import 'swiper/css/autoplay';
 import myQueries from '@/api/queries';
 
+type Video = {
+  url: string;
+};
+
+
 // Map screen width to number of grid columns
 const getGridColumns = (width: number): number => {
     if (width >= 1280) return 5; // xl
@@ -17,7 +22,7 @@ const getGridColumns = (width: number): number => {
 
 const CreatorsSpotlightWall = () => {
     const [windowWidth, setWindowWidth] = useState<number>(typeof window !== "undefined" ? window.innerWidth : 1440);
-    const [videos, setVideos] = useState<any[]>([]); // New state to hold videos from the API
+    const [videos, setVideos] = useState<Video[]>([]); // New state to hold videos from the API
 
     useEffect(() => {
         // Function to fetch videos
