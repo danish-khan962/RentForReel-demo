@@ -80,7 +80,7 @@ const Navbar = () => {
           return (
             <Link href={href} key={index}>
               <button
-                className={`py-5 px-6 sm:px-8 lg:px-12 rounded-full cursor-pointer text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px] font-medium text-[#2C2C2C] ${
+                className={`py-3.5 px-6 sm:px-8 lg:px-12 rounded-full cursor-pointer text-[14px] sm:text-[15px] md:text-[16px] lg:text-[17px] font-medium text-[#2C2C2C] ${
                   isActive ? 'shadow-[1px_1px_16px_gray]' : 'hover:shadow-[1px_1px_16px_gray]'
                 }`}
               >

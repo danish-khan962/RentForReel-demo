@@ -44,6 +44,12 @@ const myQueries = {
         const response = await axiosInstance.post('/enquiry/platform/enquiry', payload);
         return response.data;
     },
+
+    // Getting videos for creator's spotlight wall
+    getVideos: async () => {
+        const response = await axiosInstance.get('/admin/videos');
+        return response.data;
+    },
 };
 
 export default myQueries;
