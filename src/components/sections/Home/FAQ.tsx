@@ -40,7 +40,12 @@ const accordionData = [
 ];
 
 
-const FAQ = () => {
+interface FAQProps {
+  title?: string;
+}
+
+
+const FAQ: React.FC<FAQProps> = ({ title = "Your Question, Answered" }) => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   const handleAccordionState = (index: number) => {
@@ -48,10 +53,10 @@ const FAQ = () => {
   };
 
   return (
-    <section className='max-w-[1440px] w-full mx-auto px-4 sm:px-6 md:px-8 mt-[140px] sm:mt-[160px] md:mt-[180px] lg:mt-[200px] flex flex-col md:flex-row justify-center items-start md:justify-between gap-x-[60px]'>
+    <section className='max-w-[1440px] w-full mx-auto px-4 sm:px-6 md:px-8 mt-[80px] sm:mt-[95px] md:mt-[110px] lg:mt-[125px] flex flex-col md:flex-row justify-center items-start md:justify-between gap-x-[60px]'>
 
       <p className='text-[22px] sm:text-[30px] md:text-[38px] lg:text-[45px] text-center md:text-start font-semibold leading-[62px] mb-10 md:mb-0'>
-        Your Question, Answered
+        {title}
       </p>
 
       {/* Accordions */}
@@ -69,7 +74,7 @@ const FAQ = () => {
                 className='w-full flex flex-row justify-between gap-x-2 items-center cursor-pointer'
                 onClick={() => handleAccordionState(idx)}
               >
-                <p className='text-base sm:text-[17px] md:text-[18px] lg:text-[20px] text-[#2C2C2C] font-semibold'>
+                <p className='text-base sm:text-[17px] md:text-[18px] text-[#2C2C2C] font-semibold'>
                   {item.question}
                 </p>
                 {isOpen ? (
@@ -83,7 +88,7 @@ const FAQ = () => {
               <div
                 className={`overflow-hidden transition-all duration-500 ease-in-out ${isOpen ? 'max-h-[700px] mt-8 pb-3' : 'max-h-0'}`}
               >
-                <p className='text-[14px] sm:text-base md:text-[18px] text-[#2C2C2C]'>
+                <p className='text-[14px] sm:text-base  text-[#2C2C2C]'>
                   {item.answer}
                 </p>
               </div>
