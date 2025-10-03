@@ -8,19 +8,17 @@ export interface GetSpacesFilters {
   city?: string
   state?: string
   popularity?: string
-  fetchAll?: boolean // flag for client side search
-  [key: string]: any
+  fetchAll?: boolean // flag for client-side search
 }
 
 const myQueries = {
   // Get spaces with filters
   getSpaces: async (filters: GetSpacesFilters) => {
-    // Determine limit
-    const limit = filters.fetchAll ? 9999 : filters.limit || 16
+    const { fetchAll, ...apiFilters } = filters
 
-    // Copy filters and remove fetchAll before sending to API
-    const queryFilters = { ...filters, limit }
-    delete queryFilters.fetchAll
+    // Determine limit
+    const limit = fetchAll ? 9999 : filters.limit || 16
+    const queryFilters: Record<string, string | number> = { ...apiFilters, limit }
 
     const response = await axiosInstance.get("/listing/all", {
       params: queryFilters,
