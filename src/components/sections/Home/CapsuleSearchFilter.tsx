@@ -142,10 +142,10 @@ const CapsuleSearchFilter = () => {
 
   return (
     <div className="flex max-w-[1400px] w-full mx-auto relative px-2 sm:px-4 md:px-6 lg:px-8 justify-center items-center mt-4 sm:mt-6 lg:mt-[30px]">
-      <div className="max-w-[1180px] w-full bg-white rounded-2xl sm:rounded-3xl lg:rounded-full border-t border-gray-300 shadow-md">
+      <div className="max-w-[1180px] w-full bg-white rounded-2xl sm:rounded-3xl xl:rounded-full border-t border-gray-300 shadow-md">
 
         {/* Mobile Layout */}
-        <div className="flex lg:hidden flex-col p-3 sm:p-4 gap-3">
+        <div className="flex xl:hidden flex-col p-3 sm:p-4 gap-3">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
             {filterData.map((item, idx) => {
               const isActive = activeIndex === idx;
@@ -157,21 +157,22 @@ const CapsuleSearchFilter = () => {
                   <div
                     onClick={() => setActiveIndex(prev => (prev === idx ? null : idx))}
                     className={`flex flex-col py-2.5 sm:py-3 px-8 sm:px-10 rounded-full cursor-pointer transition-all duration-200
-                      ${isSelected
+                    ${isSelected
                         ? 'bg-[#BA181B] text-white'
                         : isActive
-                          ? 'bg-transparent shadow-md text-black border border-gray-200'
-                          : 'bg-[#D9D9D9]/60 text-black hover:bg-transparent hover:shadow-md hover:border hover:border-gray-200'
+                          ? 'bg-transparent shadow-[1px_1px_10px_gray] text-black'
+                          : 'bg-[#D9D9D9]/60 text-black shadow-inner-top hover:bg-transparent hover:shadow-[1px_1px_10px_gray]'
                       }
                     `}
                   >
-                    <p className="text-xs sm:text-sm font-semibold text-start">{item.heading}</p>
-                    <p className={`text-xs sm:text-sm font-light text-start mt-0.5 truncate
-                        ${isSelected ? 'text-white' : 'text-[#00000054]'}
-                    `}>
+                    <p className="text-xs font-semibold text-start">{item.heading}</p>
+                    <p className={`text-xs font-light text-start mt-0.5 truncate
+                  ${isSelected ? 'text-white' : 'text-[#00000054]'}
+                  `}>
                       {selectedValue || item.placeholder}
                     </p>
                   </div>
+
 
                   {isActive && (
                     <div className="absolute top-full left-0 mt-2 w-full sm:w-[280px] z-50 bg-white border border-gray-300 rounded-xl shadow-lg py-2 px-3 max-h-[250px] sm:max-h-[300px] overflow-y-auto">
@@ -224,7 +225,7 @@ const CapsuleSearchFilter = () => {
         </div>
 
         {/* Desktop Layout */}
-        <div className="hidden lg:flex justify-between items-center py-2.5 px-4 gap-x-5">
+        <div className="hidden xl:flex justify-between items-center py-2.5 px-4 gap-x-5">
           <div className="flex flex-row gap-2 flex-wrap">
             {filterData.map((item, idx) => {
               const isActive = activeIndex === idx;

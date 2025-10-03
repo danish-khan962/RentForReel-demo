@@ -26,7 +26,7 @@ const FeaturedListing = () => {
     const rupeeSymbol = "₹";
 
     return (
-        <section className='max-w-[1440px] w-full mx-auto relative px-4 sm:px-6 md:px-8 flex justify-center items-center mt-[70px] sm:mt-[75px] md:mt-[80px] lg:mt-[100px]'>
+        <section className='max-w-[1440px] w-full mx-auto relative px-4 sm:px-6 md:px-8 flex justify-center items-center mt-[70px] sm:mt-[75px] md:mt-[80px] lg:mt-[85px]'>
             <div className='max-w-[1500px] w-full rounded-xl bg-[#EEEEEE] flex flex-col gap-y-[40px] sm:gap-y-[44px] md:gap-y-[48px] lg:gap-y-[52px] p-4 sm:p-10 md:p-12 lg:p-14'>
 
                 {/* Heading and CTA button */}
@@ -41,8 +41,8 @@ const FeaturedListing = () => {
 
                     <div className='flex flex-row gap-3 justify-center items-center'>
                         <p className='text-[#2C2C2C] text-base md:text-[18px] lg:text-[20px]'> Feature your space </p>
-                        <button className='p-2 sm:p-3 rounded-full bg-[#BA181B] cursor-pointer  transition-colors hover:rotate-[-15deg] ease-in-out duration-200 active:bg-[#2C2C2C]'>
-                            <span className='text-[24px] sm:text-[26px] md:text-[28px] lg:text-[30px] text-white'>
+                        <button className='p-1.5 sm:p-2 rounded-full bg-[#BA181B] cursor-pointer  transition-colors hover:rotate-[-15deg] ease-in-out duration-200 active:bg-[#2C2C2C]'>
+                            <span className='text-[18px] sm:text-[20px] md:text-[22px] lg:text-[24px] text-white'>
                                 <Link href={"/"}>
                                     <HiMiniArrowLongRight />
                                 </Link>
@@ -58,7 +58,7 @@ const FeaturedListing = () => {
                         featuredListingCardsData.map((data, idx) => (
                             <Link href="/" key={idx} passHref>
                                 <span className='max-w-[350px] w-full flex flex-col justify-start items-start text-start hover:rounded-t-4xl group hover:rounded-b-lg'>
-                                    <div className='w-full h-[160px] sm:h-[180px] md:h-[200px] lg:h-[220px] bg-[#2C2C2C] rounded-4xl'></div>
+                                    <div className='w-full h-[140px] sm:h-[160px] md:h-[170px] lg:h-[190px] bg-[#2C2C2C] rounded-4xl'></div>
                                     <h4 className='font-normal text-[15px] mt-[13.5px]'>
                                         {rupeeSymbol}{data.pricePerHour} / hour
                                     </h4>
