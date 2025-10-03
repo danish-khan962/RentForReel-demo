@@ -47,8 +47,11 @@ const parsePrice = (priceStr: string | null) => {
 
 const FindYourSpacePageContent = () => {
   const searchParams = useSearchParams()
+  const keyword = searchParams.get('q')?.toLowerCase() || ''
   const [filters, setFilters] = useState<Record<string, string | number | undefined> | null>(null)
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1)
+
+  const itemsPerPage = 16 // number of cards per page
 
   useEffect(() => {
     const rawPrice = searchParams.get('price')
@@ -59,14 +62,16 @@ const FindYourSpacePageContent = () => {
       state: searchParams.get('state') || undefined,
       popularity: searchParams.get('popularity') || undefined,
       ...priceFilter,
-      page: currentPage,
+      // ⚡ don't send page when searching; handle client-side pagination
+      page: keyword ? undefined : currentPage,
+      limit: keyword ? 9999 : 16, // fetch all if searching
     }
 
     setFilters(newFilters)
-  }, [searchParams, currentPage])
+  }, [searchParams, currentPage, keyword])
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ['spaces', filters],
+    queryKey: ['spaces', filters, keyword],
     queryFn: () => {
       if (!filters) return Promise.resolve({ data: { listings: [] } })
       return myQueries.getSpaces(filters)
@@ -74,15 +79,13 @@ const FindYourSpacePageContent = () => {
     enabled: !!filters,
   })
 
-  const listings: Space[] = data?.data?.listings || [];
-  const meta = data?.data?.meta || {};
-  const totalPages = meta.totalPages || 1;
-  const page = meta.page || 1;
+  const listings: Space[] = data?.data?.listings || []
+  const meta = data?.data?.meta || {}
+  const totalPagesAPI = meta.totalPages || 1
 
-  const keyword = searchParams.get('q')?.toLowerCase() || '';
-
+  // client-side filtering
   const filteredListings = listings.filter((space: Space) => {
-    if (!keyword) return true;
+    if (!keyword) return true
 
     const searchableFields = [
       space.nameOfSpace,
@@ -92,49 +95,55 @@ const FindYourSpacePageContent = () => {
       space.aboutSpace,
       ...(space.highlights || []),
       ...(space.selectedAmenities || []),
-    ];
+    ]
 
     return searchableFields.some(field => {
       if (typeof field === 'string') {
-        return field.toLowerCase().includes(keyword);
+        return field.toLowerCase().includes(keyword)
       }
-      return false;
-    });
-  });
+      return false
+    })
+  })
+
+  // client-side pagination when searching
+  const totalPages = keyword
+    ? Math.ceil(filteredListings.length / itemsPerPage)
+    : totalPagesAPI
+
+  const currentListings = keyword
+    ? filteredListings.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+    : filteredListings
 
   //SORTING FILTER
-  const [isSortOpen, setIsSortOpen] = useState(false);
+  const [isSortOpen, setIsSortOpen] = useState(false)
 
   useEffect(() => {
-    const html = document.documentElement;
-    const body = document.body;
+    const html = document.documentElement
+    const body = document.body
 
     if (isSortOpen) {
-      html.style.overflow = 'hidden';
-      body.style.overflow = 'hidden';
+      html.style.overflow = 'hidden'
+      body.style.overflow = 'hidden'
     } else {
-      html.style.overflow = '';
-      body.style.overflow = '';
+      html.style.overflow = ''
+      body.style.overflow = ''
     }
 
     return () => {
-      html.style.overflow = '';
-      body.style.overflow = '';
-    };
-  }, [isSortOpen]);
+      html.style.overflow = ''
+      body.style.overflow = ''
+    }
+  }, [isSortOpen])
 
-
-
-  const loading = isLoading || !filters;
+  const loading = isLoading || !filters
 
   const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
-  };
+    setCurrentPage(pageNumber)
+  }
 
   const displayTitle = searchParams.get('q')
     ? `Search results for "${searchParams.get('q')}"`
-    : `${filters?.city || 'Explore All Spaces'}${filters?.state ? `, ${filters?.state}` : ''}`;
-
+    : `${filters?.city || 'Explore All Spaces'}${filters?.state ? `, ${filters?.state}` : ''}`
 
   return (
     <>
@@ -143,9 +152,7 @@ const FindYourSpacePageContent = () => {
       <div className='max-w-[1440px] w-full mx-auto px-4 sm:px-6 md:px-8 mt-[60px] mb-[120px]'>
         <div className='flex flex-col'>
           <div className='flex flex-row justify-between items-center'>
-            <p className='font-semibold text-[25px]'>
-              {displayTitle}
-            </p>
+            <p className='font-semibold text-[25px]'>{displayTitle}</p>
             <div
               onClick={() => setIsSortOpen(true)}
               className='flex flex-row justify-center items-center gap-x-[15px] bg-[#D9D9D9] py-1.5 px-5 rounded-full cursor-pointer hover:bg-[#D9D9D9]'
@@ -170,14 +177,12 @@ const FindYourSpacePageContent = () => {
               </>
             ) : isError ? (
               <p>Failed to load spaces.</p>
-            ) : filteredListings.length === 0 ? (
+            ) : currentListings.length === 0 ? (
               <p className='col-span-full text-center text-gray-500'>
                 No spaces found for selected filters.
               </p>
             ) : (
-              filteredListings.map((space: Space) => (
-                <SpaceCard key={space.id} space={space} />
-              ))
+              currentListings.map((space: Space) => <SpaceCard key={space.id} space={space} />)
             )}
           </div>
         </div>
@@ -185,7 +190,7 @@ const FindYourSpacePageContent = () => {
         {totalPages > 1 && (
           <PaginationBar
             totalPages={totalPages}
-            currentPage={page}
+            currentPage={currentPage}
             onPageChange={handlePageChange}
           />
         )}
@@ -197,26 +202,18 @@ const FindYourSpacePageContent = () => {
         <div className='w-full flex flex-col mt-[112px]'>
           <p className='font-semibold text-[25px]'>Most popular spaces in Nagpur</p>
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-[42px] gap-5'>
-            {loading ? (
-              [...Array(4)].map((_, idx) => <SpaceCardSkeleton key={`nagpur-skeleton-${idx}`} />)
-            ) : (
-              listings.slice(0, 4).map((space: Space) => (
-                <SpaceCard key={space.id} space={space} />
-              ))
-            )}
+            {loading
+              ? [...Array(4)].map((_, idx) => <SpaceCardSkeleton key={`nagpur-skeleton-${idx}`} />)
+              : listings.slice(0, 4).map((space: Space) => <SpaceCard key={space.id} space={space} />)}
           </div>
         </div>
 
         <div className='w-full flex flex-col mt-[76px]'>
           <p className='font-semibold text-[25px]'>Exclusive spaces in Mumbai</p>
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-[42px] gap-5'>
-            {loading ? (
-              [...Array(4)].map((_, idx) => <SpaceCardSkeleton key={`nagpur-skeleton-${idx}`} />)
-            ) : (
-              listings.slice(4, 8).map((space: Space) => (
-                <SpaceCard key={space.id} space={space} />
-              ))
-            )}
+            {loading
+              ? [...Array(4)].map((_, idx) => <SpaceCardSkeleton key={`nagpur-skeleton-${idx}`} />)
+              : listings.slice(4, 8).map((space: Space) => <SpaceCard key={space.id} space={space} />)}
           </div>
         </div>
 
@@ -229,9 +226,7 @@ const FindYourSpacePageContent = () => {
         </div>
       </div>
 
-      {isSortOpen && (
-        <SortingFilter onClose={() => setIsSortOpen(false)} />
-      )}
+      {isSortOpen && <SortingFilter onClose={() => setIsSortOpen(false)} />}
     </>
   )
 }

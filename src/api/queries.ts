@@ -1,55 +1,68 @@
 import axiosInstance from "./axiosInstance";
 
+// Define a type for the filters object
+export interface GetSpacesFilters {
+  limit?: number
+  page?: number
+  q?: string
+  city?: string
+  state?: string
+  popularity?: string
+  fetchAll?: boolean // flag for client side search
+  [key: string]: any
+}
+
 const myQueries = {
-    // Get spaces with filters
-    getSpaces: async (filters: {
-        city?: string;
-        state?: string;
-        popularity?: string;
-        priceMinHour?: number;
-        priceMaxHour?: number;
-    }) => {
-        const response = await axiosInstance.get(`/listing/all?limit=16`, {
-            params: filters,
-        });
-        return response.data;
-    },
+  // Get spaces with filters
+  getSpaces: async (filters: GetSpacesFilters) => {
+    // Determine limit
+    const limit = filters.fetchAll ? 9999 : filters.limit || 16
 
-    // Get a single space by ID
-    getSpaceById: async (id: string) => {
-        const response = await axiosInstance.get(`/listing/${id}`);
-        return response.data;
-    },
+    // Copy filters and remove fetchAll before sending to API
+    const queryFilters = { ...filters, limit }
+    delete queryFilters.fetchAll
 
-    // Send a space-specific enquiry form data
-    sendEnquiry: async (payload: {
-        name: string;
-        email: string;
-        phone: string;
-        spaceId: string;
-        authId: string;
-    }) => {
-        const response = await axiosInstance.post(`/enquiry/${payload.spaceId}`, payload);
-        return response.data;
-    },
+    const response = await axiosInstance.get("/listing/all", {
+      params: queryFilters,
+    })
+    return response.data
+  },
 
-    //  Add the new function to send platform enquiries
-    sendPlatformEnquiry: async (payload: {
-        name: string;
-        email: string;
-        phone: string;
-        budget: string;
-        purpose: string;
-    }) => {
-        const response = await axiosInstance.post('/enquiry/platform/enquiry', payload);
-        return response.data;
-    },
+  // Get a single space by ID
+  getSpaceById: async (id: string) => {
+    const response = await axiosInstance.get(`/listing/${id}`)
+    return response.data
+  },
 
-    // Getting videos for creator's spotlight wall
-    getVideos: async () => {
-        const response = await axiosInstance.get('/admin/videos');
-        return response.data;
-    },
-};
+  // Send a space-specific enquiry form data
+  sendEnquiry: async (payload: {
+    name: string
+    email: string
+    phone: string
+    spaceId: string
+    authId: string
+  }) => {
+    const response = await axiosInstance.post(`/enquiry/${payload.spaceId}`, payload)
+    return response.data
+  },
 
-export default myQueries;
+  // Send platform enquiries
+  sendPlatformEnquiry: async (payload: {
+    name: string
+    email: string
+    phone: string
+    budget: string
+    purpose: string
+  }) => {
+    const response = await axiosInstance.post("/enquiry/platform/enquiry", payload)
+    return response.data
+  },
+
+  // Get videos for creator's spotlight wall
+  getVideos: async () => {
+    const response = await axiosInstance.get("/admin/videos")
+    return response.data
+  },
+}
+
+export default myQueries

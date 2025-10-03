@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import Image from 'next/image' 
 import myQueries from '@/api/queries' 
 import toast from 'react-hot-toast' 
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa' // <-- NEW
 
 const imageIcons = [
     "/FindYourSpace/space/tea.png",
@@ -35,7 +36,6 @@ const QuickForm = () => {
     const [budgetActive, setBudgetActive] = useState(false)
     const [purposeActive, setPurposeActive] = useState(false)
     
-
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             const target = event.target as HTMLElement;
@@ -55,7 +55,6 @@ const QuickForm = () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [budgetActive, purposeActive]);
-
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -96,7 +95,7 @@ const QuickForm = () => {
             const response = await myQueries.sendPlatformEnquiry(payload);
             
             console.log("Enquiry submitted successfully. Response Data:", response.data);
-            toast.success("Success! We'll get back to you within 12 hours."); // Switched to toast.success
+            toast.success("Success! We'll get back to you within 12 hours.");
 
             setName('');
             setEmail('');
@@ -106,14 +105,12 @@ const QuickForm = () => {
 
         } catch (error) {
             console.error("Failed to submit form:", error);
-            toast.error("Failed to submit enquiry. Please check your connection."); // Switched to toast.error
+            toast.error("Failed to submit enquiry. Please check your connection.");
         }
     };
 
     return (
         <div className='max-w-[1500px] w-full mx-auto bg-[#FFFFFF] rounded-2xl border border-[#2C2C2C] flex flex-col xl:flex-row justify-between gap-x-[20px] gap-y-[60px] items-center lg:items-start px-4 sm:px-6 py-2.5'>
-
-            {/* Left Content Block */}
             <div className='flex flex-col max-w-[1000px] xl:max-w-[622px] w-full items-center lg:items-start text-center lg:text-left'>
                 <p className='font-extrabold text-[#BA181B] text-[38px] sm:text-[45px] md:text-[55px] lg:text-[70px] leading-[45px] sm:leading-[52px] md:leading-[61px] lg:leading-[75px] mt-[15px] sm:mt-[20px] md:mt-[25px]'>
                     Your Space. <br />
@@ -139,7 +136,6 @@ const QuickForm = () => {
                 </div>
             </div>
 
-            {/* Right Form Block */}
             <form
                 className='w-full lg:flex-1 shadow-[1px_1px_16px_gray] rounded-3xl flex flex-col justify-center items-center 
                             px-4 sm:px-5 md:px-6 lg:px-7 pt-5 sm:pt-6 md:pt-7 lg:pt-8 pb-7 sm:pb-8 md:pb-9 lg:pb-10 
@@ -158,18 +154,23 @@ const QuickForm = () => {
 
                         {/* Budget Dropdown */}
                         <div className='w-full relative flex flex-col dropdown-input budget-dropdown-container'>
-                            <input
-                                type="text"
-                                placeholder='Budget'
-                                value={budget}
-                                onClick={(e: React.MouseEvent) => { 
-                                    e.stopPropagation();
-                                    setBudgetActive(!budgetActive); 
-                                    setPurposeActive(false);
-                                }}
-                                readOnly
-                                className='w-full bg-[#D9D9D957] placeholder:text-[14px] md:placeholder:text-base placeholder:text-[#00000033] rounded-md py-3 px-4 outline-none cursor-pointer budget-input'
-                            />
+                            <div className="relative">
+                                <input
+                                    type="text"
+                                    placeholder='Budget'
+                                    value={budget}
+                                    onClick={(e: React.MouseEvent) => { 
+                                        e.stopPropagation();
+                                        setBudgetActive(!budgetActive); 
+                                        setPurposeActive(false);
+                                    }}
+                                    readOnly
+                                    className='w-full bg-[#D9D9D957] placeholder:text-[14px] md:placeholder:text-base placeholder:text-[#00000033] rounded-md py-3 px-4 pr-10 outline-none cursor-pointer budget-input'
+                                />
+                                <span className="absolute top-1/2 right-4 transform -translate-y-1/2 text-[#00000080] pointer-events-none">
+                                    {budgetActive ? <FaChevronUp className='text-[#BA181B]' /> : <FaChevronDown className='text-[#BA181B]' />}
+                                </span>
+                            </div>
                             {
                                 budgetActive && (
                                     <div className='absolute top-full left-0 mt-[12px] sm:mt-[18px] w-full min-w-[200px] z-50 bg-white border border-gray-300 rounded-xl shadow-md py-2 px-[10px] max-h-[250px] overflow-y-auto flex flex-col justify-start items-start'>
@@ -196,17 +197,22 @@ const QuickForm = () => {
 
                         {/* Purpose Dropdown */}
                         <div className='w-full relative flex flex-col dropdown-input purpose-dropdown-container'>
-                            <input
-                                type="text"
-                                placeholder='Purpose'
-                                value={purpose}
-                                onClick={(e: React.MouseEvent) => { 
-                                    setPurposeActive(!purposeActive); 
-                                    setBudgetActive(false);
-                                }}
-                                readOnly
-                                className='w-full bg-[#D9D9D957] placeholder:text-[14px] md:placeholder:text-base placeholder:text-[#00000033] rounded-md py-3 px-4 outline-none cursor-pointer purpose-input'
-                            />
+                            <div className="relative">
+                                <input
+                                    type="text"
+                                    placeholder='Purpose'
+                                    value={purpose}
+                                    onClick={(e: React.MouseEvent) => { 
+                                        setPurposeActive(!purposeActive); 
+                                        setBudgetActive(false);
+                                    }}
+                                    readOnly
+                                    className='w-full bg-[#D9D9D957] placeholder:text-[14px] md:placeholder:text-base placeholder:text-[#00000033] rounded-md py-3 px-4 pr-10 outline-none cursor-pointer purpose-input'
+                                />
+                                <span className="absolute top-1/2 right-4 transform -translate-y-1/2 text-[#00000080] pointer-events-none">
+                                    {purposeActive ? <FaChevronUp className='text-[#BA181B]' /> : <FaChevronDown className='text-[#BA181B]' />}
+                                </span>
+                            </div>
                             {
                                 purposeActive && (
                                     <div className='absolute top-full left-0 mt-[12px] sm:mt-[18px] w-full min-w-[200px] z-50 bg-white border border-gray-300 rounded-xl shadow-md py-2 px-[10px] max-h-[250px] overflow-y-auto flex flex-col justify-start items-start'>
@@ -240,7 +246,6 @@ const QuickForm = () => {
 
                 <p className='text-[#2C2C2C] font-medium mt-[22px] sm:mt-[30px] text-[14px] sm:text-base text-center'> We&apos;ll get within 12 hrs </p>
             </form>
-            
         </div>
     )
 }

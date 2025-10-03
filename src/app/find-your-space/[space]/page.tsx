@@ -365,18 +365,18 @@ const Page = () => {
                     {/* Amenities */}
                     <div className='w-full flex flex-col mt-[70px] sm:mt-[75px] md:mt-[85px] lg:mt-[100px]'>
                         <h2 className='text-[24px] sm:text-[26px] md:text-[28px] lg:text-[30px] text-[#2C2C2C] font-semibold'> Amenities </h2>
-                        <div className='w-full flex flex-row flex-wrap gap-[15px] md:gap-[20px] mt-[34px]'>
+                        <div className='w-full flex flex-row flex-wrap gap-[15px] md:gap-[16px] mt-[34px]'>
                             {
                                 spaceData.selectedAmenities.map((amenity: string, idx: number) => (
-                                    <span className='flex flex-row items-center gap-[10px] bg-[#D9D9D969] py-1.25 px-4 sm:py-1.5 sm:px-6 md:py-2 md:px-8 lg:py-2.5 lg:px-10 rounded-full' key={idx}>
+                                    <span className='flex flex-row items-center gap-[10px] bg-[#D9D9D969]/90 py-1.25 px-4 sm:py-1.5 sm:px-6 md:py-2 md:px-8 lg:px-10 rounded-full' key={idx}>
                                         <Image
                                             src={"/FindYourSpace/space/wifi.png"}
                                             alt='wifi'
                                             height={1000}
                                             width={1000}
-                                            className='w-[22px] h-[22px] sm:w-[25px] sm:h-[25px] md:w-[27px] md:h-[27px] lg:w-[28px] lg:h-[28px]'
+                                            className='w-[22px] h-[22px]'
                                         />
-                                        <p className='font-normal text-[#000000] text-[15px] sm:text-base md:text-[18px] lg:text-[20px]'> {amenity} </p>
+                                        <p className='font-normal text-[#000000] text-[15px] sm:text-base md:text-[18px]'> {amenity} </p>
                                     </span>
                                 ))
                             }
@@ -392,7 +392,7 @@ const Page = () => {
                         <div className='w-full flex flex-row flex-wrap justify-between items-center gap-x-[60px] gap-y-[15px]'>
                             <h2 className='text-[#2C2C2C] font-semibold text-[26px] sm:text-[28px] md:text-[30px] lg:text-[32px]'> {rupee}{activeTab === "Hours" ? spaceData.priceHour : spaceData.priceDay} </h2>
 
-                            <div className="p-1.5 rounded-full bg-[#D9D9D9] flex flex-row justify-center items-center gap-[10px] max-w-[283px] w-full">
+                            <div className="p-1.5 rounded-full bg-[#D9D9D9] flex flex-row justify-between items-center gap-[10px] max-w-[283px] w-full">
                                 {["Hours", "Days"].map((tab) => (
                                     <p
                                         key={tab}
