@@ -15,6 +15,7 @@ export async function GET(
         { status: res.status }
       );
     }
+
     const data = await res.json();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const localities = data[0]?.PostOffice?.map((po: any) => po.Name) || [];
