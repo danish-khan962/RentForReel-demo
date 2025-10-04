@@ -1,7 +1,18 @@
 // src/app/api/pincode/[pincode]/route.ts
 import { NextResponse } from "next/server";
 
-export async function GET(request: Request, { params }: { params: { pincode: string } }) {
+interface PostOffice {
+  Name: string;
+}
+
+interface PincodeApiResponse {
+  PostOffice?: PostOffice[];
+}
+
+export async function GET(
+  request: Request,
+  { params }: { params: { pincode: string } }
+) {
   const { pincode } = params;
 
   try {
@@ -10,10 +21,10 @@ export async function GET(request: Request, { params }: { params: { pincode: str
       return NextResponse.json({ error: "Failed to fetch pincode data" }, { status: res.status });
     }
 
-    const data = await res.json();
+    const data: PincodeApiResponse[] = await res.json();
 
     // Extract localities (PostOffice names)
-    const localities = data[0]?.PostOffice?.map((po: any) => po.Name) || [];
+    const localities = data[0]?.PostOffice?.map((po) => po.Name) || [];
 
     return NextResponse.json(localities);
   } catch (error) {
