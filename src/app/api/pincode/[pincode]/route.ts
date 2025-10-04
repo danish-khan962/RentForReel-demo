@@ -13,7 +13,7 @@ interface PincodeDataEntry {
 
 type PincodeApiResponse = PincodeDataEntry[];
 
-interface RouteContext extends Object {
+interface RouteContext extends object {
   params: {
     pincode: string;
   };
