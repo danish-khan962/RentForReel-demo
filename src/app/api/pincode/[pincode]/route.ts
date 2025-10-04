@@ -13,17 +13,11 @@ interface PincodeDataEntry {
 
 type PincodeApiResponse = PincodeDataEntry[];
 
-interface RouteContext extends object {
-  params: {
-    pincode: string;
-  };
-}
-
 export async function GET(
   request: Request, 
-  context: RouteContext
+  { params }: { params: { pincode: string } }
 ) {
-  const { pincode } = context.params;
+  const { pincode } = params;
   
   if (!pincode || pincode.length !== 6 || isNaN(Number(pincode))) {
     return NextResponse.json({ error: "Invalid pincode format" }, { status: 400 });
