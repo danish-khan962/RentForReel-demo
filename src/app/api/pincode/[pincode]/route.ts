@@ -13,18 +13,11 @@ interface PincodeDataEntry {
 
 type PincodeApiResponse = PincodeDataEntry[];
 
-// Define the exact type expected for the dynamic route segment
-interface RouteContext {
-  params: {
-    pincode: string;
-  };
-}
-
 export async function GET(
   request: Request, 
-  { params }: RouteContext
+  context: { params: Record<string, string> }
 ) {
-  const { pincode } = params;
+  const { pincode } = context.params;
   
   if (!pincode || pincode.length !== 6 || isNaN(Number(pincode))) {
     return NextResponse.json({ error: "Invalid pincode format" }, { status: 400 });
