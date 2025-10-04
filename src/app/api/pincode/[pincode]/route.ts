@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 interface PostOffice {
   Name: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface PincodeDataEntry {
