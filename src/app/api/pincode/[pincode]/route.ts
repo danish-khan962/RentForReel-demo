@@ -13,8 +13,6 @@ interface PincodeDataEntry {
 
 type PincodeApiResponse = PincodeDataEntry[];
 
-// Define the exact type expected for the dynamic route segment
-// This structural type with 'extends Object' is a known fix for Next.js route type validation errors.
 interface RouteContext extends Object {
   params: {
     pincode: string;
