@@ -3,9 +3,9 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   request: Request,
-  context: { params: { pincode: string } }
+  { params }: { params: Promise<{ pincode: string }> } 
 ) {
-  const { pincode } = context.params;
+  const { pincode } = await params; 
 
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_PINCODE_URL}/${pincode}`);
@@ -15,7 +15,6 @@ export async function GET(
         { status: res.status }
       );
     }
-
     const data = await res.json();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const localities = data[0]?.PostOffice?.map((po: any) => po.Name) || [];
