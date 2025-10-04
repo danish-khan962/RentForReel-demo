@@ -13,9 +13,16 @@ interface PincodeDataEntry {
 
 type PincodeApiResponse = PincodeDataEntry[];
 
+// Define the exact type expected for the dynamic route segment
+interface RouteContext {
+  params: {
+    pincode: string;
+  };
+}
+
 export async function GET(
   request: Request, 
-  { params }: { params: Record<string, string> }
+  { params }: RouteContext
 ) {
   const { pincode } = params;
   
