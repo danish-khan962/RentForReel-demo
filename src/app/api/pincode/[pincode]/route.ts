@@ -13,12 +13,19 @@ interface PincodeDataEntry {
 
 type PincodeApiResponse = PincodeDataEntry[];
 
+// Define the exact type expected for the dynamic route segment
+// This structural type with 'extends Object' is a known fix for Next.js route type validation errors.
+interface RouteContext extends Object {
+  params: {
+    pincode: string;
+  };
+}
+
 export async function GET(
   request: Request, 
-  context: object // Use the generic object type to bypass Next.js strict validation
+  context: RouteContext
 ) {
-  // Assert the type of context.params to maintain type safety inside the function
-  const { pincode } = (context as { params: { pincode: string } }).params;
+  const { pincode } = context.params;
   
   if (!pincode || pincode.length !== 6 || isNaN(Number(pincode))) {
     return NextResponse.json({ error: "Invalid pincode format" }, { status: 400 });
