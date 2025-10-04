@@ -15,9 +15,10 @@ type PincodeApiResponse = PincodeDataEntry[];
 
 export async function GET(
   request: Request, 
-  context: { params: Record<string, string> }
+  context: object // Use the generic object type to bypass Next.js strict validation
 ) {
-  const { pincode } = context.params;
+  // Assert the type of context.params to maintain type safety inside the function
+  const { pincode } = (context as { params: { pincode: string } }).params;
   
   if (!pincode || pincode.length !== 6 || isNaN(Number(pincode))) {
     return NextResponse.json({ error: "Invalid pincode format" }, { status: 400 });
