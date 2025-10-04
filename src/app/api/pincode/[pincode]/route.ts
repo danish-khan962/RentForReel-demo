@@ -1,5 +1,5 @@
 // src/app/api/pincode/[pincode]/route.ts
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
 interface PostOffice {
   Name: string;
@@ -10,10 +10,10 @@ interface PincodeApiResponse {
 }
 
 export async function GET(
-  request: Request,
-  { params }: { params: { pincode: string } }
+  _req: NextRequest,
+  context: { params: { pincode: string } }
 ) {
-  const { pincode } = params;
+  const { pincode } = context.params;
 
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_PINCODE_URL}/${pincode}`);
