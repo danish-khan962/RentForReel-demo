@@ -15,7 +15,7 @@ type PincodeApiResponse = PincodeDataEntry[];
 
 export async function GET(
   request: Request, 
-  { params }: { params: { pincode: string } }
+  { params }: { params: Record<string, string> }
 ) {
   const { pincode } = params;
   
