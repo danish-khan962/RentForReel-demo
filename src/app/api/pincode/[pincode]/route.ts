@@ -1,31 +1,48 @@
-// src/app/api/pincode/[pincode]/route.ts
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
 interface PostOffice {
   Name: string;
+  [key: string]: any;
 }
 
-interface PincodeApiResponse {
-  PostOffice?: PostOffice[];
+interface PincodeDataEntry {
+  Status: string;
+  Message: string;
+  PostOffice: PostOffice[] | null;
 }
+
+type PincodeApiResponse = PincodeDataEntry[];
 
 export async function GET(
-  _request: NextRequest,
-  { params }: { params: Record<string, string> }
+  request: Request, 
+  { params }: { params: { pincode: string } }
 ) {
   const { pincode } = params;
+  
+  if (!pincode || pincode.length !== 6 || isNaN(Number(pincode))) {
+    return NextResponse.json({ error: "Invalid pincode format" }, { status: 400 });
+  }
 
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_PINCODE_URL}/${pincode}`);
+    
     if (!res.ok) {
       return NextResponse.json({ error: "Failed to fetch pincode data" }, { status: res.status });
     }
 
-    const data: PincodeApiResponse[] = await res.json();
+    const data: PincodeApiResponse = await res.json();
 
-    const localities = data[0]?.PostOffice?.map((po) => po.Name) || [];
+    const postOffices = data[0]?.PostOffice;
 
+    let localities: string[] = [];
+
+    if (postOffices && postOffices.length > 0) {
+        // Extract localities (PostOffice names)
+        localities = postOffices.map(po => po.Name);
+    }
+    
     return NextResponse.json(localities);
+
   } catch (error) {
     console.error("Error from pincode route:", error);
     return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
