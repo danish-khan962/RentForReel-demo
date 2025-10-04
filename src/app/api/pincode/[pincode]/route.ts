@@ -10,10 +10,10 @@ interface PincodeApiResponse {
 }
 
 export async function GET(
-  _req: NextRequest,
-  context: { params: { pincode: string } }
+  _request: NextRequest,
+  { params }: { params: Record<string, string> }
 ) {
-  const { pincode } = context.params;
+  const { pincode } = params;
 
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_PINCODE_URL}/${pincode}`);
@@ -23,7 +23,6 @@ export async function GET(
 
     const data: PincodeApiResponse[] = await res.json();
 
-    // Extract localities (PostOffice names)
     const localities = data[0]?.PostOffice?.map((po) => po.Name) || [];
 
     return NextResponse.json(localities);
