@@ -52,12 +52,11 @@ const SearchControl: React.FC = () => {
   return null;
 };
 
-// Child that recenters/flys the map when position updates (uses useMap correctly)
+// Child that recenters/flys the map when position updates
 const Recenter: React.FC<{ position: LatLngExpression; zoom?: number }> = ({ position, zoom = 13 }) => {
   const map = useMap();
   useEffect(() => {
     if (!position) return;
-    // animate to new position for nicer UX
     map.flyTo(position as L.LatLngExpression, zoom, { animate: true, duration: 0.8 });
   }, [position, zoom, map]);
 
@@ -73,10 +72,9 @@ type Props = {
 
 const LocationMap: React.FC<Props> = ({ spaceId, pincode, initialPosition = [28.544788, 77.18987], zoom = 13 }) => {
   const [position, setPosition] = useState<LatLngExpression>(initialPosition);
-  const { getSpaceById } = myQueries; // destructure so we can safely include in deps
+  const { getSpaceById } = myQueries;
 
   useEffect(() => {
-    // nothing to do if neither spaceId nor pincode provided
     if (!spaceId && !pincode) return;
 
     const controller = new AbortController();
@@ -84,31 +82,25 @@ const LocationMap: React.FC<Props> = ({ spaceId, pincode, initialPosition = [28.
 
     (async () => {
       try {
-        // prefer pincode passed as prop
         let pin = pincode ? String(pincode) : undefined;
 
-        // if no pincode prop, fetch the space and extract pincode
         if (!pin && spaceId) {
           const resp = await getSpaceById(spaceId);
-          // backend wrappers vary — try both resp.data and resp
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const payload = (resp && (resp as any).data) ? (resp as any).data : resp;
           pin = payload?.pincode ?? payload?.postalCode ?? payload?.address?.pincode ?? undefined;
           if (pin) pin = String(pin);
         }
 
-        if (!pin) {
-          // nothing we can geocode
-          return;
-        }
+        if (!pin) return;
 
-        // Nominatim geocoding by postalcode (limit=1). Add country=India for better accuracy.
         const url = `https://nominatim.openstreetmap.org/search?postalcode=${encodeURIComponent(pin)}&country=India&format=json&limit=1`;
         const res = await fetch(url, { signal: controller.signal, headers: { Accept: "application/json" } });
         if (!res.ok) {
           console.warn("Geocoding failed:", res.status);
           return;
         }
+
         const json = await res.json();
         if (!mounted) return;
 
@@ -121,12 +113,13 @@ const LocationMap: React.FC<Props> = ({ spaceId, pincode, initialPosition = [28.
         } else {
           console.warn("No geocode results for pincode:", pin);
         }
-      } catch (err: any) {
-        if (err.name === "AbortError") {
-          // aborted
-          return;
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          if (err.name === "AbortError") return;
+          console.error("LocationMap geocode error:", err.message);
+        } else {
+          console.error("LocationMap geocode error:", err);
         }
-        console.error("LocationMap geocode error:", err);
       }
     })();
 
@@ -149,9 +142,7 @@ const LocationMap: React.FC<Props> = ({ spaceId, pincode, initialPosition = [28.
         <Recenter position={position} zoom={zoom} />
 
         <Marker position={position} icon={customIcon}>
-          <Popup>
-            {`Location${pincode ? ` — pincode: ${pincode}` : ""}`}
-          </Popup>
+          <Popup>{`Location${pincode ? ` — pincode: ${pincode}` : ""}`}</Popup>
         </Marker>
       </MapContainer>
     </div>
