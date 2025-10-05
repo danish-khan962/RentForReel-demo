@@ -16,7 +16,20 @@ const imageIcons = [
 
 const budgetOptions = {
   subtitle: "Select your budget",
-  options: ["₹0 - ₹500", "₹500 - ₹1000", "₹1000 - ₹2000", "₹2000 - ₹5000", "₹5000+"]
+  hours: [
+    "₹0 - ₹500 / hour",
+    "₹500 - ₹1000 / hour",
+    "₹1000 - ₹2000 / hour",
+    "₹2000 - ₹5000 / hour",
+    "₹5000+ / hour"
+  ],
+  days: [
+    "Under ₹5,000 / day",
+    "₹5,000 – ₹10,000 / day",
+    "₹10,000 – ₹25,000 / day",
+    "₹25,000 – ₹50,000 / day",
+    "₹50,000+ / day"
+  ]
 }
 
 const purposeOptions = {
@@ -32,6 +45,7 @@ const QuickForm = () => {
   const [purpose, setPurpose] = useState('')
   const [budgetActive, setBudgetActive] = useState(false)
   const [purposeActive, setPurposeActive] = useState(false)
+  const [budgetMode, setBudgetMode] = useState<'Hours' | 'Days'>('Hours')
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -86,7 +100,7 @@ const QuickForm = () => {
       name,
       email,
       phone: numericPhone,
-      budget: budget.replace(/[^0-9+-]/g, ''),
+      budget,
       purpose,
     }
 
@@ -109,7 +123,7 @@ const QuickForm = () => {
 
   return (
     <div className='max-w-[1500px] w-full mx-auto bg-[#FFFFFF] rounded-2xl border border-[#2C2C2C] flex flex-col xl:flex-row justify-between gap-x-[20px] gap-y-[60px] items-center lg:items-start px-4 sm:px-6 py-2.5'>
-      
+
       {/* Left Text Section */}
       <div className='flex flex-col max-w-[1000px] xl:max-w-[622px] w-full items-center lg:items-start text-center lg:text-left'>
         <p className='font-extrabold text-[#BA181B] text-[38px] sm:text-[45px] md:text-[55px] lg:text-[70px] leading-[45px] sm:leading-[52px] md:leading-[61px] lg:leading-[75px] mt-[15px] sm:mt-[20px] md:mt-[25px]'>
@@ -192,10 +206,38 @@ const QuickForm = () => {
                   {budgetActive ? <FaChevronUp className='text-[#BA181B]' /> : <FaChevronDown className='text-[#BA181B]' />}
                 </span>
               </div>
+
               {budgetActive && (
                 <div className='absolute top-full left-0 mt-[12px] sm:mt-[18px] w-full min-w-[200px] z-50 bg-white border border-gray-300 rounded-xl shadow-md py-2 px-[10px] max-h-[250px] overflow-y-auto flex flex-col justify-start items-start'>
+                  {/* Capsule Toggle */}
+                  <div className="flex justify-center items-center w-full mb-2">
+                    <div className="flex bg-[#D9D9D9] rounded-full p-[5px] w-[85%] mx-auto shadow-sm">
+                      <button
+                        type="button"
+                        onClick={() => setBudgetMode('Hours')}
+                        className={`flex-1 py-[6px] text-sm font-medium rounded-full transition-all duration-200 ${budgetMode === 'Hours'
+                            ? 'bg-[#FFFFFF] text-black shadow'
+                            : 'text-[#000000] bg-transparent'
+                          }`}
+                      >
+                        /Hours
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setBudgetMode('Days')}
+                        className={`flex-1 py-[6px] text-sm font-medium rounded-full transition-all duration-200 ${budgetMode === 'Days'
+                            ? 'bg-[#FFFFFF] text-black shadow'
+                            : 'text-[#000000] bg-transparent'
+                          }`}
+                      >
+                        /Days
+                      </button>
+                    </div>
+                  </div>
+
+
                   <p className="px-4 py-2 text-black font-semibold text-sm md:text-base">{budgetOptions.subtitle}</p>
-                  {budgetOptions.options.map((option, index) => (
+                  {budgetOptions[budgetMode.toLowerCase() as 'hours' | 'days'].map((option, index) => (
                     <button
                       key={index}
                       type="button"

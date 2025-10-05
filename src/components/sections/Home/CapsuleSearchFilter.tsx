@@ -6,19 +6,25 @@ import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { FaChevronRight } from 'react-icons/fa6';
 import { fetchStates } from '@/api/filter/states';
 import { fetchCities } from '@/api/filter/city';
-import axios from 'axios'; // ✅ import axios for localities
+import axios from 'axios'; 
 
 const filterOptions = {
   state: { subtitle: "Choose your state or UT", options: [] as string[] },
   city: { subtitle: "Select your city", options: [] as string[] },
   price: {
-    subtitle: "Select price range",
-    options: ["₹0 - ₹500", "₹500 - ₹1000", "₹1000 - ₹2000", "₹2000 - ₹5000", "₹5000+"]
+    subtitle: "Select your Price range",
+    options: ["Under ₹2000 / hour", "₹2000 - ₹5000 / hour", "₹5000 - ₹10,000 / hour", "₹10,000 - ₹25,000 / hour", "₹25,000+ / hour"]
   },
   locality: {
     subtitle: "Select locality",
     options: [] as string[] // will be dynamically populated
   }
+};
+
+// Separate price options for days
+const priceOptions = {
+  hours: ["Under ₹2000 / hour", "₹2000 - ₹5000 / hour", "₹5000 - ₹10,000 / hour", "₹10,000 - ₹25,000 / hour", "₹25,000+ / hour"],
+  days: ["Under ₹5000 / day", "₹5000 - ₹10,000 / day", "₹10,000 - ₹25,000 / day", "₹25,000 - ₹50,000 / day", "₹50,000+ / day"]
 };
 
 const filterData = [
@@ -33,8 +39,9 @@ const CapsuleSearchFilter = () => {
   const [selected, setSelected] = useState<{ [key: string]: string }>({});
   const [states, setStates] = useState<string[]>([]);
   const [cities, setCities] = useState<string[]>([]);
-  const [localities, setLocalities] = useState<string[]>([]); // ✅ dynamic localities
+  const [localities, setLocalities] = useState<string[]>([]); // dynamic localities
   const [localitySearch, setLocalitySearch] = useState<string>(""); // input bar for pincode
+  const [priceMode, setPriceMode] = useState<'Hours' | 'Days'>('Hours'); // toggle between hours and days
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -144,6 +151,7 @@ const CapsuleSearchFilter = () => {
     if (key === "state") return states;
     if (key === "city") return cities;
     if (key === "locality") return localities;
+    if (key === "price") return priceMode === 'Hours' ? priceOptions.hours : priceOptions.days;
     return filterOptions[key as keyof typeof filterOptions].options;
   };
 
@@ -184,6 +192,24 @@ const CapsuleSearchFilter = () => {
                       <p className="px-2 py-2 text-black font-semibold text-sm">
                         {filterOptions[item.key as keyof typeof filterOptions].subtitle}
                       </p>
+
+                      {/* Toggle for Hours/Days */}
+                      {item.key === "price" && (
+                        <div className="flex items-center justify-center gap-2 my-2 bg-[#D9D9D9] rounded-full p-1">
+                          <button
+                            onClick={() => setPriceMode('Hours')}
+                            className={`flex-1 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${priceMode === 'Hours' ? 'bg-white shadow text-black' : 'text-[#00000085]'}`}
+                          >
+                            /Hours
+                          </button>
+                          <button
+                            onClick={() => setPriceMode('Days')}
+                            className={`flex-1 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${priceMode === 'Days' ? 'bg-white shadow text-black' : 'text-[#00000085]'}`}
+                          >
+                            /Days
+                          </button>
+                        </div>
+                      )}
 
                       {/* Input for Locality */}
                       {item.key === "locality" && (
@@ -276,6 +302,24 @@ const CapsuleSearchFilter = () => {
                       <p className="px-4 py-2 text-black font-semibold text-sm md:text-base">
                         {filterOptions[item.key as keyof typeof filterOptions].subtitle}
                       </p>
+
+                      {/* Toggle for Hours/Days */}
+                      {item.key === "price" && (
+                        <div className="flex items-center justify-center gap-2 my-2 bg-[#D9D9D9] rounded-full p-1">
+                          <button
+                            onClick={() => setPriceMode('Hours')}
+                            className={`flex-1 py-1.5 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer ${priceMode === 'Hours' ? 'bg-white shadow text-black' : 'text-[#000000]'}`}
+                          >
+                            /Hours
+                          </button>
+                          <button
+                            onClick={() => setPriceMode('Days')}
+                            className={`flex-1 py-1.5 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer ${priceMode === 'Days' ? 'bg-white shadow text-black' : 'text-[#000000]'}`}
+                          >
+                            /Days
+                          </button>
+                        </div>
+                      )}
 
                       {/* Input for Locality */}
                       {item.key === "locality" && (
