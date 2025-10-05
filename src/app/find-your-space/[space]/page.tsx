@@ -42,6 +42,26 @@ interface Space {
     };
 }
 
+
+// Amenities icons
+const amenityToIconMap: { [key: string]: string } = {
+    "wifi": "/FindYourSpace/space/wifi.png",
+    "air-conditioning": "/FindYourSpace/space/air_conditioning.png",
+    "lightning setup": "/FindYourSpace/space/lightning.png",
+    "restroom": "/FindYourSpace/space/restroom.png",
+    "seating & tables": "/FindYourSpace/space/seating_tables.png",
+    "parking nearby": "/FindYourSpace/space/parking.png",
+    // For now, fallback to wifi.png for unknown ones
+    "house hold": "/FindYourSpace/space/wifi.png",
+    "power backup": "/FindYourSpace/space/wifi.png",
+    "cctv": "/FindYourSpace/space/wifi.png",
+    "geyser": "/FindYourSpace/space/wifi.png",
+    "24x7 security": "/FindYourSpace/space/wifi.png",
+    "tv": "/FindYourSpace/space/wifi.png",
+    "kitchen": "/FindYourSpace/space/wifi.png",
+};
+
+
 //Rupee symbol
 const rupee = "₹";
 
@@ -83,7 +103,7 @@ const Page = () => {
         e.preventDefault();
 
         // Strict form validation
-        // --- CORRECTED: Checking for a minimum of 3 characters/letters ---
+        // Checking for a minimum of 3 characters/letters ---
         if (name.trim().length < 3) {
             toast.error("Name must contain at least 3 letters.");
             return;
@@ -142,7 +162,8 @@ const Page = () => {
 
     const getBentoGridClasses = (imageCount: number) => {
         if (imageCount === 4 || imageCount === 5) {
-            return 'grid grid-cols-3 md:grid-cols-3 grid-rows-4 md:grid-rows-4 gap-2 md:gap-2';
+            // Use 4 columns grid by default (md and up)
+            return 'grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 grid-rows-4 sm:grid-rows-4 gap-2 sm:gap-2';
         }
 
         switch (imageCount) {
@@ -162,15 +183,17 @@ const Page = () => {
         if (totalImages === 5) {
             switch (index) {
                 case 0:
-                    return 'col-start-1 row-start-1 row-span-4';
+                    // Mobile: original smaller first image style
+                    // sm and up: extended width first image
+                    return 'col-start-1 row-start-1 row-span-4 sm:col-span-2 sm:col-start-1';
                 case 1:
-                    return 'col-start-2 row-start-1 row-span-2';
+                    return 'col-start-2 row-start-1 row-span-2 sm:col-start-3';
                 case 2:
-                    return 'col-start-2 row-start-3 row-span-2';
+                    return 'col-start-2 row-start-3 row-span-2 sm:col-start-3';
                 case 3:
-                    return 'col-start-3 row-start-1 row-span-2';
+                    return 'col-start-3 row-start-1 row-span-2 sm:col-start-4';
                 case 4:
-                    return 'col-start-3 row-start-3 row-span-2';
+                    return 'col-start-3 row-start-3 row-span-2 sm:col-start-4';
                 default:
                     return '';
             }
@@ -179,25 +202,28 @@ const Page = () => {
         if (totalImages === 4) {
             switch (index) {
                 case 0:
-                    return 'col-start-1 row-start-1 row-span-4';
+                    // Mobile: smaller first image
+                    // sm and up: extended width first image
+                    return 'col-start-1 row-start-1 row-span-4 sm:col-span-2 sm:col-start-1';
                 case 1:
-                    return 'col-start-2 row-start-1 row-span-2';
+                    return 'col-start-2 row-start-1 row-span-2 sm:col-start-3';
                 case 2:
-                    return 'col-start-2 row-start-3 row-span-2';
+                    return 'col-start-2 row-start-3 row-span-2 sm:col-start-3';
                 case 3:
-                    return 'col-start-3 row-start-1 row-span-4';
+                    return 'col-start-3 row-start-1 row-span-4 sm:col-start-4';
                 default:
                     return '';
             }
         }
 
-        // For other image counts
+        // Other counts remain unchanged
         if (totalImages === 3 && index === 0) return 'col-span-2 row-span-2';
         if (totalImages === 4 && index === 0) return 'col-span-2 row-span-2';
         if (totalImages >= 5 && index === 0) return 'col-span-2 row-span-2';
 
         return '';
     };
+
 
     // IMAGE GALLERY
     const [isGalleryOpen, setIsGalleryOpen] = useState(false);
@@ -213,7 +239,7 @@ const Page = () => {
     };
 
     const handleViewAllClick = () => {
-        setSelectedImageIndex(0); 
+        setSelectedImageIndex(0);
         setIsGalleryOpen(true);
     };
 
@@ -236,7 +262,7 @@ const Page = () => {
 
 
     return (
-        <section className='max-w-[1440px] w-full mx-auto px-4 sm:px-6 md:px-8 mt-[80px] sm:mt-[90px] md:mt-[100px] lg:mt-[110px]'>
+        <section className='max-w-[1440px] w-full mx-auto px-4 sm:px-6 md:px-8 mt-[50px] sm:mt-[65px] md:mt-[70px]'>
 
             {/* Main space title */}
             <div className='flex flex-row justify-between items-center'>
@@ -272,10 +298,10 @@ const Page = () => {
                                     <div className="absolute bottom-3 right-2">
                                         <button
                                             onClick={(e) => {
-                                                e.stopPropagation(); 
-                                                handleViewAllClick(); 
+                                                e.stopPropagation();
+                                                handleViewAllClick();
                                             }}
-                                            className="bg-white/75 text-black px-3 py-1.5 text-sm rounded-md font-medium hover:bg-white transition duration-200 shadow-md cursor-pointer backdrop-blur-sm"
+                                            className="bg-white/75 text-black px-3 py-1.5 text-xs sm:text-sm rounded-md font-medium hover:bg-white transition duration-200 shadow-md cursor-pointer backdrop-blur-sm"
                                         >
                                             View All ({spaceData.images.length})
                                         </button>
@@ -366,22 +392,30 @@ const Page = () => {
                     <div className='w-full flex flex-col mt-[70px] sm:mt-[75px] md:mt-[85px] lg:mt-[100px]'>
                         <h2 className='text-[24px] sm:text-[26px] md:text-[28px] lg:text-[30px] text-[#2C2C2C] font-semibold'> Amenities </h2>
                         <div className='w-full flex flex-row flex-wrap gap-[15px] md:gap-[16px] mt-[34px]'>
-                            {
-                                spaceData.selectedAmenities.map((amenity: string, idx: number) => (
-                                    <span className='flex flex-row items-center gap-[10px] bg-[#D9D9D969]/90 py-1.25 px-4 sm:py-1.5 sm:px-6 md:py-2 md:px-8 lg:px-10 rounded-full' key={idx}>
+                            {spaceData.selectedAmenities.map((amenity: string, idx: number) => {
+                                const icon = amenityToIconMap[amenity.toLowerCase()] || "/FindYourSpace/space/wifi.png";
+
+                                return (
+                                    <span
+                                        className='flex flex-row items-center gap-[10px] bg-[#D9D9D969]/90 py-1.25 px-4 sm:py-1.5 sm:px-6 md:py-2 md:px-8 lg:px-10 rounded-full'
+                                        key={idx}
+                                    >
                                         <Image
-                                            src={"/FindYourSpace/space/wifi.png"}
-                                            alt='wifi'
+                                            src={icon}
+                                            alt={amenity}
                                             height={1000}
                                             width={1000}
                                             className='w-[22px] h-[22px]'
                                         />
-                                        <p className='font-normal text-[#000000] text-[15px] sm:text-base md:text-[18px]'> {amenity} </p>
+                                        <p className='font-normal text-[#000000] text-[15px] sm:text-base md:text-[18px]'>
+                                            {amenity}
+                                        </p>
                                     </span>
-                                ))
-                            }
+                                );
+                            })}
                         </div>
                     </div>
+
 
                 </div>
 
@@ -464,7 +498,7 @@ const Page = () => {
             <div className='w-full flex flex-col gap-[25px] sm:gap-[30px] md:gap-[38px] lg:gap-[49px] mt-[80px] sm:mt-[85px] md:mt-[100px] lg:mt-[115px]'>
                 <p className='text-[#2C2C2C] font-semibold text-[22px] sm:text-[24px] md:text-[26px] lg:text-[28px]'> Where you&apos;ll be </p>
                 <div className='w-full h-[350px] sm:h-[420px] md:h-[540px] lg:h-[620px]'>
-                    <LocationMap />
+                    <LocationMap pincode={spaceData?.pincode} />
                 </div>
                 <hr className='w-full bg-[#2C2C2CAB] mt-[50px] sm:mt-[60px] md:mt-[70px]' />
             </div>
@@ -476,7 +510,7 @@ const Page = () => {
                     {isLoadingRelated ? (
                         <p className="col-span-full text-gray-500">Loading cozy spaces...</p>
                     ) : (
-                        relatedSpaces.slice(0, 4).map((space: Space) => ( // Use slice(0, 4) directly
+                        relatedSpaces.slice(0, 4).map((space: Space) => (
                             <SpaceCard key={space.id} space={space} />
                         ))
                     )}

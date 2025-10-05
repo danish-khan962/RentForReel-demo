@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useRef, useState } from 'react'
+import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -22,39 +22,12 @@ interface SpaceCardProps {
 }
 
 const SpaceCard: React.FC<SpaceCardProps> = ({ space }) => {
-  const [showArrows, setShowArrows] = useState(false)
-  const hideTimeout = useRef<NodeJS.Timeout | null>(null)
-
-  const handleMobileInteraction = () => {
-    if (window.innerWidth <= 768) {
-      setShowArrows(true)
-
-      if (hideTimeout.current) clearTimeout(hideTimeout.current)
-
-      hideTimeout.current = setTimeout(() => {
-        setShowArrows(false)
-      }, 3000) // hide after 3 seconds of inactivity
-    }
-  }
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-
-    window.addEventListener('touchstart', handleMobileInteraction)
-    window.addEventListener('scroll', handleMobileInteraction)
-
-    return () => {
-      window.removeEventListener('touchstart', handleMobileInteraction)
-      window.removeEventListener('scroll', handleMobileInteraction)
-    }
-  }, [])
-
   if (!space) return null
 
   return (
     <div className='max-w-[620px] w-full h-full bg-[#D9D9D94D] rounded-4xl'>
       <Link href={`/find-your-space/${space.id}`}>
-        <div className='group w-full h-[243px] relative p-2.5 hover:p-0 transition-all ease-in-out duration-300'>
+        <div className='group w-full h-[243px] relative p-0 md:p-2 hover:p-0 transition-all ease-in-out duration-300'>
           <Swiper
             modules={[Navigation]}
             spaceBetween={10}
@@ -108,20 +81,26 @@ const SpaceCard: React.FC<SpaceCardProps> = ({ space }) => {
           --swiper-navigation-size: 22px !important;
           opacity: 0;
           transition: opacity 0.3s ease-in-out;
+          pointer-events: none; /* prevent clicks when hidden */
         }
 
-        .group:hover .swiper-button-next,
-        .group:hover .swiper-button-prev {
-          opacity: 1;
+        @media (min-width: 768px) {
+          /* On md and larger: show arrows on hover */
+          .group:hover .swiper-button-next,
+          .group:hover .swiper-button-prev {
+            opacity: 1;
+            pointer-events: auto;
+          }
         }
 
-        /* Show arrows if showArrows state is true */
-        ${showArrows ? `
+        @media (max-width: 767px) {
+          /* On less than md: always show arrows */
           .swiper-button-next,
           .swiper-button-prev {
             opacity: 1 !important;
+            pointer-events: auto;
           }
-        ` : ''}
+        }
       `}</style>
     </div>
   )

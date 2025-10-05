@@ -62,7 +62,7 @@ const FindYourSpacePageContent = () => {
       state: searchParams.get('state') || undefined,
       popularity: searchParams.get('popularity') || undefined,
       ...priceFilter,
-      // ⚡ don't send page when searching; handle client-side pagination
+      // don't send page when searching; handle client-side pagination
       page: keyword ? undefined : currentPage,
       limit: keyword ? 9999 : 16, // fetch all if searching
     }
@@ -151,8 +151,8 @@ const FindYourSpacePageContent = () => {
 
       <div className='max-w-[1440px] w-full mx-auto px-4 sm:px-6 md:px-8 mt-[60px] mb-[120px]'>
         <div className='flex flex-col'>
-          <div className='flex flex-row justify-between items-center'>
-            <p className='font-semibold text-[25px]'>{displayTitle}</p>
+          <div className='flex flex-row justify-between items-center gap-3'>
+            <p className='font-semibold text-[18px] sm:text-[20px] md:text-[23px] lg:text-[25px]'>{displayTitle}</p>
             <div
               onClick={() => setIsSortOpen(true)}
               className='flex flex-row justify-center items-center gap-x-[15px] bg-[#D9D9D9] py-1.5 px-5 rounded-full cursor-pointer hover:bg-[#D9D9D9]'
