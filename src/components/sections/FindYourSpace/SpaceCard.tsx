@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -10,7 +10,7 @@ import 'swiper/css/navigation'
 
 interface Space {
   id: string | number
-  nameOfSpace: string 
+  nameOfSpace: string
   city: string
   state: string
   images: string[]
@@ -18,18 +18,43 @@ interface Space {
 }
 
 interface SpaceCardProps {
-  space?: Space | null // allow undefined or null to avoid crash
+  space?: Space | null
 }
 
 const SpaceCard: React.FC<SpaceCardProps> = ({ space }) => {
-  if (!space) {
-    return null
+  const [showArrows, setShowArrows] = useState(false)
+  const hideTimeout = useRef<NodeJS.Timeout | null>(null)
+
+  const handleMobileInteraction = () => {
+    if (window.innerWidth <= 768) {
+      setShowArrows(true)
+
+      if (hideTimeout.current) clearTimeout(hideTimeout.current)
+
+      hideTimeout.current = setTimeout(() => {
+        setShowArrows(false)
+      }, 3000) // hide after 3 seconds of inactivity
+    }
   }
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    window.addEventListener('touchstart', handleMobileInteraction)
+    window.addEventListener('scroll', handleMobileInteraction)
+
+    return () => {
+      window.removeEventListener('touchstart', handleMobileInteraction)
+      window.removeEventListener('scroll', handleMobileInteraction)
+    }
+  }, [])
+
+  if (!space) return null
 
   return (
     <div className='max-w-[620px] w-full h-full bg-[#D9D9D94D] rounded-4xl'>
       <Link href={`/find-your-space/${space.id}`}>
-        <div className='w-full h-[243px]'>
+        <div className='group w-full h-[243px] relative p-2.5 hover:p-0 transition-all ease-in-out duration-300'>
           <Swiper
             modules={[Navigation]}
             spaceBetween={10}
@@ -38,7 +63,7 @@ const SpaceCard: React.FC<SpaceCardProps> = ({ space }) => {
             loop={true}
             className='h-full rounded-4xl'
           >
-            {space.images.map((img: string, index: number) => (
+            {space.images.map((img, index) => (
               <SwiperSlide key={index}>
                 <Image
                   src={img}
@@ -61,7 +86,6 @@ const SpaceCard: React.FC<SpaceCardProps> = ({ space }) => {
           <p className='capitalize font-normal text-[12px] sm:text-[13.5px] mt-[15px]'>
             {space.city}, {space.state}
           </p>
-
         </div>
 
         <div className='flex flex-col justify-end items-end'>
@@ -82,7 +106,22 @@ const SpaceCard: React.FC<SpaceCardProps> = ({ space }) => {
           font-weight: bold;
           color: white !important;
           --swiper-navigation-size: 22px !important;
+          opacity: 0;
+          transition: opacity 0.3s ease-in-out;
         }
+
+        .group:hover .swiper-button-next,
+        .group:hover .swiper-button-prev {
+          opacity: 1;
+        }
+
+        /* Show arrows if showArrows state is true */
+        ${showArrows ? `
+          .swiper-button-next,
+          .swiper-button-prev {
+            opacity: 1 !important;
+          }
+        ` : ''}
       `}</style>
     </div>
   )

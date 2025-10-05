@@ -219,7 +219,7 @@ const FindYourSpacePageContent = () => {
 
         <div className='w-full flex justify-center items-center mt-[130px]'>
           <Link href={'#'}>
-            <button className='text-base sm:text-[17.5px] md:text-[18px] text-[#BA181B] font-bold w-[350px] h-[62px] md:w-[380px] md:h-[65px] rounded-full border border-[#BA181B] cursor-pointer hover:bg-[#BA181B] hover:text-white transition-all'>
+            <button className='text-base sm:text-[17.5px] md:text-[18px] text-[#BA181B] font-bold w-[250px] h-[50px] md:w-[280px] md:h-[55px] rounded-full border border-[#BA181B] cursor-pointer hover:bg-[#BA181B] hover:text-white transition-all'>
               Explore More
             </button>
           </Link>

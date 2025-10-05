@@ -27,15 +27,15 @@ const PaginationBar: React.FC<PaginationBarProps> = ({ totalPages, currentPage, 
 
     return (
         <div className='w-full flex flex-row justify-center items-center mt-[40px] sm:mt-[50px] md:mt-[65px] lg:mt-[90px]'>
-            <div className='max-w-[700px] w-full bg-[#D9D9D9] flex flex-row justify-between items-center p-1.5 rounded-full gap-x-[20px]'>
+            <div className='max-w-[600px] w-full bg-[#D9D9D9] flex flex-row justify-between items-center p-1.5 rounded-full gap-x-[20px]'>
                 <div
-                    className={`bg-[#FFFFFF] text-base md:text-[18px] xl:text-[20px] w-[196px] h-[46px] flex justify-center items-center rounded-full font-normal transition-all ease-in-out duration-200 cursor-pointer ${
+                    className={`bg-[#FFFFFF] text-[14px] md:text-[15px] xl:text-base w-[170px] h-[40px] flex justify-center items-center rounded-full font-normal transition-all ease-in-out duration-200 cursor-pointer ${
                         currentPage === 1 ? 'opacity-50 pointer-events-none' : 'hover:bg-[#FFFFFF]/90'
                     }`}
                     onClick={handlePrevious}
                 >
                     <span className='sm:hidden'>
-                        <FaChevronLeft className="w-4 h-4" />
+                        <FaChevronLeft className="w-3.5 h-3.5" />
                     </span>
                     <span className='hidden sm:block'>
                         Previous
@@ -50,7 +50,7 @@ const PaginationBar: React.FC<PaginationBarProps> = ({ totalPages, currentPage, 
                                 key={num}
                                 // The key change is here:
                                 className={`
-                                    text-base md:text-[18px] w-[46px] h-[46px] rounded-full flex items-center justify-center 
+                                    text-[14px] md:text-[15px] w-[40px] h-[40px] rounded-full flex items-center justify-center 
                                     transition-all ease-in-out duration-200 cursor-pointer
                                     ${num === currentPage 
                                         ? 'bg-[#BA181B] text-[#FFFFFF]' 
@@ -66,13 +66,13 @@ const PaginationBar: React.FC<PaginationBarProps> = ({ totalPages, currentPage, 
                 </div>
 
                 <div
-                    className={`bg-[#FFFFFF] text-base md:text-[18px] xl:text-[20px] w-[196px] h-[46px] flex justify-center items-center rounded-full font-normal transition-all ease-in-out duration-200 cursor-pointer ${
+                    className={`bg-[#FFFFFF] text-[14px] md:text-[15px] xl:text-base w-[170px] h-[40px] flex justify-center items-center rounded-full font-normal transition-all ease-in-out duration-200 cursor-pointer ${
                         currentPage === totalPages ? 'opacity-50 pointer-events-none' : 'hover:bg-[#FFFFFF]/90'
                     }`}
                     onClick={handleNext}
                 >
                     <span className='sm:hidden'>
-                        <FaChevronRight className="w-4 h-4" />
+                        <FaChevronRight className="w-3.5 h-3.5" />
                     </span>
                     <span className='hidden sm:block'>
                         Next

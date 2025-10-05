@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { BsArrowReturnRight } from "react-icons/bs";
+import { HiArrowLongRight } from 'react-icons/hi2'
 import LOGO from "../../../public/rent_for_reel_icon.svg"
 import Marquee from "react-fast-marquee"
 import FAQ from '@/components/sections/Home/FAQ';
@@ -36,8 +36,8 @@ const Page = () => {
           </p>
 
           <Link href={"https://rentforreel-lister-frontend.vercel.app/"}>
-            <button className='bg-[#FFFFFF] cursor-pointer text-[14px] sm:text-[15px] md:text-base lg:text-[17px] font-medium text-[#2C2C2C] py-1.5 px-8 sm:py-2 sm:px-10 md:py-2.5 md:px-12 rounded-full transition-all ease-in-out duration-200 hover:bg-[#2C2C2C]/90 hover:text-[#FFFFFF] mt-[40px] flex flex-row justify-center items-center gap-x-3.5 otuline outline-[#2C2C2C] hover:outline-none'>
-              <span> List Your Space </span>  <BsArrowReturnRight />
+            <button className='bg-[#FFFFFF] cursor-pointer text-[15px] md:text-base lg:text-[17px] font-medium text-[#2C2C2C] py-2 px-8  sm:px-10 md:py-2.5 md:px-12 rounded-full transition-all ease-in-out duration-200 hover:bg-[#2C2C2C]/90 hover:text-[#FFFFFF] mt-[40px] flex flex-row justify-center items-center gap-x-3.5 otuline outline-[#2C2C2C] hover:outline-none'>
+              <span> List Your Space </span>  <HiArrowLongRight className='text-[25px] sm:text-[30px]' />
             </button>
           </Link>
         </div>
@@ -81,8 +81,8 @@ const Page = () => {
           }
         </div>
         <Link href={"https://rentforreel-lister-frontend.vercel.app/"}>
-          <button className='bg-[#FFFFFF] cursor-pointer text-[14px] sm:text-[15px] md:text-base lg:text-[17px] font-medium text-[#2C2C2C] py-1.5 px-8 sm:py-2 sm:px-10 md:py-2.5 md:px-12 rounded-full transition-all ease-in-out duration-200 hover:bg-[#2C2C2C]/90 hover:text-[#FFFFFF] mt-[50px] flex flex-row justify-center items-center gap-x-3.5 outline outline-[#2C2C2C] hover:outline-none'>
-            <span> List Your Space </span>  <BsArrowReturnRight />
+          <button className='bg-[#FFFFFF] cursor-pointer text-[15px] md:text-base lg:text-[17px] font-medium text-[#2C2C2C] py-2 px-8 sm:px-10 md:py-2.5 md:px-12 rounded-full transition-all ease-in-out duration-200 hover:bg-[#2C2C2C]/90 hover:text-[#FFFFFF] mt-[50px] flex flex-row justify-center items-center gap-x-3.5 outline outline-[#2C2C2C] hover:outline-none'>
+            <span> List Your Space </span>  <HiArrowLongRight className='text-[25px] sm:text-[30px]' />
           </button>
         </Link>
       </div>
@@ -122,8 +122,8 @@ const Page = () => {
           <p className='text-[#FFFFFF] font-semibold text-xl sm:text-2xl md:text-3xl'> Ready to List? </p>
           <p className='text-[#D9D9D9]/85 font-medium text-[14px] sm:text-[15px] md:text-base leading-snug mt-[15px]'> Turn your unused space into income—start listing now with Rent For Reel and reach renters instantly. </p>
           <Link href={"https://rentforreel-lister-frontend.vercel.app/"}>
-            <button className='bg-[#FFFFFF] cursor-pointer text-[14px] sm:text-[15px] md:text-base lg:text-[17px] font-medium text-[#2C2C2C] py-1.5 px-8 sm:py-2 sm:px-10 md:py-2.5 md:px-12 rounded-full transition-all ease-in-out duration-200 hover:bg-[#2C2C2C]/90 hover:text-[#FFFFFF] mt-[25px] flex flex-row justify-center items-center gap-x-3.5 outline outline-[#2C2C2C] hover:outline-none'>
-              <span> List Your Space </span>  <BsArrowReturnRight />
+            <button className='bg-[#FFFFFF] cursor-pointer text-[15px] md:text-base lg:text-[17px] font-medium text-[#2C2C2C] py-2 px-8 sm:px-10 md:py-2.5 md:px-12 rounded-full transition-all ease-in-out duration-200 hover:bg-[#2C2C2C]/90 hover:text-[#FFFFFF] mt-[25px] flex flex-row justify-center items-center gap-x-3.5 outline outline-[#2C2C2C] hover:outline-none'>
+              <span> List Your Space </span>  <HiArrowLongRight className='text-[25px] sm:text-[30px]' />
             </button>
           </Link>
         </div>
@@ -156,8 +156,8 @@ const Page = () => {
         <div className='bg-[#FFF5D1] h-[120px] max-w-[800px] w-full blur-[50px] absolute left-1/2 -translate-x-1/2 z-10 top-10'></div>
 
         <Link href={"https://rentforreel-lister-frontend.vercel.app/"}>
-          <button className='relative z-20 bg-[#FFFFFF] cursor-pointer text-[14px] sm:text-[15px] md:text-base lg:text-[17px] font-medium text-[#2C2C2C] py-1.5 px-8 sm:py-2 sm:px-10 md:py-2.5 md:px-12 rounded-full transition-all ease-in-out duration-200 hover:bg-[#2C2C2C]/90 hover:text-[#FFFFFF] mt-[100px] flex flex-row justify-center items-center gap-x-3.5 outline outline-[#2C2C2C] hover:outline-none'>
-            <span> List Your Space </span>  <BsArrowReturnRight />
+          <button className='relative z-20 bg-[#FFFFFF] cursor-pointer text-[15px] md:text-base lg:text-[17px] font-medium text-[#2C2C2C] py-2 px-8 sm:px-10 md:py-2.5 md:px-12 rounded-full transition-all ease-in-out duration-200 hover:bg-[#2C2C2C]/90 hover:text-[#FFFFFF] mt-[100px] flex flex-row justify-center items-center gap-x-3.5 outline outline-[#2C2C2C] hover:outline-none'>
+            <span> List Your Space </span>  <HiArrowLongRight className='text-[25px] sm:text-[30px]' />
           </button>
         </Link>
       </div>

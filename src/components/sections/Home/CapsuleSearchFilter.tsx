@@ -219,14 +219,16 @@ const CapsuleSearchFilter = () => {
               placeholder="Search Space...."
               value={selected.keyword || ""}
               onChange={(e) => setSelected(prev => ({ ...prev, keyword: e.target.value }))}
-              className="w-full px-4 py-3 pr-10 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#BA181B]"
+              className="w-full px-4 py-3 pr-10 border border-gray-300 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-[#BA181B]"
             />
             <button
               type="button"
               className="absolute inset-y-0 right-3 flex items-center text-[#BA181B] hover:text-black"
               onClick={handleSearch}
             >
-              <FaChevronRight />
+              <div className='bg-gray-100 p-2 rounded-full cursor-pointer'>
+                <FaChevronRight />
+              </div>
             </button>
           </div>
 
@@ -234,7 +236,7 @@ const CapsuleSearchFilter = () => {
           <button
             type="button"
             onClick={handleSearch}
-            className="bg-[#BA181B] py-3 px-6 rounded-xl hover:bg-[#2C2C2C] transition-all duration-200 active:bg-[#2C2C2C] cursor-pointer flex items-center justify-center gap-2"
+            className="bg-[#BA181B] py-3 px-6 rounded-full hover:bg-[#2C2C2C] transition-all duration-200 active:bg-[#2C2C2C] cursor-pointer flex items-center justify-center gap-2"
           >
             <BsSearch className="text-white text-sm" />
             <span className="text-white font-medium text-sm">Search Spaces</span>
@@ -309,14 +311,14 @@ const CapsuleSearchFilter = () => {
                 placeholder="Search Space...."
                 value={selected.keyword || ""}
                 onChange={(e) => setSelected(prev => ({ ...prev, keyword: e.target.value }))}
-                className="px-4 py-2.5 pr-10 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#BA181B]"
+                className="px-4 py-2.5 pr-10 border border-gray-300 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-[#BA181B]"
               />
               <button
                 type="button"
                 className="absolute inset-y-0 right-2 flex items-center text-[#BA181B] hover:text-black"
                 onClick={handleSearch}
               >
-                <div className='bg-gray-100 p-2 rounded-md cursor-pointer'>
+                <div className='bg-gray-100 p-2 rounded-full cursor-pointer'>
                   <FaChevronRight />
                 </div>
               </button>

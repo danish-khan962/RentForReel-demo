@@ -34,7 +34,7 @@ const Navbar = () => {
 
       {/* Top Nav */}
       <nav className='relative w-full flex flex-row justify-between items-center'>
-        <Link href={"/"}>
+        <Link href={"/"} >
           <Image
             src={FAVICON}
             alt='favicon'
@@ -44,7 +44,7 @@ const Navbar = () => {
           />
         </Link>
 
-        <Link href={"/"}>
+        <Link href={"/"}  className="absolute left-1/2 transform -translate-x-1/2 z-10">
           <Image
             src={LOGO}
             alt="rent for reel"
