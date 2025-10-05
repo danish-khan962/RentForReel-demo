@@ -91,6 +91,7 @@ const LocationMap: React.FC<Props> = ({ spaceId, pincode, initialPosition = [28.
         if (!pin && spaceId) {
           const resp = await getSpaceById(spaceId);
           // backend wrappers vary — try both resp.data and resp
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const payload = (resp && (resp as any).data) ? (resp as any).data : resp;
           pin = payload?.pincode ?? payload?.postalCode ?? payload?.address?.pincode ?? undefined;
           if (pin) pin = String(pin);
