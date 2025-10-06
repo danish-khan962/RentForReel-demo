@@ -15,6 +15,7 @@ interface Space {
   state: string
   images: string[]
   priceHour: number
+  contactNumber?: string
 }
 
 interface SpaceCardProps {
@@ -53,7 +54,7 @@ const SpaceCard: React.FC<SpaceCardProps> = ({ space }) => {
 
       <div className='flex flex-row justify-between px-3 pt-3 pb-4'>
         <div className='flex flex-col items-baseline'>
-          <p className='capitalize text-[14px] sm:text-[15.5px] md:text-base lg:text-[17.5px] font-semibold'>
+          <p className='capitalize text-[14px] sm:text-[15px] md:text-base font-semibold leading-snug overflow-x-hidden line-clamp-1 max-w-[200px] w-full'>
             {space.nameOfSpace}
           </p>
           <p className='capitalize font-normal text-[12px] sm:text-[13.5px] mt-[15px]'>
@@ -65,7 +66,7 @@ const SpaceCard: React.FC<SpaceCardProps> = ({ space }) => {
           <p className='font-semibold text-[15px] sm:text-base'>
             ₹{space.priceHour}/hour
           </p>
-          <Link href="/contact" className='mt-[10px]'>
+          <Link href={`tel:${space.contactNumber}`} className='mt-[10px]'>
             <button className='bg-[#BA181B] font-semibold text-[13px] sm:text-[14px] py-1.5 px-3 rounded-full text-[#FFFFFF] cursor-pointer hover:scale-105 transition-all ease-in-out duration-200'>
               Contact
             </button>

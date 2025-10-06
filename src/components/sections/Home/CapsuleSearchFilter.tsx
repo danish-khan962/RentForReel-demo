@@ -6,7 +6,7 @@ import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { FaChevronRight } from 'react-icons/fa6';
 import { fetchStates } from '@/api/filter/states';
 import { fetchCities } from '@/api/filter/city';
-import axios from 'axios'; 
+import axios from 'axios';
 
 const filterOptions = {
   state: { subtitle: "Choose your state or UT", options: [] as string[] },
@@ -218,7 +218,7 @@ const CapsuleSearchFilter = () => {
                           placeholder="Enter pincode"
                           value={localitySearch}
                           onChange={(e) => setLocalitySearch(e.target.value)}
-                          className="w-full px-3 py-1.5 border border-gray-300 rounded mb-2 focus:outline-none focus:ring-2 focus:ring-[#BA181B] text-xs placeholder:text-xs xl:text-[13px] xl:placeholder:text-[13px]"
+                          className="w-full px-6 py-1.5 border border-gray-300 rounded-full mb-2 focus:outline-none focus:ring-2 focus:ring-[#BA181B] text-xs placeholder:text-xs xl:text-[13px] xl:placeholder:text-[13px]"
                         />
                       )}
 
@@ -282,20 +282,22 @@ const CapsuleSearchFilter = () => {
                 <div key={idx} className="relative">
                   <div
                     onClick={() => setActiveIndex(prev => (prev === idx ? null : idx))}
-                    className={`flex flex-col py-3.5 pl-7 pr-12 rounded-full cursor-pointer transition-all duration-200 min-w-[150px]
-                      ${isSelected
+                    className={`flex flex-col py-3.5 pl-7 pr-7 rounded-full cursor-pointer transition-all duration-200 w-[180px] box-border overflow-hidden
+                    ${isSelected
                         ? 'bg-[#BA181B] text-white'
                         : isActive
                           ? 'bg-transparent shadow-[1px_1px_10px_gray] text-black'
                           : 'bg-[#D9D9D9]/60 text-black shadow-inner-top hover:bg-transparent hover:shadow-[1px_1px_10px_gray]'}`}
                   >
-                    <p className="text-[11px] md:text-[13px] font-semibold text-start">{item.heading}</p>
-                    <p className={`text-[11px] md:text-[13px] font-light text-start
-                      ${isSelected ? 'text-white' : 'text-[#00000054]'}`}
+                    <p className="text-[11px] md:text-[13px] font-semibold text-start truncate">{item.heading}</p>
+                    <p className={`text-[11px] md:text-[13px] font-light text-start truncate
+                    ${isSelected ? 'text-white' : 'text-[#00000054]'}`}
                     >
                       {selectedValue || item.placeholder}
                     </p>
                   </div>
+
+
 
                   {isActive && (
                     <div className="absolute top-full left-0 mt-[18px] w-[300px] z-50 bg-white border border-gray-300 rounded-4xl shadow-md py-2 px-[15px] max-h-[350px] overflow-y-auto">
@@ -328,7 +330,7 @@ const CapsuleSearchFilter = () => {
                           placeholder="Enter pincode"
                           value={localitySearch}
                           onChange={(e) => setLocalitySearch(e.target.value)}
-                          className="w-full px-3 py-1.5 border border-gray-300 rounded mb-2 focus:outline-none focus:ring-2 focus:ring-[#BA181B] text-xs placeholder:text-xs xl:text-[13px] xl:placeholder:text-[13px]"
+                          className="w-full px-5 py-1.5 border border-gray-300 rounded-full mb-2 focus:outline-none focus:ring-2 focus:ring-[#BA181B] text-xs placeholder:text-xs xl:text-[13px] xl:placeholder:text-[13px]"
                         />
                       )}
 
