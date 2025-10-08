@@ -14,6 +14,7 @@ import SpaceCardSkeleton from '@/components/sections/FindYourSpace/SpaceCardSkel
 import SortingFilter from '@/components/sections/FindYourSpace/SortingFilter'
 
 import myQueries from '@/api/queries'
+import Banner from '@/components/sections/Home/Banner'
 
 // Make all optional fields optional to avoid TS conflicts
 interface Space {
@@ -124,7 +125,7 @@ const FindYourSpacePageContent = () => {
     }
   })
 
-  // 📄 Pagination (client-side slicing of the globally-sorted array)
+  // Pagination (client-side slicing of the globally-sorted array)
   const totalPages = Math.max(1, Math.ceil(sortedListings.length / itemsPerPage))
 
   // clamp currentPage if it becomes out of range after filtering/sorting
@@ -152,7 +153,7 @@ const FindYourSpacePageContent = () => {
     <>
       <CapsuleSearchFilter />
 
-      <div className='max-w-[1440px] w-full mx-auto px-4 sm:px-6 md:px-8 mt-[60px] mb-[120px]'>
+      <div className='max-w-[1440px] w-full mx-auto px-4 sm:px-6 md:px-8 mt-[60px]'>
         <div className='flex flex-col'>
           {/* Header */}
           <div className='flex flex-row justify-between items-center gap-3'>
@@ -236,12 +237,15 @@ const FindYourSpacePageContent = () => {
         </div>
 
         {/* Explore More Button */}
-        <div className='w-full flex justify-center items-center mt-[130px]'>
+        {/* <div className='w-full flex justify-center items-center mt-[130px]'>
           <Link href={'#'}>
             <button className='text-base sm:text-[17.5px] md:text-[18px] text-[#BA181B] font-bold w-[250px] h-[50px] md:w-[280px] md:h-[55px] rounded-full border border-[#BA181B] cursor-pointer hover:bg-[#BA181B] hover:text-white transition-all'>
               Explore More
             </button>
           </Link>
+        </div> */}
+        <div>
+          <Banner />
         </div>
       </div>
 

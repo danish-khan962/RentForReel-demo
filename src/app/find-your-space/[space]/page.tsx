@@ -13,6 +13,8 @@ import { useQuery } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import PageSkeleton from './PageSkeleton';
 import ImageGalleryModal from '@/components/sections/FindYourSpace/space/ImageGalleryModal';
+import { FaArrowLeftLong } from 'react-icons/fa6';
+import { useRouter } from 'next/navigation';
 
 const LocationMap = dynamic(() => import('../../../components/sections/FindYourSpace/space/LocationMap'), {
     ssr: false,
@@ -68,6 +70,8 @@ const rupee = "₹";
 const Page = () => {
     const params = useParams<{ space: string }>();
     const spaceId = params.space;
+
+    const router = useRouter();
 
     // 1. Query for the current space details
     const { data, isLoading, error, isError } = useQuery({
@@ -270,9 +274,12 @@ const Page = () => {
                     <h1 className='text-[#000000] font-semibold text-[28px] sm:text-[32px] md:text-[36px] lg:text-[40px]'> {spaceData.nameOfSpace} </h1>
                     <p className='font-light text-[14px] sm:text-base md:text-[18px] lg:text-[20px]'> {spaceData.city}, {spaceData.state} </p>
                 </div>
-                <div className='flex flex-row gap-1 sm:gap-1.5 md:gap-2 items-center'>
-                    <div className='h-[15px] w-[15px] sm:h-[18px] sm:w-[18px] md:w-[24px] md:h-[24px] lg:w-[25px] lg:h-[25px] rounded-full bg-[#D9D9D9]'></div>
-                    <div className='h-[15px] w-[15px] sm:h-[18px] sm:w-[18px] md:w-[24px] md:h-[24px] lg:w-[25px]  lg:h-[25px] rounded-full bg-[#D9D9D9]'></div>
+                {/* Get back to porevious page */}
+                <div 
+                className='flex flex-row items-center bg-[#2C2C2C] p-2 text-[#FFFFFF] rounded-full cursor-pointer'
+                onClick={router.back}
+                >
+                    <FaArrowLeftLong className='text-[18px] sm:text-[20px] lg:text-[22px]'/>
                 </div>
             </div>
 
