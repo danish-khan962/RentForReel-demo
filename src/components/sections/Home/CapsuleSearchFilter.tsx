@@ -17,11 +17,10 @@ const filterOptions = {
   },
   locality: {
     subtitle: "Select locality",
-    options: [] as string[] // will be dynamically populated
+    options: [] as string[]
   }
 };
 
-// Separate price options for days
 const priceOptions = {
   hours: ["Under ₹2000 / hour", "₹2000 - ₹5000 / hour", "₹5000 - ₹10,000 / hour", "₹10,000 - ₹25,000 / hour", "₹25,000+ / hour"],
   days: ["Under ₹5000 / day", "₹5000 - ₹10,000 / day", "₹10,000 - ₹25,000 / day", "₹25,000 - ₹50,000 / day", "₹50,000+ / day"]
@@ -39,14 +38,13 @@ const CapsuleSearchFilter = () => {
   const [selected, setSelected] = useState<{ [key: string]: string }>({});
   const [states, setStates] = useState<string[]>([]);
   const [cities, setCities] = useState<string[]>([]);
-  const [localities, setLocalities] = useState<string[]>([]); // dynamic localities
-  const [localitySearch, setLocalitySearch] = useState<string>(""); // input bar for pincode
-  const [priceMode, setPriceMode] = useState<'Hours' | 'Days'>('Hours'); // toggle between hours and days
+  const [localities, setLocalities] = useState<string[]>([]);
+  const [localitySearch, setLocalitySearch] = useState<string>("");
+  const [priceMode, setPriceMode] = useState<'Hours' | 'Days'>('Hours');
   const router = useRouter();
   const searchParams = useSearchParams();
-  const pathname = usePathname();
 
-  // Fetch states on mount
+  // Load states initially
   useEffect(() => {
     const loadStates = async () => {
       const data = await fetchStates();
@@ -58,7 +56,7 @@ const CapsuleSearchFilter = () => {
     loadStates();
   }, []);
 
-  // Populate selected from query params
+  // Initialize selected filters from URL
   useEffect(() => {
     const newSelected: { [key: string]: string } = {};
     filterData.forEach(item => {
@@ -66,20 +64,15 @@ const CapsuleSearchFilter = () => {
       if (value) newSelected[item.key] = value;
     });
 
-    const priceMin = searchParams.get("priceMinHour");
-    const priceMax = searchParams.get("priceMaxHour");
-    if (priceMin === "0" && priceMax === "500") newSelected["price"] = "₹0 - ₹500";
-    else if (priceMin === "500" && priceMax === "1000") newSelected["price"] = "₹500 - ₹1000";
-    else if (priceMin === "1000" && priceMax === "2000") newSelected["price"] = "₹1000 - ₹2000";
-    else if (priceMin === "2000" && priceMax === "5000") newSelected["price"] = "₹2000 - ₹5000";
-    else if (priceMin === "5000") newSelected["price"] = "₹5000+";
+    const priceMin = searchParams.get("priceHourMin") || searchParams.get("priceDayMin");
+    const priceMax = searchParams.get("priceHourMax") || searchParams.get("priceDayMax");
+    if (priceMin && priceMax) newSelected["price"] = `₹${priceMin} - ₹${priceMax}`;
 
     const keyword = searchParams.get('q');
     if (keyword) newSelected["keyword"] = keyword;
 
     setSelected(newSelected);
 
-    // Fetch cities if state exists
     if (newSelected.state) {
       (async () => {
         const cityList = await fetchCities(newSelected.state);
@@ -87,9 +80,14 @@ const CapsuleSearchFilter = () => {
         filterOptions.city.options = cityList;
       })();
     }
+
+    if (newSelected.locality) {
+      setLocalities([newSelected.locality]);
+      filterOptions.locality.options = [newSelected.locality];
+    }
   }, [searchParams]);
 
-  // Handle selection
+  // Handle selection for all filters
   const handleSelect = async (key: string, value: string) => {
     setSelected(prev => ({ ...prev, [key]: value }));
     setActiveIndex(null);
@@ -106,11 +104,15 @@ const CapsuleSearchFilter = () => {
       setSelected(prev => ({ ...prev, locality: "" }));
       setLocalities([]);
     }
+
+    if (key === "locality") {
+      setLocalities([value]);
+    }
   };
 
-  // Fetch localities when user types pincode
+  // Fetch localities dynamically when typing pincode
   useEffect(() => {
-    if (localitySearch.length === 6) { // only fetch if 6-digit pincode
+    if (localitySearch.length >= 3) { 
       (async () => {
         try {
           const res = await axios.get(`/api/pincode/${localitySearch}`);
@@ -122,10 +124,12 @@ const CapsuleSearchFilter = () => {
           console.error("Error fetching localities:", error);
         }
       })();
+    } else {
+      setLocalities([]);
     }
   }, [localitySearch]);
 
-  // Handle search
+  // Search function
   const handleSearch = () => {
     const query = new URLSearchParams();
     if (selected.state) query.set("state", selected.state);
@@ -134,19 +138,56 @@ const CapsuleSearchFilter = () => {
     if (selected.keyword) query.set("q", selected.keyword);
 
     if (selected.price) {
-      switch (selected.price) {
-        case "₹0 - ₹500": query.set("priceMinHour", "0"); query.set("priceMaxHour", "500"); break;
-        case "₹500 - ₹1000": query.set("priceMinHour", "500"); query.set("priceMaxHour", "1000"); break;
-        case "₹1000 - ₹2000": query.set("priceMinHour", "1000"); query.set("priceMaxHour", "2000"); break;
-        case "₹2000 - ₹5000": query.set("priceMinHour", "2000"); query.set("priceMaxHour", "5000"); break;
-        case "₹5000+": query.set("priceMinHour", "5000"); break;
+      if (priceMode === 'Hours') {
+        switch (selected.price) {
+          case "Under ₹2000 / hour":
+            query.set("priceHourMin", "0");
+            query.set("priceHourMax", "2000");
+            break;
+          case "₹2000 - ₹5000 / hour":
+            query.set("priceHourMin", "2000");
+            query.set("priceHourMax", "5000");
+            break;
+          case "₹5000 - ₹10,000 / hour":
+            query.set("priceHourMin", "5000");
+            query.set("priceHourMax", "10000");
+            break;
+          case "₹10,000 - ₹25,000 / hour":
+            query.set("priceHourMin", "10000");
+            query.set("priceHourMax", "25000");
+            break;
+          case "₹25,000+ / hour":
+            query.set("priceHourMin", "25000");
+            break;
+        }
+      } else {
+        switch (selected.price) {
+          case "Under ₹5000 / day":
+            query.set("priceDayMin", "0");
+            query.set("priceDayMax", "5000");
+            break;
+          case "₹5000 - ₹10,000 / day":
+            query.set("priceDayMin", "5000");
+            query.set("priceDayMax", "10000");
+            break;
+          case "₹10,000 - ₹25,000 / day":
+            query.set("priceDayMin", "10000");
+            query.set("priceDayMax", "25000");
+            break;
+          case "₹25,000 - ₹50,000 / day":
+            query.set("priceDayMin", "25000");
+            query.set("priceDayMax", "50000");
+            break;
+          case "₹50,000+ / day":
+            query.set("priceDayMin", "50000");
+            break;
+        }
       }
     }
 
     router.push(`/find-your-space?${query.toString()}`);
   };
 
-  // Render dropdown options dynamically
   const getOptions = (key: string) => {
     if (key === "state") return states;
     if (key === "city") return cities;
@@ -154,6 +195,7 @@ const CapsuleSearchFilter = () => {
     if (key === "price") return priceMode === 'Hours' ? priceOptions.hours : priceOptions.days;
     return filterOptions[key as keyof typeof filterOptions].options;
   };
+
 
   return (
     <div className="flex max-w-[1400px] w-full mx-auto relative px-2 sm:px-4 md:px-6 lg:px-8 justify-center items-center mt-4 sm:mt-6 lg:mt-[30px]">

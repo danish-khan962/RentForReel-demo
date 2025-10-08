@@ -15,15 +15,20 @@ interface Space {
   state: string
   images: string[]
   priceHour: number
+  priceDay: number
   contactNumber?: string
 }
 
 interface SpaceCardProps {
   space?: Space | null
+  priceMode?: 'hour' | 'day'
 }
 
-const SpaceCard: React.FC<SpaceCardProps> = ({ space }) => {
+const SpaceCard: React.FC<SpaceCardProps> = ({ space, priceMode = 'hour' }) => {
   if (!space) return null
+
+  const priceToShow = priceMode === 'day' ? space.priceDay : space.priceHour
+  const priceLabel = priceMode === 'day' ? 'day' : 'hour'
 
   return (
     <div className='max-w-[620px] w-full h-full bg-[#D9D9D94D] rounded-4xl'>
@@ -64,7 +69,7 @@ const SpaceCard: React.FC<SpaceCardProps> = ({ space }) => {
 
         <div className='flex flex-col justify-end items-end'>
           <p className='font-semibold text-[15px] sm:text-base'>
-            ₹{space.priceHour}/hour
+            ₹{priceToShow}/{priceLabel}
           </p>
           <Link href={`tel:${space.contactNumber}`} className='mt-[10px]'>
             <button className='bg-[#BA181B] font-semibold text-[13px] sm:text-[14px] py-1.5 px-3 rounded-full text-[#FFFFFF] cursor-pointer hover:scale-105 transition-all ease-in-out duration-200'>
