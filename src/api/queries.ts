@@ -61,6 +61,12 @@ const myQueries = {
     const response = await axiosInstance.get("/admin/videos")
     return response.data
   },
+
+  //Getting cards for featured listing
+  getFeaturedSpaces: async (stateName: string) => {
+  const response = await axiosInstance.get(`/listing/featured/${stateName}`)
+  return response.data
+}
 }
 
 export default myQueries

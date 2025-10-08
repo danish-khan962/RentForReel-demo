@@ -22,7 +22,7 @@ const Banner = () => {
 
         <p className='max-w-[1220px] w-full px-3 mt-[21px] font-normal text-[14px] sm:text-base md:text-[17.5px]'> List your space today and open the doors to endless creative possibilities — let filmmakers, photographers, and creators bring it to life while you earn effortlessly with every booking. </p>
 
-        <Link href={"/"} className='mt-[37px]'>
+        <Link href={"/list-your-space"} className='mt-[37px]'>
           <button className='font-normal text-[15px] sm:text-base md:text-[17.5px] py-1.5 px-10 sm:py-2 sm:px-12 rounded-full bg-[#FFFFFF] border-none outline-none cursor-pointer transition-all ease-in-out duration-200 flex justify-center items-center text-[#BA181B] hover:bg-transparent hover:text-[#FFFFFF] hover:backdrop-blur-sm hover:shadow-[1px_1px_16px_#D9D9D9]'>
             List Your Space  <span className='text-[36px] ml-[15px]'> <HiArrowLongRight /> </span>
           </button>

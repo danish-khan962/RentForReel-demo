@@ -512,7 +512,7 @@ const Page = () => {
 
             {/* Cozy spaces in [City] */}
             <div className='w-full flex flex-col mt-[80px] sm:mt-[95px] md:mt-[105px] lg:mt-[112px]'>
-                <p className='font-semibold text-[17px] sm:text-[18px] md:text-[20px] lg:text-[22px] xl:text-[25px]'> Cozy spaces in {spaceData.city || 'Your City'} </p>
+                <p className='font-semibold text-[17px] sm:text-[18px] md:text-[20px] lg:text-[22px] xl:text-[25px]'> Discover more spaces in {spaceData.city || 'Your City'} </p>
                 <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-[36px] lg:mt-[42px] gap-5'>
                     {isLoadingRelated ? (
                         <p className="col-span-full text-gray-500">Loading cozy spaces...</p>
@@ -525,7 +525,7 @@ const Page = () => {
             </div>
 
             {/* Most popular places in [State] */}
-            <div className='w-full flex flex-col mt-[76px]'>
+            {/* <div className='w-full flex flex-col mt-[76px]'>
                 <p className='font-semibold text-[17px] sm:text-[18px] md:text-[20px] lg:text-[22px] xl:text-[25px]'> Most popular places in {spaceData.state || 'Your State'} </p>
                 <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-[36px] lg:mt-[42px] gap-5'>
                     {isLoadingRelated ? (
@@ -536,7 +536,7 @@ const Page = () => {
                         ))
                     )}
                 </div>
-            </div>
+            </div> */}
 
             {/* Quick Form */}
             <div className='mt-[90px] sm:mt-[100px] md:mt-[110px] lg:mt-[120px] mb-[70px] sm:mb-[80px] md:mb-[90px] lg:mb-[100px]'>

@@ -34,7 +34,7 @@ const CTAsection = () => {
           <button className='w-[250px] sm:w-[280px] md:w-[300px] h-[45px] sm:h-[55px] md:h-[65px] bg-[#D9D9D9] rounded-full border border-[#929292] cursor-pointer font-medium text-[14px] sm:text-base md:text-[18px] text-[#2C2C2C] hover:bg-[#2C2C2C] hover:text-[#FFFFFF] transition-colors ease-in-out duration-200 active:bg-[#2C2C2C] active:text-[#FFFFFF]'> Find your Space </button>
         </Link>
 
-        <Link href={"/"}>
+        <Link href={"/list-your-space"}>
           <button className='w-[250px] sm:w-[280px] md:w-[300px] h-[45px] sm:h-[55px] md:h-[65px] bg-[#D9D9D9] rounded-full border border-[#929292] cursor-pointer font-medium text-[14px] sm:text-base md:text-[18px] text-[#2C2C2C] hover:bg-[#2C2C2C] hover:text-[#FFFFFF] transition-colors ease-in-out duration-200 active:bg-[#2C2C2C] active:text-[#FFFFFF]'> List your Space </button>
         </Link>
       </div>

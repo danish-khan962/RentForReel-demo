@@ -208,22 +208,22 @@ const FindYourSpacePageContent = () => {
           <QuickForm />
         </div>
 
-        {/* Popular Spaces - Nagpur */}
+        {/* Recently added spaces */}
         <div className='w-full flex flex-col mt-[112px]'>
-          <p className='font-semibold text-[25px]'>Most popular spaces in Nagpur</p>
+          <p className='font-semibold text-[25px]'> Recently added spaces </p>
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-[42px] gap-5'>
             {loading
-              ? [...Array(4)].map((_, idx) => (
+              ? [...Array(8)].map((_, idx) => (
                   <SpaceCardSkeleton key={`nagpur-skeleton-${idx}`} />
                 ))
-              : listings.slice(0, 4).map((space: Space) => (
+              : listings.slice(0, 8).map((space: Space) => (
                   <SpaceCard key={space.id} space={space} />
                 ))}
           </div>
         </div>
 
         {/* Exclusive Spaces - Mumbai */}
-        <div className='w-full flex flex-col mt-[76px]'>
+        {/* <div className='w-full flex flex-col mt-[76px]'>
           <p className='font-semibold text-[25px]'>Exclusive spaces in Mumbai</p>
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-[42px] gap-5'>
             {loading
@@ -234,7 +234,7 @@ const FindYourSpacePageContent = () => {
                   <SpaceCard key={space.id} space={space} />
                 ))}
           </div>
-        </div>
+        </div> */}
 
         {/* Explore More Button */}
         {/* <div className='w-full flex justify-center items-center mt-[130px]'>

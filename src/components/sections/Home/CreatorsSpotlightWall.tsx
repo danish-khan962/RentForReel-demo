@@ -5,7 +5,7 @@ import { Autoplay, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/autoplay';
 import 'swiper/css/navigation';
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { FaChevronLeft, FaChevronRight, FaTimes } from "react-icons/fa";
 import myQueries from '@/api/queries';
 
 type Video = {
@@ -26,8 +26,12 @@ const CreatorsSpotlightWall = () => {
     typeof window !== "undefined" ? window.innerWidth : 1440
   );
   const [videos, setVideos] = useState<Video[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
     const fetchVideos = async () => {
       try {
         const fetchedVideos = await myQueries.getVideos();
@@ -48,6 +52,15 @@ const CreatorsSpotlightWall = () => {
   const isMobile = windowWidth < 768;
   const totalColumns = getGridColumns(windowWidth);
 
+  const openModal = (index: number) => {
+    setCurrentIndex(index);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <section className='max-w-[1440px] w-full mx-auto relative px-4 sm:px-6 md:px-8 flex flex-col justify-start items-start mt-[110px] sm:mt-[150px] md:mt-[170px] lg:mt-[190px]'>
       <h2 className="text-[22px] sm:text-[30px] md:text-[38px] lg:text-[45px] font-semibold capitalize">
@@ -62,7 +75,7 @@ const CreatorsSpotlightWall = () => {
         {isMobile ? (
           <>
             {/* Custom navigation buttons */}
-            <button className="custom-prev absolute left-1 top-1/2 -translate-y-1/2 z-10 p-1 cursor-pointer bg-transparent  rounded-full backdrop-blur-md">
+            <button className="custom-prev absolute left-1 top-1/2 -translate-y-1/2 z-10 p-1 cursor-pointer bg-transparent rounded-full backdrop-blur-md">
               <FaChevronLeft style={{ color: '#BA181B', fontSize: '25px' }} />
             </button>
             <button className="custom-next absolute right-1 top-1/2 -translate-y-1/2 z-10 p-1 cursor-pointer bg-transparent rounded-full backdrop-blur-md">
@@ -91,7 +104,10 @@ const CreatorsSpotlightWall = () => {
             >
               {videos.map((video, idx) => (
                 <SwiperSlide key={idx}>
-                  <div className='max-w-[350px] w-full rounded-4xl overflow-hidden'>
+                  <div
+                    onClick={() => openModal(idx)}
+                    className='max-w-[350px] w-full rounded-4xl overflow-hidden cursor-pointer'
+                  >
                     <video
                       src={video.url}
                       className='w-full h-[420px] object-cover rounded-4xl'
@@ -114,7 +130,8 @@ const CreatorsSpotlightWall = () => {
               return (
                 <div
                   key={idx}
-                  className={`max-w-[350px] w-full rounded-4xl overflow-hidden transition-transform duration-300 ${isEvenColumn ? 'translate-y-9' : ''}`}
+                  onClick={() => openModal(idx)}
+                  className={`max-w-[350px] w-full rounded-4xl overflow-hidden transition-transform duration-300 cursor-pointer ${isEvenColumn ? 'translate-y-9' : ''}`}
                 >
                   <video
                     src={video.url}
@@ -130,6 +147,55 @@ const CreatorsSpotlightWall = () => {
           </div>
         )}
       </div>
+
+      {/* Modal with Swiper and Navigation */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex justify-center items-center backdrop-blur-md bg-black/60">
+          {/* Close Button */}
+          <button
+            onClick={closeModal}
+            className="absolute top-5 right-6 text-white text-3xl z-50"
+          >
+            <FaTimes />
+          </button>
+
+          {/* Swiper Navigation */}
+          <button className="modal-prev absolute left-4 top-1/2 -translate-y-1/2 z-50 p-3 bg-white/10 hover:bg-white/20 rounded-full backdrop-blur-md">
+            <FaChevronLeft style={{ color: '#fff', fontSize: '30px' }} />
+          </button>
+          <button className="modal-next absolute right-4 top-1/2 -translate-y-1/2 z-50 p-3 bg-white/10 hover:bg-white/20 rounded-full backdrop-blur-md">
+            <FaChevronRight style={{ color: '#fff', fontSize: '30px' }} />
+          </button>
+
+          <div className="max-w-[90%] w-full h-[80vh] flex justify-center items-center">
+            <Swiper
+              modules={[Navigation]}
+              navigation={{
+                prevEl: '.modal-prev',
+                nextEl: '.modal-next',
+              }}
+              initialSlide={currentIndex}
+              spaceBetween={30}
+              slidesPerView={1}
+              onSlideChange={(swiper) => setCurrentIndex(swiper.activeIndex)}
+              className="w-full h-full"
+            >
+              {videos.map((video, idx) => (
+                <SwiperSlide key={idx}>
+                  <div className="w-full h-full flex justify-center items-center">
+                    <video
+                      src={video.url}
+                      controls
+                      autoPlay
+                      className="w-auto max-h-[80vh] rounded-2xl"
+                    />
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

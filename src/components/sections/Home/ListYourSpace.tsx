@@ -55,7 +55,7 @@ const ListYourSpace = () => {
             </p>
           </div>
 
-          <Link href={"/"} className='mt-[30px] sm:mt-[35px] md:mt-[42px] lg:mt-[52px]'>
+          <Link href={"/list-your-space"} className='mt-[30px] sm:mt-[35px] md:mt-[42px] lg:mt-[52px]'>
             <button className='w-[250px] h-[45px] sm:w-[280px] sm:h-[50px] lg:w-[350px] lg:h-[56px] bg-[#D9D9D9] rounded-full border border-[#929292] cursor-pointer font-medium text-[14px] sm:text-base md:text-[18px] text-[#2C2C2C] hover:bg-[#2C2C2C] hover:text-[#FFFFFF] transition-colors ease-in-out duration-200 active:bg-[#2C2C2C] active:text-[#FFFFFF]'>
               List Your Space Now.
             </button>
